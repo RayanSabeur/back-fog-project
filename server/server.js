@@ -20,7 +20,8 @@ const corsOptions = {
   }
   
   app.use(cors(corsOptions));
-  console.log(process.env.PORT)
+  console.log(process.env.PORT);
+  mongoose.connect(MONGO_URI)
   app.listen(process.env.PORT, () => {
 
     console.log(`listening on port ${process.env.PORT}`)
