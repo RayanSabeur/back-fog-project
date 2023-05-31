@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "projet de fin d'année 3wa",
   "main": "index.js",
+  "type" : "module",
   "scripts": {
     "start": "nodemon server",
     "test": "echo \"Error: no test specified\" && exit 1"
