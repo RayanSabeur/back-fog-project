@@ -1,8 +1,8 @@
 
-import mongodb from 'mongoose'
+import mongoose from 'mongoose';
 mongoose
-  .connect(
-    "mongodb+srv://" + process.env.DB_USER_PASS + "@cluster0.gfadz.mongodb.net/mern-project",
+.connect(
+    "mongodb+srv://" + 'RSabeur:Thelastofus2' + "@backfog.swbzr6h.mongodb.net/BackFog",
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
