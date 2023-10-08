@@ -1,6 +1,7 @@
 import ReviewModel from '../model/review.js';
 import UserModel from '../model/User.js'
 import mongoose from 'mongoose';
+import catchAsyncError from '../middleware/catchAsyncError.js'
 
 export const readReview = async(req, res) => {
   try {
@@ -29,8 +30,6 @@ export const createReview = async (req, res) => {
     //     const errors = uploadErrors(err);
     //     return res.status(201).json({ errors });
     //   }
-      
-  
     //   await pipeline(
     //     req.file.stream,
     //     fs.createWriteStream(
@@ -119,8 +118,6 @@ export const deleteReview = async(req, res) => {
           res.send(docs);
         })
       }
-     
-
     } catch(err) {
       console.log('', err)
     }
@@ -134,7 +131,6 @@ export const addtofavorite = async (req, res) => {
       return res.status(400).send("ID unknown : " + req.params.id);
 
     try {
-      // const Review = ReviewModel.findById({_id: req.body.id}).then((docs) => { res.docs})
       await UserModel.findByIdAndUpdate(
        {_id: req.params.id},
         {
@@ -210,7 +206,7 @@ export const commentReview = (req,res) => {
 }
 }
 
-export const editCommentReview = async(req,res) => {
+export const editCommentReview = catchAsyncError(async(req,res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
   return res.status(400).send("ID unknown : " + req.params.id);
       const { id } = req.params;
@@ -243,10 +239,10 @@ export const editCommentReview = async(req,res) => {
       } catch (err) {
         return res.status(400).send(err);
       }   
-    }
+    })
 
 
-export const deleteCommentReview = async(req,res) => {
+export const deleteCommentReview = catchAsyncError(async(req,res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
   return res.status(400).send("ID unknown : " + req.params.id);  
   try {
@@ -271,4 +267,17 @@ export const deleteCommentReview = async(req,res) => {
     console.log(err)
   }
 
-}
+});
+
+export const getUserReview = async (req, res) => {
+
+  try {
+   const user =  await UserModel.findOne({_id: req.params.id });
+   console.log(req.params.id)
+   const review = await  ReviewModel.find({  posterId: user._id })
+   res.status(200).json(review)
+  } catch (err) {
+ 
+   res.status(500).json(res)
+  }
+ }

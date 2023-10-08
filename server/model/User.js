@@ -52,7 +52,16 @@ const UserSchema = new mongoose.Schema(
         default: "user",
       },
       favoris: {
-        type:[String]
+        type: [
+          new Schema(
+            {
+              gameId: String,
+              status: String
+            },
+            { _id: false }
+          )
+        ],
+        required: true,
       }
     },
     {

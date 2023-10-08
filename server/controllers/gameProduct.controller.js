@@ -1,6 +1,7 @@
 import GameModel from '../model/Game.js';
 import UserModel from '../model/User.js'
 import mongoose from 'mongoose';
+import catchAsyncError from '../middleware/catchAsyncError.js'
 
 export const readGameProduct = async(req, res) => {
   try {
@@ -12,7 +13,7 @@ export const readGameProduct = async(req, res) => {
   };
   
 
-export const createGameProduct = async (req, res) => {
+export const createGameProduct = catchAsyncError(async (req, res) => {
     // let fileName; 
     // if (req.file !== null) {
     //   try {
@@ -56,10 +57,10 @@ export const createGameProduct = async (req, res) => {
     } catch (err) {
       return res.status(400).send(err);
     }
-  };
+  });
 
 
-export const deleteGameProduct = async(req, res) => {
+export const deleteGameProduct = catchAsyncError(async(req, res) => {
 
     if (!mongoose.Types.ObjectId.isValid(req.params.id))
       return res.status(400).send("ID unknown : " + req.params.id);
@@ -70,10 +71,10 @@ export const deleteGameProduct = async(req, res) => {
       {
         console.log("Delete error : " + err);
       } 
-  };
+  });
 
 
-  export const updateGame = async(req,res) => {
+  export const updateGame = catchAsyncError(async(req,res) => {
     if (!mongoose.Types.ObjectId.isValid(req.params.id))
       return res.status(400).send("ID unknown : " + req.params.id);
 
@@ -94,9 +95,9 @@ export const deleteGameProduct = async(req, res) => {
     } catch(err) {
       console.log('', err)
     }
-  }
+  })
 
-export const addtofavorite = async (req, res) => {
+export const addtofavorite = catchAsyncError(async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
       return res.status(400).send("ID unknown : " + req.params.id);
 
@@ -105,7 +106,12 @@ export const addtofavorite = async (req, res) => {
       await UserModel.findByIdAndUpdate(
        {_id: req.params.id},
         {
-          $addToSet: { favoris: req.body.id },
+          $push: {
+            favoris: {
+              gameId: req.body.gameId,
+              status: req.body.status,
+            },
+          },
         },
         { new: true },
        
@@ -115,9 +121,9 @@ export const addtofavorite = async (req, res) => {
     } catch (err) {
       return res.status(400).send(err);
     }
-  };
+  });
 
-export const unlikePost = async (req, res) => {
+export const unlikePost = catchAsyncError(async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
       return res.status(400).send("ID unknown : " + req.params.id);
   
@@ -146,10 +152,10 @@ export const unlikePost = async (req, res) => {
     } catch (err) {
       return res.status(400).send(err);
     }
-  };
+  });
 
 
-export const addtothepodium = async (req, res) => {
+export const addtothepodium = catchAsyncError(async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(req.params.id))
         return res.status(400).send("ID unknown : " + req.params.id);
 
@@ -174,9 +180,9 @@ export const addtothepodium = async (req, res) => {
       } catch (err) {
         return res.status(400).send(err);
       }
-    };
+    });
 
-export const removefromthepodium = async(req, res) => {  
+export const removefromthepodium = catchAsyncError(async(req, res) => {  
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
       return res.status(400).send("ID unknown : " + req.params.id);
 
@@ -201,7 +207,7 @@ export const removefromthepodium = async(req, res) => {
       } catch(err) {
           console.log(err)
     }
-  };
+  });
 
 export const commentGame = (req,res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
@@ -232,7 +238,7 @@ export const commentGame = (req,res) => {
 }
 }
 
-export const editCommentGame = async(req,res) => {
+export const editCommentGame = catchAsyncError(async(req,res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
   return res.status(400).send("ID unknown : " + req.params.id);
       const { id } = req.params;
@@ -264,10 +270,10 @@ export const editCommentGame = async(req,res) => {
       } catch (err) {
         return res.status(400).send(err);
       }   
-    }
+    })
 
 
-export const deleteCommentGame = async(req,res) => {
+export const deleteCommentGame = catchAsyncError(async(req,res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
   return res.status(400).send("ID unknown : " + req.params.id);  
   try {
@@ -291,5 +297,4 @@ export const deleteCommentGame = async(req,res) => {
 } catch(err) {
     console.log(err)
   }
-
-}
+})

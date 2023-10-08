@@ -81,7 +81,7 @@ export const setRoles = (...status) => {
 
   export const sendToken = (user, statusCode,res) => { 
     const token = user.getJWTToken();
-    console.log("tok",token)
+    console.log("token",token)
     // options for cookie
     const options = {
       expiresIn: new Date(

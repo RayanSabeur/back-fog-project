@@ -1,11 +1,11 @@
 import express from "express";
-import dotenv from 'dotenv'
-import cors from 'cors'
+import dotenv from 'dotenv';
+import cors from 'cors';
 import './src/Config/db.js';
-import  authRoutes from './routes/user.routes.js'
+import  authRoutes from './routes/user.routes.js';
 import productRoutes from './routes/gameproduct.routes.js';
 import reviewRoutes from './routes/review.routes.js';
-import { checkUser, isAuthenticatedUser, requireAuth } from "./middleware/auth.middleware.js";
+import { checkUser, requireAuth } from "./middleware/auth.middleware.js";
 import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
 
@@ -22,10 +22,10 @@ const corsOptions = {
   'preflightContinue': false
 }
 
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: true}));
-app.use(cors(corsOptions));
 
 app.use('/api/user', authRoutes);
 app.use('/api/user/review', reviewRoutes);
