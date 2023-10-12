@@ -15,6 +15,7 @@ const GameSchema = new mongoose.Schema(
       type: String,
       default: "./uploads/profil/random-user.png",
     },
+    
     likers: {
       type: [String],
       required: true,
@@ -35,6 +36,11 @@ const GameSchema = new mongoose.Schema(
       type:[String],
       required: true,
     },
+    description: {
+      type: String,
+      trim: true,
+      maxlength: 1000,
+  },
     comments: {
       type: [
         {

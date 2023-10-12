@@ -2,6 +2,13 @@ import GameModel from '../model/Game.js';
 import UserModel from '../model/User.js'
 import mongoose from 'mongoose';
 import catchAsyncError from '../middleware/catchAsyncError.js'
+import fs from "fs";
+import  { promisify } from 'util';
+import { Stream } from 'stream';
+const pipeline = promisify(Stream.pipeline);
+import { fileURLToPath } from 'url';
+import { dirname } from "node:path";
+
 
 export const readGameProduct = async(req, res) => {
   try {
@@ -14,44 +21,61 @@ export const readGameProduct = async(req, res) => {
   
 
 export const createGameProduct = catchAsyncError(async (req, res) => {
-    // let fileName; 
-    // if (req.file !== null) {
-    //   try {
-    //     if (
-    //       req.file.detectedMimeType != "image/jpg" &&
-    //       req.file.detectedMimeType != "image/png" &&
-    //       req.file.detectedMimeType != "image/jpeg"
-    //     )
-    //       throw Error("invalid file");
+
+    let fileName; 
   
-    //     if (req.file.size > 500000) throw Error("max size");
-    //   } catch (err) {
-    //     const errors = uploadErrors(err);
-    //     return res.status(201).json({ errors });
-    //   }
-      
+    // console.log(req.files);
   
-    //   await pipeline(
-    //     req.file.stream,
-    //     fs.createWriteStream(
-    //       `${__dirname}/../client/public/uploads/posts/${fileName}`
-    //     )
-    //   );
+    // if (req.files) {
+    //   console.log(req.files)
+    //   let path = ''
+    //  req.files.forEach(function(files, index, arr) {
+    //    path = path + files.path + ','
+    //  })
+    //  path = path.substring(0, path.lastIndexOf(','))
+    //  newGameProduct.picture = path
     // }
+
+    console.log(req.file)
+    if (req.file !== null) {
+      try {
+        if (
+          req.file.detectedMimeType != "image/jpg" &&
+          req.file.detectedMimeType != "image/png" &&
+          req.file.detectedMimeType != "image/jpeg"
+        )
+          throw Error("invalid file");
   
+        if (req.file.size > 500000) throw Error("max size");
+      } catch (err) {
+        return res.status(201).json(err);
+      }
+      fileName = req.body.posterId + Date.now() + ".jpg";
+      const rootDir = dirname(process.argv[1]);
+
+      await pipeline(
+        req.file.stream,
+        fs.createWriteStream(
+          `${rootDir}/../client/public/uploads/games/${fileName}`
+        )
+      );
+    }
+
     const newGameProduct = new GameModel({
       posterId: req.body.posterId,
       title: req.body.title,
-      picture: req.file !== null ? "./uploads/games/" + req.body.posterId + Date.now() + ".jpg" : "",
+      picture: req.file !== null ? "./uploads/games/" + fileName : "",
       likers: [],
       release: req.body.release,
       genres: req.body.genres,
       plateform: req.body.plateform,
+      description: req.body.description,
       author: req.body.author,
       comments: [],
     });
-  
+
     try {
+   
       const game = await newGameProduct.save();
       return res.status(201).json(game);
     } catch (err) {

@@ -16,7 +16,7 @@ export const userInfo = catchAsyncError(async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(req.params.id))
       return res.status(400).send("ID unknown : " + req.params.id);
       try {
-        const userdetails = await UserModel.findById(req.params.id);
+        const userdetails = await UserModel.findById(req.params.id).select("-password");
         res.status(200).json(userdetails);
     } catch (error) {
         res.status(404).json({ message: error.message });

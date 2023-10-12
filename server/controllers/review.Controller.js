@@ -47,6 +47,8 @@ export const createReview = async (req, res) => {
       likers: [],
       release: req.body.release,
       posterName: req.body.posterName,
+      rating: req.body.rating,
+      plateform: req.body.plateform,
       comments: [],
     });
   
@@ -240,7 +242,6 @@ export const editCommentReview = catchAsyncError(async(req,res) => {
         return res.status(400).send(err);
       }   
     })
-
 
 export const deleteCommentReview = catchAsyncError(async(req,res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id))

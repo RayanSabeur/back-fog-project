@@ -2,9 +2,29 @@ import express from "express";
 // import { signIn } from "../controllers/auth.js";
 import { addtofavorite, addtothepodium, commentGame, createGameProduct, deleteCommentGame, deleteGameProduct, editCommentGame, readGameProduct, removefromthepodium, unlikePost, updateGame } from "../controllers/gameProduct.controller.js";
 import { isAuthenticatedUser, setRoles } from "../middleware/auth.middleware.js";
-const router = express.Router();
+import multer from "multer";
+import { dirname } from 'path';
+import { fileURLToPath } from "url";
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = dirname(__filename);
 
-router.post('/', isAuthenticatedUser, setRoles("admin"), createGameProduct);
+const router = express.Router();
+// const storage = multer.diskStorage({
+//     destination: function (req, file, callback) {
+//         callback(null, __dirname + '/uploads');
+//     },
+//     // Sets file(s) to be saved in uploads folder in same directory
+//     filename: function (req, file, callback) {
+//         callback(null, file.originalname);
+//     }
+//     // Sets saved filename(s) to be original filename(s)
+//   })
+
+//   const upload = multer({ storage: storage })
+
+const upload = multer()
+
+router.post('/',isAuthenticatedUser, upload.single('file'), createGameProduct);
 router.get('/',  readGameProduct);
 router.patch('/comment-game/:id',isAuthenticatedUser, commentGame);
 router.patch('/edit-comment-game/:id',isAuthenticatedUser, editCommentGame);

@@ -52,7 +52,6 @@ export const requireAuth = (req, res, next) => {
 
 export const isAuthenticatedUser = catchAsyncError(async(req, res, next) => {
   const token  = req.cookies.jwt
-     
     if(!token) {
       return next(new ErrorHandler("Please Login to access this resource", 401));
     }

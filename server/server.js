@@ -13,6 +13,11 @@ const app = express();
 
 
 dotenv.config({path: './.env'})
+
+app.use(cookieParser());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
+console.log(process.env.CLIENT_URL)
 const corsOptions = {
   origin: process.env.CLIENT_URL,
   credentials: true,
@@ -21,17 +26,10 @@ const corsOptions = {
   'methods': 'GET,HEAD,PUT,PATCH,POST,DELETE',
   'preflightContinue': false
 }
-
 app.use(cors(corsOptions));
-app.use(bodyParser.json());
-app.use(cookieParser());
-app.use(bodyParser.urlencoded({extended: true}));
-
 app.use('/api/user', authRoutes);
 app.use('/api/user/review', reviewRoutes);
 app.use('/api/gameproduct', productRoutes);
-
-
   
   app.get('*', checkUser);
   app.get('/jwtid', requireAuth, (req,res) => { 

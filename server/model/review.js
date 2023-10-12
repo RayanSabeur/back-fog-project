@@ -47,6 +47,14 @@ const ReviewSchema = new mongoose.Schema(
       ],
       required: true,
     },
+    rating: {
+      type: Number,
+      required:  true
+    },
+    plateform: {
+      type: String,
+      required: true
+    }
   },
   {
     timestamps: true,
