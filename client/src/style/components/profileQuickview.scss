@@ -56,11 +56,7 @@
 .col {
     min-width: 0;
   }
-  .col {
-    flex-basis: 0;
-    flex-grow: 1;
-    max-width: 100%;
-  }
+
 
   *, ::after, ::before {
     box-sizing: border-box;
@@ -76,4 +72,8 @@
 
   hr {
     border-color: rgba(162,177,229,.2);
+  }
+
+  .review-quickview-img {
+    width: 100%;
   }

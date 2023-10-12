@@ -1,0 +1,27 @@
+.description {
+    display: flex;
+    margin-bottom: 0rem;
+    flex-direction: row-reverse;
+    margin-top: 1rem;
+}
+
+.test {
+    margin-left: 1rem;
+}
+.quickviewNewRelease {
+    width: 8.6rem;
+}
+.details-quickview-release-games {
+    display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+.details-quickview-release-games li {
+    margin-right: 1rem;
+}
+
+.desc-newgamesrelease {
+    word-break: break-all;
+  text-align: right;
+  margin-right: 10px;
+}

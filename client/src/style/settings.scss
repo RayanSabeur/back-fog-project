@@ -31,15 +31,19 @@
     resize: none;
     border-radius: 12px;
     font-family: $font-1;
+    &:focus {
+      border: 1px solid  #7617C4;
+      box-shadow: 0 0 3px #7617C4;
+      outline-offset: 0px;
+      outline: none;
+    }
   }
   textarea {
     &:focus {
       box-shadow: 0 0 4px rgba(0, 22, 44, 0.1);
     }
   }
-  button,
-  input[type="submit"] {
-    background:#1876F3;
+  .submit-btn {
     font-family: $font-3;
     cursor: pointer;
     transition: 0.2s;
@@ -47,10 +51,11 @@
     padding: 10px 20px;
     cursor: pointer;
     font-size: 1.1rem;
-    border-radius: 20px 6px 20px 20px;
   
     &:hover {
-      background: #1876F3;
+      background: #7617C4;
+      border: none;
+      color: white;
 
     }
   }
@@ -58,6 +63,10 @@
     box-shadow: none;
     width: 20px;
     margin: 10px 0;
+    
+  }
+  input:checked {
+    
   }
   i {
     transition: 0.15s;

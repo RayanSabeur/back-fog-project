@@ -24,7 +24,7 @@ const Logout = () => {
         window.location = "/";
     }
     return (
-     <li onClick={delog} className="welcome" >
+     <li onClick={delog} className="welcome space-nav-menu" >
         <img src="../img/icons/Logout.svg" alt="logout"  />
      </li>
     );

@@ -6,7 +6,9 @@ import GameLibrary from '../../pages/GameLibrary';
 import Review from '../../pages/Review';
 import Navbar from '../Navigation/Navbar';
 
-const index = () => {
+const index = ({uid}) => {
+
+  
     return (
       <>
         <BrowserRouter>

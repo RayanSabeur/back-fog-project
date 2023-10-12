@@ -22,13 +22,14 @@ nav {
     .active-btn {
         background: $color-1;
       }
+
   
     .nav-container {
       display: flex;
       width: 100%;
       max-width: 1190px;
       margin: 0 auto;
-      justify-content: space-between;
+      justify-content: space-evenly;
       height: 45px;
       align-items: center;
       
@@ -46,13 +47,18 @@ nav {
           width: 26px;
         }
       }
-      
+      .log-a-game {
+        color: white;
+        padding: 8px 20px;
+        border-radius: 5px;
+        font-size: 20px;
+        font-weight: bold;
+        font-size: 17px;
+        background: #7617C4;
+        border: none;
+      }
       ul {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 35%;
-        justify-content: space-between;
+
         font-size: 1.2rem;
         
         .welcome {
@@ -83,7 +89,12 @@ nav {
     }
   }
 
-  
+  .space-nav-menu {
+    margin-right: 10px;
+  }
+  .nav-menu {
+    display: flex;
+  }
 .search-container{
   width: 490px;
   display: block;

@@ -20,8 +20,6 @@ const Home = () => {
        {uid ? <WelcomeCard /> :
         <Log signUp={signUp}/> }
         </div>
-
-
       </div>
       <div className="right-side">
         <div className="right-side-container">

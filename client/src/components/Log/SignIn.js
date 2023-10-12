@@ -57,7 +57,7 @@ const SignIn = () => {
         <input type="password" name='password' id='password' autoComplete="on"  className="formlogin"   onChange={(e) => setPassword(e.target.value) } value={password} />
         <div className="password error"> </div>
         <br />
-    <input type="submit" value="se connecter" />
+    <input type="submit" value="se connecter" className='submit-btn'/>
 
 <br />
     </form>

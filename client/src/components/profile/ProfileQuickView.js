@@ -1,28 +1,20 @@
 import React, { useEffect, useState } from 'react';
 
 const ProfileQuickView = ({user, reviewlength}) => {
-
-    console.log('user', user);
+	console.log('sdf',user)
     const count = [];
-   useEffect(() => {
-   })
-    
+	const played = user.favoris?.filter(element => {
+		return element.status == "played" ? count.push(element) : ""
+	});
+	const playing = user.favoris?.filter(element => {
+		return element.status == "playing" ? count.push(element) : ""
+	});
+	const wishlist = user.favoris?.filter(element => {
+		return element.status == "wishlist" ? count.push(element) : ""
+	});
     return (
         <>
-              {
-			user.map((user) => {
-					const played = user.favoris.filter(element => {
-						return element.status == "played" ? count.push(element) : ""
-					});
-					const playing = user.favoris.filter(element => {
-						return element.status == "playing" ? count.push(element) : ""
-					});
-					const wishlist = user.favoris.filter(element => {
-						return element.status == "wishlist" ? count.push(element) : ""
-					});
-
-					return (
-						<>
+   
 						 <div class="col-2 col-lg-1 px-0 mt-auto">
 				<a href="/u/RayanEnLegende/">
 					<div class="avatar">
@@ -45,7 +37,7 @@ const ProfileQuickView = ({user, reviewlength}) => {
 							</div>
 							<div class="row">
 								<div class="col">                              
-                                <p class="mx-auto mb-0">{played.length}</p>
+                                <p class="mx-auto mb-0">{played?.length}</p>
 								</div>
 							</div>
 						</div>
@@ -66,7 +58,7 @@ const ProfileQuickView = ({user, reviewlength}) => {
 								<p>Playing</p>
 							</div>
 							<div class="row mx-0 align">
-                             <p class="mx-auto mb-0">{playing.length}</p>
+                             <p class="mx-auto mb-0">{playing?.length}</p>
 							 </div>
 						</div>
 					</a>
@@ -77,7 +69,7 @@ const ProfileQuickView = ({user, reviewlength}) => {
 							</div>
 							<div class="row mx-0 align">
 	
-                             <p class="mx-auto mb-0">{wishlist.length}</p>
+                             <p class="mx-auto mb-0">{wishlist?.length}</p>
 
 							</div>
 						</div>
@@ -91,10 +83,8 @@ const ProfileQuickView = ({user, reviewlength}) => {
 				<h4 class="mx-auto mb-0" id="backloggd-subtitle">Discover, Collect, Analyze your Games</h4>
 			</div>
 	</>
-					)
-				})
-			  }
-        </>
+
+    
     );
 };
 

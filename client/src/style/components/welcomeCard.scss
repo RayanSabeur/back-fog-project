@@ -49,9 +49,9 @@ $bp-lg: 800px;
     0 8px 8px rgba(0,0,0,0.1),
     0 16px 16px rgba(0,0,0,0.1);
   
-  @media (min-width: $bp-md) {
-    height: 350px;
-  }
+  // @media (min-width: $bp-md) {
+  //   height: 350px;
+  // }
   
   &:before {
     content: '';
@@ -128,22 +128,20 @@ $bp-lg: 800px;
   font-style: italic;
   line-height: 1.35;
 }
-
 .btn {
-  cursor: pointer;
-  margin-top: 1.5rem;
-  padding: 0.75rem 1.5rem;
-  font-size: 0.65rem;
-  font-weight: bold;
-  letter-spacing: 0.025rem;
-  text-transform: uppercase;
-  color: white;
-  background-color: black;
-  border: none;
-  
-  &:hover {
-    background-color: lighten(black, 5%);
-  }
+
+}
+.btn {
+  // cursor: pointer;
+  // margin-top: 1.5rem;
+  // padding: 0.75rem 1.5rem;
+  // font-size: 0.65rem;
+  // font-weight: bold;
+  // letter-spacing: 0.025rem;
+  // text-transform: uppercase;
+  // color: white;
+  // background-color: black;
+  // border: none;
   
   &:focus {
     outline: 1px dashed yellow;
@@ -203,7 +201,6 @@ $color_grey_dark: #a2a2a2;
 
 .blog-card {
   display: flex;
-  flex-direction: column;
   box-shadow: 0 3px 7px -1px rgba(#000, .1);
   margin-bottom: 1.6%;
   background: $color_white;
@@ -227,6 +224,7 @@ $color_grey_dark: #a2a2a2;
     position: relative;
     z-index: 0;
     height: 200px;
+
   }
   .photo {
     position: absolute;
@@ -334,19 +332,6 @@ $color_grey_dark: #a2a2a2;
   }
   p {
     position: relative;
-    margin: 1rem 0 0;
-    &:first-of-type {
-      margin-top: 1.25rem;
-      &:before {
-        content: "";
-        position: absolute;
-        height: 5px;
-        background: $color_prime;
-        width: 35px;
-        top: -0.75rem;
-        border-radius: 3px;
-      }
-    }
   }
   &:hover {
     .details {
@@ -355,16 +340,15 @@ $color_grey_dark: #a2a2a2;
   }
   @media (min-width: 640px) {
     .meta {
-      flex-basis: 40%;
+      flex-basis: 35%;
       height: auto;
+      margin-bottom: -10px;
     }
     .description {
-      flex-basis: 60%;
       &:before {
         transform: skewX(-3deg);
         content: "";
         background: #fff;
-        width: 30px;
         position: absolute;
         left: -10px;
         top: 0;
@@ -407,4 +391,8 @@ $color_grey_dark: #a2a2a2;
       h1 {
         margin-top: 20px;
       }
+    }
+
+    .blog {
+      width: 60%;
     }
