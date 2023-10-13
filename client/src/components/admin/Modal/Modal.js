@@ -30,7 +30,7 @@ const ModalComponent = ({modalIsOpen,style, setIsOpen }) => {
 
     const handlePost = async (e) => {
       e.preventDefault()
-        if (description) {
+        if (description || file) {
 
 const data = new FormData(e.target)
 console.log(data)
@@ -65,13 +65,13 @@ data.append('posterId', uid);
 //  data.append('release', ['2023-01-28T12:45:15.000+00:00'])
 // if(file) data.append("file", file);
 
-console.log(data)
+console.log(data) //form data + uid
 await axios.post(
 `${process.env.REACT_APP_API_URL}api/gameproduct`,
   data,
   {
     withCredentials: true,
-}
+  }
 ).then((res) => {
            console.log(res)
 })
@@ -80,7 +80,7 @@ await axios.post(
 cancelPost()
 
         } else {
-            window.alert('veuillez entre qqchose')
+            window.alert('veuillez entrer qqchose')
         }
       
 
@@ -182,15 +182,16 @@ cancelPost()
         </fieldset>
        </div>
          <div className="password error"></div>
-  <div className='footer-modal'>
-    <div className='upload-modal' >
-  <br />
-  <div class="upload-btn-wrapper">
-  <button class="btn">Ajouter une image</button>
-  <input
+        <div className='footer-modal'>
+          <div className='upload-modal' >
+        <br />
+        <div class="upload-btn-wrapper">
+        <button class="btn">Ajouter une image</button>
+        <input
           type="file"
-          id="file"
-          name="file"
+          id="files"
+          name="files"
+          multiple
           accept=".jpg, .jpeg, .png"
           onChange={(e) => setFile(e.target.files[0])}
         />
@@ -216,7 +217,7 @@ cancelPost()
 
       </div>
       </div>
-         <input type="submit" value="add a game"  id='btn-modal-submit' className='submit-btn'/>
+         <input type="submit" value="add a game"  multiple id='btn-modal-submit'  className='submit-btn'/>
        </form>
         </div>
       </Modal>

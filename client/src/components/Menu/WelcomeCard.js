@@ -134,7 +134,16 @@ const WelcomeCard = () => {
         return (
             <>
         <div class="description">
-            <div> <img src={game.picture} className='quickviewNewRelease'/></div>
+            {
+                game.picture.map((element )=> {
+                    
+                    return (
+                        <>
+                        <div> <img src={'..' + element} className='quickviewNewRelease'/></div>
+                        </>
+                    )
+                })
+            }
        <div> 
         <h1>{game.title}</h1>
         <div><ul className='details-quickview-release-games'>

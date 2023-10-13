@@ -12,8 +12,9 @@ const GameSchema = new mongoose.Schema(
       maxlength: 500,
     },
     picture: {
-      type: String,
+      type: [String],
       default: "./uploads/profil/random-user.png",
+      required: true,
     },
     
     likers: {

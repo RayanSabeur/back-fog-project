@@ -3,28 +3,31 @@ import express from "express";
 import { addtofavorite, addtothepodium, commentGame, createGameProduct, deleteCommentGame, deleteGameProduct, editCommentGame, readGameProduct, removefromthepodium, unlikePost, updateGame } from "../controllers/gameProduct.controller.js";
 import { isAuthenticatedUser, setRoles } from "../middleware/auth.middleware.js";
 import multer from "multer";
-import { dirname } from 'path';
 import { fileURLToPath } from "url";
+import { dirname } from "path";
+import * as url from 'url';
+const __dirname = url.fileURLToPath(new URL('../../', import.meta.url));
 // const __filename = fileURLToPath(import.meta.url);
 // const __dirname = dirname(__filename);
-
 const router = express.Router();
-// const storage = multer.diskStorage({
-//     destination: function (req, file, callback) {
-//         callback(null, __dirname + '/uploads');
-//     },
-//     // Sets file(s) to be saved in uploads folder in same directory
-//     filename: function (req, file, callback) {
-//         callback(null, file.originalname);
-//     }
-//     // Sets saved filename(s) to be original filename(s)
-//   })
+const rootDir =  __dirname
+const storage = multer.diskStorage({
+    destination: function (req, file, callback) {
+        callback(null, rootDir + '/client/public/uploads/games/');
+    },
+    // Sets file(s) to be saved in uploads folder in same directory
+    filename: function (req, file, callback) {
+        callback(null, file.originalname);
+    }
+    // Sets saved filename(s) to be original filename(s)
+  })
 
-//   const upload = multer({ storage: storage })
+  const upload = multer({ storage: storage })
 
-const upload = multer()
+// const upload = multer()
 
-router.post('/',isAuthenticatedUser, upload.single('file'), createGameProduct);
+router.post('/', isAuthenticatedUser, upload.array('files'), createGameProduct);
+
 router.get('/',  readGameProduct);
 router.patch('/comment-game/:id',isAuthenticatedUser, commentGame);
 router.patch('/edit-comment-game/:id',isAuthenticatedUser, editCommentGame);

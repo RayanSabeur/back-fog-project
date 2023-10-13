@@ -25,46 +25,37 @@ export const createGameProduct = catchAsyncError(async (req, res) => {
     let fileName; 
   
     // console.log(req.files);
+
+
+    // console.log(req.file)
+    // if (req.file !== null) {
+    //   try {
+    //     if (
+    //       req.file.detectedMimeType != "image/jpg" &&
+    //       req.file.detectedMimeType != "image/png" &&
+    //       req.file.detectedMimeType != "image/jpeg"
+    //     )
+    //       throw Error("invalid file");
   
-    // if (req.files) {
-    //   console.log(req.files)
-    //   let path = ''
-    //  req.files.forEach(function(files, index, arr) {
-    //    path = path + files.path + ','
-    //  })
-    //  path = path.substring(0, path.lastIndexOf(','))
-    //  newGameProduct.picture = path
+    //     if (req.file.size > 500000) throw Error("max size");
+    //   } catch (err) {
+    //     return res.status(201).json(err);
+    //   }
+    //   fileName = req.body.posterId + Date.now() + ".jpg";
+    //   const rootDir = dirname(process.argv[1]);
+
+    //   await pipeline(
+    //     req.file.stream,
+    //     fs.createWriteStream(
+    //       `${rootDir}/../client/public/uploads/games/${fileName}`
+    //     )
+    //   );
     // }
-
-    console.log(req.file)
-    if (req.file !== null) {
-      try {
-        if (
-          req.file.detectedMimeType != "image/jpg" &&
-          req.file.detectedMimeType != "image/png" &&
-          req.file.detectedMimeType != "image/jpeg"
-        )
-          throw Error("invalid file");
-  
-        if (req.file.size > 500000) throw Error("max size");
-      } catch (err) {
-        return res.status(201).json(err);
-      }
-      fileName = req.body.posterId + Date.now() + ".jpg";
-      const rootDir = dirname(process.argv[1]);
-
-      await pipeline(
-        req.file.stream,
-        fs.createWriteStream(
-          `${rootDir}/../client/public/uploads/games/${fileName}`
-        )
-      );
-    }
-
+    console.log('test', fileName)
     const newGameProduct = new GameModel({
       posterId: req.body.posterId,
       title: req.body.title,
-      picture: req.file !== null ? "./uploads/games/" + fileName : "",
+      picture: req.files !== null ? [] : [],
       likers: [],
       release: req.body.release,
       genres: req.body.genres,
@@ -73,6 +64,26 @@ export const createGameProduct = catchAsyncError(async (req, res) => {
       author: req.body.author,
       comments: [],
     });
+    
+    if (req.files) {
+      let path = ''
+     req.files.forEach(function(files, index, arr) {
+       path = files.path
+       let truepath = path.split('public')[1].replace(/\\/g, "/");
+
+       newGameProduct.picture.push(truepath)
+     })
+    }
+    console.log(newGameProduct)
+    // if(req.files) {
+    //   console.log(req.files)
+    //   let path = ''
+    //   req.files.forEach(function(files, index,arr) {
+    //     path = path + files.path + ','
+    //   })
+    //   path = path.substring(0, path.lastIndexOf(","))
+    //   newGameProduct.picture = path
+    // }
 
     try {
    
