@@ -5,3 +5,109 @@
   margin: 58px auto 50px;
   position: relative;
 }
+
+.menu-profil {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.menu-profil ul {
+  display: flex;
+  justify-content: space-around;
+}
+
+.fav-menu {
+  display: flex;
+}
+.fav-menu li {
+  margin-right: 0.5rem;
+}
+
+.detail-game-section {
+  display: flex;
+}
+
+.detail-game-section-desc {
+  flex-direction: column;
+  display: flex;
+  flex-basis: 50%;
+}
+
+.detail-game-section-elm-1 {
+  width: 150%;
+  height: 40%;
+}
+
+.detail-game-section-elm-2 {
+  width: 150%;
+  height: 60%;
+  margin-left: 1rem;
+}
+
+.detail-game-section-plateform {
+  flex-basis: 50%;
+}
+
+.detail-game-section-plateform p {
+  margin-top: 56px;
+  font-size: 25px;
+}
+
+
+.detail-game-section-plateform-elm-1 {
+  flex-direction: row-reverse;
+  display: flex;
+}
+
+.detail-game-section-elm2{
+  margin-left: 1rem;
+    margin-top: 1rem;
+  font-size: 25px;
+  }
+  
+  .detail-game-section-elm2 p{
+  
+  font-size: 25px;
+  }
+
+  .detail-game-section-elm2 h1{
+    font-family: "Montserrat", sans-serif;
+      color: #fff;
+      margin-bottom: 1rem;
+      font-size: 3rem;
+    }
+
+    .detail-game-main {
+      max-width: 1400px;
+  grid-template-columns: 60px 1fr 374px;
+  overflow: hidden;
+  margin: 58px auto 50px;
+  position: relative;
+    }
+    .img-detail-section {
+      width: 22rem;
+    }
+
+    .detail-game-add-review {
+      background: #7617C4;
+        height: 2rem;
+        color: white;
+        padding: 8px 20px;
+        border-radius: 5px;
+        font-weight: bold;
+        text-align: center;
+      }
+      
+      .detail-game-interaction-game {
+      display: flex;
+        flex-direction: column;
+      }
+      
+      .detail-menu-game {
+      display: flex;
+        justify-content: space-evenly;
+      }
+
+      .container-detail-game {
+        // display: flex;
+      }

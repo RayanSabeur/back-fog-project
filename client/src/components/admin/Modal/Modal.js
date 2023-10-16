@@ -5,7 +5,7 @@ import { UidContext } from '../../ContextApi/uidContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCalendar } from '@fortawesome/free-solid-svg-icons';
 
-const ModalComponent = ({modalIsOpen,style, setIsOpen }) => {
+const ModalComponent = ({modalIsOpen,style, setIsOpen, action, game }) => {
   const [author,setAuthor] = useState();
   const [description, setDescription] = useState('');
   const [gamePicture, setGamePicture] = useState(null); //l'image qu'on va se passer frontalement, 
@@ -20,6 +20,7 @@ const ModalComponent = ({modalIsOpen,style, setIsOpen }) => {
         setIsOpen(false);
       }
       const uid = useContext(UidContext);
+
       const handlePicture = (e) => {
         e.preventDefault()
         console.log(e.target.files)
@@ -28,42 +29,46 @@ const ModalComponent = ({modalIsOpen,style, setIsOpen }) => {
 
     }
 
-    const handlePost = async (e) => {
+    console.log('currentgame title',game?.title)
+    const handleAddEdit = async (e) => {
+      e.preventDefault()
+      if (description || file) {
+
+const data = new FormData(e.target)
+console.log(data)
+
+data.append('posterId', uid);
+
+
+console.log(data) //form data + uid
+await axios.put(
+`${process.env.REACT_APP_API_URL}api/gameproduct/${game?._id}`,
+data,
+{
+  withCredentials: true,
+}
+).then((res) => {
+         console.log(res)
+})
+.catch((err) => console.log(err))
+
+cancelPost()
+
+      } else {
+          window.alert('veuillez entrer qqchose')
+      }
+    
+    }
+ 
+    const handleAdd = async (e) => {
       e.preventDefault()
         if (description || file) {
 
 const data = new FormData(e.target)
 console.log(data)
 
-// const config = { headers: { "Content-Type": "multipart/form-data" } };
-
-// const plateform = []
-// const genreGames = []
-// const plateforms = ['PlayStation', 'Nintendo Switch', 'Xbox', 'PC']
-// const genres = ['Action', 'Aventure', 'RPG']
-// data.append('posterId', uid);
 data.append('posterId', uid);
-
-// for(let i = 0; i < files.files.length; i++) {
-//   data.append("picture", files.files[i]);
-// }
-// const datas = data.entries();
-// for (const entry of datas) {
-//   entry.map((data) => {
-//    if(data == 'PlayStation') {
-//     return   setPlate([...plate, data])
-//    }if(genres.includes(data)) {
-//       return setGenre( prev => [...prev, data])
-//    }
-//   }
-//   )
-//  };
-//  data.append('plateform', ['PlayStation', 'Nintendo Switch', 'Xbox', 'PC'])
-//  data.append('genres', ['Action', 'Aventure', 'RPG'])
-//  data.append('title', 'test')
-//  data.append('author', ['test'])
-//  data.append('release', ['2023-01-28T12:45:15.000+00:00'])
-// if(file) data.append("file", file);
+console.log('defaultdav', game)
 
 console.log(data) //form data + uid
 await axios.post(
@@ -110,7 +115,7 @@ cancelPost()
         <div>
         <a onClick={closeModal} >X</a>
 
-        <form onSubmit={handlePost} id="sign-up-form" >
+        <form onSubmit={action !== 'edit' ? handleAdd : handleAddEdit} id="sign-up-form" >
        
        <div className='section1-modal'>
 
@@ -120,10 +125,10 @@ cancelPost()
          <input
            type="text"
            name="title"
+           defaultValue={game?.title}
            id="title"
            className="input-modal"
            onChange={(e) => setTitle(e.target.value)}
-           value={title}
          />
 
 </div>
@@ -137,6 +142,7 @@ cancelPost()
                 id="author"
                 className="input-modal"
                 onChange={(e) => setAuthor(e.target.value)}
+                defaultValue={game?.author[0]}
                 value={author}
               />
               <div className="pseudo error"></div>
@@ -210,7 +216,8 @@ cancelPost()
            className="formlogin"
            id="description"
            onChange={(e) => setDescription(e.target.value)}
-           value={description}
+           defaultValue={game?.description}
+   
          />
          <div className="description error"></div>
          <br />

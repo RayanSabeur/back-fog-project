@@ -8,6 +8,7 @@ import { Stream } from 'stream';
 const pipeline = promisify(Stream.pipeline);
 import { fileURLToPath } from 'url';
 import { dirname } from "node:path";
+import ErrorHandler from '../utils/errorHandler.js';
 
 
 export const readGameProduct = async(req, res) => {
@@ -18,6 +19,21 @@ export const readGameProduct = async(req, res) => {
         res.status(404).json({ message: err.message });
       }
   };
+
+  export const gameInfo = async(req, res) => {
+    const game = await GameModel.findById(req.params.id);
+
+    if (!game) {
+      return next(new ErrorHandler("Product not found", 404));
+    }
+  
+    res.status(200).json({
+      success: true,
+      game,
+    });
+  };
+
+  
   
 
 export const createGameProduct = catchAsyncError(async (req, res) => {
@@ -99,8 +115,15 @@ export const deleteGameProduct = catchAsyncError(async(req, res) => {
 
     if (!mongoose.Types.ObjectId.isValid(req.params.id))
       return res.status(400).send("ID unknown : " + req.params.id);
+
       try {
+        
         const deletedGame = await GameModel.findByIdAndRemove(req.params.id)
+        await UserModel.collection.updateMany({}, 
+          {$pull: 
+            {favoris: {gameId: req.params.id}}
+          })
+      
         res.status(200).json({deletedGame});
       } catch(err)
       {
@@ -114,12 +137,28 @@ export const deleteGameProduct = catchAsyncError(async(req, res) => {
       return res.status(400).send("ID unknown : " + req.params.id);
 
     try {
+      let truepath;
+      if (req.files) {
+        let path = ''
+       req.files.forEach(function(files, index, arr) {
+         path = files.path
+        truepath  = path.split('public')[1].replace(/\\/g, "/");
+       })
+      }
+
+
       await GameModel.findByIdAndUpdate(
         {_id: req.params.id},
         {$set:
         {
           title: req.body.title,
-        } 
+          description: req.body.description,
+          genres: req.body.genres,
+          author: req.body.author,
+          plateform: req.body.plateform,
+          picture: truepath ?  truepath : req.body.files
+
+        },
       },
       {new: true}
       ).then(
@@ -197,16 +236,26 @@ export const addtothepodium = catchAsyncError(async (req, res) => {
 
       try {
         // const game = GameModel.findById({_id: req.body.id}).then((docs) => { res.docs})
-        const theGame = await GameModel.findById(req.body.id)
-        if (!theGame) return res.status(404).send("Comment not found");
+        let theGame = await GameModel.findById(req.body.id)
+        let test = {}
+        
+        test.id = theGame._id
+        test.picture = theGame.picture
+        test.title= theGame.title
+        test.description = theGame.description
+        test.plateform = theGame.plateform
+        test.author = theGame.author
+        test.num = req.body.num
+        test.genres = theGame.genres
 
+        if (!theGame) return res.status(404).send("Comment not found");
         await UserModel.findByIdAndUpdate
         (
           {_id: req.params.id},
             {
-              $addToSet: { games: theGame },
+              $addToSet: {games: test},
             },
-          { new: true },   
+          { new: true },
         ).then(
           (docs) => {
             res.send(docs);

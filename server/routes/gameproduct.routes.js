@@ -1,6 +1,6 @@
 import express from "express";
 // import { signIn } from "../controllers/auth.js";
-import { addtofavorite, addtothepodium, commentGame, createGameProduct, deleteCommentGame, deleteGameProduct, editCommentGame, readGameProduct, removefromthepodium, unlikePost, updateGame } from "../controllers/gameProduct.controller.js";
+import { addtofavorite, addtothepodium, commentGame, createGameProduct, deleteCommentGame, deleteGameProduct, editCommentGame, gameInfo, readGameProduct, removefromthepodium, unlikePost, updateGame } from "../controllers/gameProduct.controller.js";
 import { isAuthenticatedUser, setRoles } from "../middleware/auth.middleware.js";
 import multer from "multer";
 import { fileURLToPath } from "url";
@@ -34,9 +34,9 @@ router.patch('/edit-comment-game/:id',isAuthenticatedUser, editCommentGame);
 router.patch('/delete-comment-game/:id',isAuthenticatedUser, deleteCommentGame);
 
 router.delete('/:id',isAuthenticatedUser, setRoles("admin"), deleteGameProduct);
-router.put('/:id',isAuthenticatedUser, setRoles("admin"), updateGame);
-
-router.patch('/addtofavorite/:id',isAuthenticatedUser, addtofavorite);
+router.put('/:id',isAuthenticatedUser, setRoles("admin"),upload.array('files'), updateGame);
+router.patch('/addtofavorite/:id', addtofavorite);
+router.get('/details/:id', gameInfo);
 router.patch('/unlikegame/:id', unlikePost);
 router.patch('/addtothepodium/:id',isAuthenticatedUser,addtothepodium);
 router.patch('/removefromthepodium/:id',isAuthenticatedUser, removefromthepodium)

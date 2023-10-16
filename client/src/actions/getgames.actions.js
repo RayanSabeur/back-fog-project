@@ -12,7 +12,6 @@ export const getGames = (num) => {
         .then((res) => {
             const array = res.data.slice(0,num)
             dispatch({type: GET_GAMES, payload: array })
-            dispatch({type: GET_ALL_GAMES, payload: res.data}) //tte la data
         })
         .catch((err) => console.log(err))
     }

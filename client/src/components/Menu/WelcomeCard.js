@@ -94,7 +94,7 @@ const WelcomeCard = () => {
 
                     return (
                         <> 
-                            <Card card={card} index={index}/>
+                            <Card card={card} index={index} CardFunc={false}/>
                         </>
                     )
                 })
@@ -134,16 +134,10 @@ const WelcomeCard = () => {
         return (
             <>
         <div class="description">
-            {
-                game.picture.map((element )=> {
-                    
-                    return (
-                        <>
-                        <div> <img src={'..' + element} className='quickviewNewRelease'/></div>
-                        </>
-                    )
-                })
-            }
+ 
+        <div> <img src={'..' + game.picture[0]} className='quickviewNewRelease'/></div>
+         
+
        <div> 
         <h1>{game.title}</h1>
         <div><ul className='details-quickview-release-games'>
