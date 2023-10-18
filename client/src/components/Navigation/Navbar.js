@@ -5,6 +5,8 @@ import Logout from '../Log/Logout';
 import ModalComponent from '../admin/Modal/Modal';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlay } from '@fortawesome/free-solid-svg-icons';
 
 const Navbar = ({setSignUp, signUp}) => {
   const [currentuser, setCurrentUser] = useState([])
@@ -60,7 +62,7 @@ const Navbar = ({setSignUp, signUp}) => {
             </li>
             <Logout />
        <div>
-      <button onClick={openModal} className='log-a-game space-nav-menu'>Log a Game</button>
+      <button onClick={openModal} className='log-a-game space-nav-menu'>new game<FontAwesomeIcon icon={faPlay} style={{fontSize: '1rem', marginLeft: '10px'}} /></button>
  {
   modalIsOpen == true ? (
     <>

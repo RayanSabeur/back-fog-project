@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React from 'react';
 
-const Card = ({card, index, CardFunc}) => {
+const Card = ({card, index}) => {
 
 const genreCard = (game) => {
     return game.map((genre, index) => <li key={index}>{genre}</li> )
@@ -15,22 +15,13 @@ var divStyle = {
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
 }
-if(CardFunc == false && divcard) 
-{
-    divStyle.pointerEvents = 'none'
-} 
-
-  const CardFuncEffect = () => {
-  
-    axios.post()
-  }
 
     return (
         
-        <div class="card" key={index} style={divStyle} id='card' onClick={() => CardFuncEffect()}>
+        <div class="card" key={index} style={divStyle} id='card'>
         <div class="content" >    
-            <h2 class="title">{card.title}</h2>
-            <p class="copy">{genreCard(card.genres)}</p><button class="btn">voir +</button>
+        <h2 class="title">{card.title}</h2>
+            <p class="copy">{genreCard(card.genres)}</p>  <a href={"/game-detail/" + card._id}><button class="btn">voir +</button></a>
         </div>
     </div>
     );

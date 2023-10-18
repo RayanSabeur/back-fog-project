@@ -2,18 +2,35 @@ import React, { useEffect, useState } from 'react';
 import Navbar from '../Navigation/Navbar';
 import { useParams } from 'react-router';
 import axios from 'axios';
-import { dateParser } from '../Utils/DateHelper';
+import DateHelper, { dateParser } from '../Utils/DateHelper';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBook, faGamepad, faPen, faPlay, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { useSelector } from 'react-redux';
 import ModalComponent from '../admin/Modal/Modal';
+import ReviewQuickView from '../Reviews/ReviewQuickView';
 
 const GameDetails = () => {
     const [signUp, setSignUp] = useState(true);
     const game = useParams().id;
     const [currentgame, setCurrentGame] = useState([])
+    const [reviews, setReviews] = useState({})
     let currentuser = useSelector((state) => state.userReducer)
+
+    const reviewTrend = Object.keys(reviews).map((i) => reviews[i])
+
+    let sortedArrayReviews = reviewTrend.filter((review) => 
+    DateHelper(review.release[0]) != false
+)
+
+
     useEffect(() => {
+      
+      const fetchAllReviews = async () => {
+        const res = await axios.get(`${process.env.REACT_APP_API_URL}api/user/review/all`)
+        setReviews(res.data)
+    }
+      
+     fetchAllReviews()
         
       const fetchCurrentUser = () => {
       axios.get(
@@ -157,17 +174,65 @@ const GameDetails = () => {
         </div>
 </div>
 
-
+<hr/>
+<div class="row mx-0 mb-3 title-recent-review">
+		<div class="px-0">
+			<div class="test2" id="news-article">
+				<h1>- Les reviews du mois d'Octobre</h1>
+			</div>
+            
+		</div>
+      
+	</div>
  
 <div className='reviewcontent'>
 
-<div class="blog">
-
+<div class="review-games-details">
+{
+ sortedArrayReviews.map((card,index) => {
+    return (
+      <ReviewQuickView reviewSorted={card} index={index}/>
+    )
+  })
+}
 
 </div>
+<div className='container-comment-form'>
+<div className="comments-form">
+        <form >
+          <ul>
+            <li>
+              <textarea
+                name="comment"
+                placeholder="Comment"
 
-    <div class="test">
+                required
+              />
+            </li>
+            <li>
+              <input type="submit" value="Post" />
+            </li>
+          </ul>
+        </form>
+      </div>
+<div className="comments-list">
+  
+{
+    currentgame.comments?.map((game) => {
 
+        return (
+            <>
+        <div className="comment">
+    <h4>{'username'} says</h4>
+    <p className="timestamp">{'time'}</p>
+    <p>{'comment'}</p>
+  </div>
+       <hr/>
+            </>
+        )
+    })
+}
+  </div>
   </div>
 </div>
         </main>

@@ -54,11 +54,13 @@ const Favorites = ({favorites, games }) => {
 
         return (
             <>
-                 {/* <a href={'/game-detail/' + pushobj._id}>        */}
+                  
                 <div class="card" style={divStyle} id='card'   >
           
-                <div class="content" >    
+                <div class="content" >   
+                <a href={'/game-detail/' + pushobj._id}>    
                 <h2 class="title">{pushobj.title}</h2>
+                </a> 
                 <p class="copy">
                     </p>
                     <ul className='fav-menu'><li><FontAwesomeIcon icon={faPlay} style={{color: "#7617c4", fontSize: '2rem'}} /></li> 
@@ -75,7 +77,7 @@ const Favorites = ({favorites, games }) => {
                  </ul>
                 </div>
                 </div>
-                {/* </a>  */}
+                
                         </>
              
     );

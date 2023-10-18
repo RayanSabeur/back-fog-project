@@ -79,8 +79,8 @@ const ProfileQuickView = ({user, reviewlength}) => {
                    
 				</div>
                 <div class="col-2 col-lg-1 px-0 mt-auto title-profilequickview" >
-					<h1 class="mx-auto w-100 mb-0" id="main-title">Thot</h1>
-				<h4 class="mx-auto mb-0" id="backloggd-subtitle">Discover, Collect, Analyze your Games</h4>
+					{/* <h1 class="mx-auto w-100 mb-0" id="main-title">Thot</h1>
+				<h4 class="mx-auto mb-0" id="backloggd-subtitle">Bienvenu</h4> */}
 			</div>
 	</>
 

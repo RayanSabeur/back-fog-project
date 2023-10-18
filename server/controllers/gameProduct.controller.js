@@ -137,15 +137,17 @@ export const deleteGameProduct = catchAsyncError(async(req, res) => {
       return res.status(400).send("ID unknown : " + req.params.id);
 
     try {
+     
+      let arraytruepath = []
       let truepath;
       if (req.files) {
         let path = ''
        req.files.forEach(function(files, index, arr) {
          path = files.path
         truepath  = path.split('public')[1].replace(/\\/g, "/");
+        arraytruepath.push(truepath);
        })
       }
-
 
       await GameModel.findByIdAndUpdate(
         {_id: req.params.id},
@@ -156,7 +158,8 @@ export const deleteGameProduct = catchAsyncError(async(req, res) => {
           genres: req.body.genres,
           author: req.body.author,
           plateform: req.body.plateform,
-          picture: truepath ?  truepath : req.body.files
+          release: req.body.release,
+          picture: truepath ?  arraytruepath : req.body.files
 
         },
       },

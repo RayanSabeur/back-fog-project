@@ -94,7 +94,7 @@ const WelcomeCard = () => {
 
                     return (
                         <> 
-                            <Card card={card} index={index} CardFunc={false}/>
+                            <Card card={card} index={index}/>
                         </>
                     )
                 })

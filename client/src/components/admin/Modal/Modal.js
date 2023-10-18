@@ -33,9 +33,8 @@ const ModalComponent = ({modalIsOpen,style, setIsOpen, action, game }) => {
     const handleAddEdit = async (e) => {
       e.preventDefault()
       if (description || file) {
-
 const data = new FormData(e.target)
-console.log(data)
+console.log('t',data)
 
 data.append('posterId', uid);
 
