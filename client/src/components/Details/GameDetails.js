@@ -2,25 +2,37 @@ import React, { useEffect, useState } from 'react';
 import Navbar from '../Navigation/Navbar';
 import { useParams } from 'react-router';
 import axios from 'axios';
-import DateHelper, { dateParser } from '../Utils/DateHelper';
+import DateHelper, { dateParser, timestampParser } from '../Utils/DateHelper';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBook, faGamepad, faPen, faPlay, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faBook, faCircleXmark, faGamepad, faPen, faPlay, faTrash, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { useSelector } from 'react-redux';
 import ModalComponent from '../admin/Modal/Modal';
 import ReviewQuickView from '../Reviews/ReviewQuickView';
+import EditDeleteCommenter from './EditDeleteCommenter';
 
 const GameDetails = () => {
     const [signUp, setSignUp] = useState(true);
     const game = useParams().id;
     const [currentgame, setCurrentGame] = useState([])
+    const [currentgamecomments, setCurrentGameComments] = useState([])
+    const [currentmsg, setCurrentMsg] = useState()
     const [reviews, setReviews] = useState({})
+    const [textcomment, setTextComment] = useState('')
     let currentuser = useSelector((state) => state.userReducer)
+    const gameid = useParams().id;
+
+
+    const [isAuthor, setIsAuthor] = useState(false);
+    const [edit, setEdit] = useState(false);
+    const [text, setText] = useState("");
+
+
+
+
 
     const reviewTrend = Object.keys(reviews).map((i) => reviews[i])
-
     let sortedArrayReviews = reviewTrend.filter((review) => 
-    DateHelper(review.release[0]) != false
-)
+    DateHelper(review.release[0]) != false)
 
 
     useEffect(() => {
@@ -30,8 +42,7 @@ const GameDetails = () => {
         setReviews(res.data)
     }
       
-     fetchAllReviews()
-        
+     fetchAllReviews() 
       const fetchCurrentUser = () => {
       axios.get(
             `${process.env.REACT_APP_API_URL}api/gameproduct/details/${game}`,
@@ -41,6 +52,25 @@ const GameDetails = () => {
             .catch((err) => console.log(err))
       }
       fetchCurrentUser()
+
+      const fetchAllComments = () => {
+      axios.get(`${process.env.REACT_APP_API_URL}api/gameproduct/allcomments/${game}`).then(
+        (res) => {
+        setCurrentGameComments(res.data)
+      })
+      .catch((err) => console.log(err))
+    }
+    fetchAllComments()
+
+    
+    const checkAuthor = () => {
+      // console.log(isAuthor, edit)
+      // if (currentuser._id === comment.commenterId) {
+      //     console.log( 'crr', currentuser._id,comment.commenterId )
+      //     setIsAuthor(true);
+      //   }
+  };
+  checkAuthor();
     },[game])
     const customStyles = {
         content: {
@@ -63,6 +93,49 @@ const GameDetails = () => {
     function openModal() {
         setIsOpen(true);
       }
+
+      const handleComment = async (e) => {
+        e.preventDefault();
+        const comment = {
+          commenterId: currentuser._id,
+          commenterPseudo: currentuser.pseudo,
+          text: textcomment,
+          game: gameid,
+        }
+        console.log(comment, gameid)
+        return await axios({
+          method: "patch",
+          url:   `${process.env.REACT_APP_API_URL}api/gameproduct/commentgame/${gameid}`,
+          data: comment,
+          withCredentials: true
+        })
+          .then((res) => {
+               console.log(res)
+          })
+          .catch((err) => console.log(err));
+      };
+      
+      const handleEditComment = (commenterId) => {
+        setEdit(!edit)
+        setCurrentMsg(commenterId);
+
+      }
+      const handleDeleteComment = (commentid) => {
+
+      
+         axios({
+          method: "patch",
+          url:     `${process.env.REACT_APP_API_URL}api/gameproduct/delete-commentgame/${gameid}`,
+          data: {commentid},
+          withCredentials: true
+        }).then((res) => {
+              console.log(res)
+          })
+          .catch((err) => console.log(err))
+        
+      }
+
+      console.log('ouaiiiiiiiissssssssssssss',currentmsg)
 
     return (
         <>
@@ -199,13 +272,13 @@ const GameDetails = () => {
 </div>
 <div className='container-comment-form'>
 <div className="comments-form">
-        <form >
+        <form onSubmit={handleComment} >
           <ul>
             <li>
               <textarea
                 name="comment"
                 placeholder="Comment"
-
+                onChange={(e) => setTextComment(e.target.value)}
                 required
               />
             </li>
@@ -218,19 +291,50 @@ const GameDetails = () => {
 <div className="comments-list">
   
 {
-    currentgame.comments?.map((game) => {
+    currentgamecomments?.map((comment) => {
 
         return (
             <>
         <div className="comment">
-    <h4>{'username'} says</h4>
-    <p className="timestamp">{'time'}</p>
-    <p>{'comment'}</p>
-  </div>
+    <h4>{comment.pseudo} says</h4>
+    <p className="timestamp">
+      {dateParser(comment.createdAt)}
+                {comment.commenterId === currentuser._id && (
+   <>   
+      <span onClick={() => {setCurrentMsg(comment.id); setEdit(!edit)} }>
+        {
+          edit == true && comment.id == currentmsg ? (
+            <>
+          <FontAwesomeIcon icon={faCircleXmark} style={{color: "#7617c4",fontSize: '1.5rem', marginLeft: '10px'}}/>
+            </>
+            ) : (
+            <>
+              <FontAwesomeIcon icon={faPen} style={{color: "#7617c4",fontSize: '1.5rem', marginLeft: '10px'}} />
+              
+            </>
+              )
+        }
+    
+      </span>
+
+      <span onClick={() => {
+                           if (window.confirm('voulez vous supprimer ce commentaire ?'))
+                           {
+                              setCurrentMsg(comment.id)
+                              handleDeleteComment(comment.id);
+                           }
+                       }}><FontAwesomeIcon icon={faTrash} style={{color: "#7617c4",fontSize: '1.5rem', marginLeft: '10px'}} /> </span> 
+     </>
+           )}
+              </p>
+    
+    <p style={edit ==  true && comment.id == currentmsg ? {display: 'none'} : {color: 'black'}}>{comment.text}</p>
+      <EditDeleteCommenter comment={comment}  edit={edit} setEdit={setEdit} currentmsg={currentmsg}/>
+      </div>
        <hr/>
             </>
         )
-    })
+    }).slice(0,5)
 }
   </div>
   </div>

@@ -1,6 +1,6 @@
 import express from "express";
 // import { signIn } from "../controllers/auth.js";
-import { addtofavorite, addtothepodium, commentGame, createGameProduct, deleteCommentGame, deleteGameProduct, editCommentGame, gameInfo, readGameProduct, removefromthepodium, unlikePost, updateGame } from "../controllers/gameProduct.controller.js";
+import { addtofavorite, addtothepodium, commentGame, createGameProduct, deleteCommentGame, deleteGameProduct, editCommentGame, gameInfo, getAllCommentsOfGame, readGameProduct, removefromthepodium, unlikePost, updateGame } from "../controllers/gameProduct.controller.js";
 import { isAuthenticatedUser, setRoles } from "../middleware/auth.middleware.js";
 import multer from "multer";
 import { fileURLToPath } from "url";
@@ -29,10 +29,8 @@ const storage = multer.diskStorage({
 router.post('/', isAuthenticatedUser, upload.array('files'), createGameProduct);
 
 router.get('/',  readGameProduct);
-router.patch('/comment-game/:id',isAuthenticatedUser, commentGame);
-router.patch('/edit-comment-game/:id',isAuthenticatedUser, editCommentGame);
-router.patch('/delete-comment-game/:id',isAuthenticatedUser, deleteCommentGame);
-
+router.patch('/commentgame/:id', isAuthenticatedUser, commentGame);
+router.get('/allcomments/:id', getAllCommentsOfGame)
 router.delete('/:id',isAuthenticatedUser, setRoles("admin"), deleteGameProduct);
 router.put('/:id',isAuthenticatedUser, setRoles("admin"),upload.array('files'), updateGame);
 router.patch('/addtofavorite/:id', addtofavorite);
@@ -40,5 +38,9 @@ router.get('/details/:id', gameInfo);
 router.patch('/unlikegame/:id', unlikePost);
 router.patch('/addtothepodium/:id',isAuthenticatedUser,addtothepodium);
 router.patch('/removefromthepodium/:id',isAuthenticatedUser, removefromthepodium)
+
+
+router.put('/edit-comment-game/:id',isAuthenticatedUser, editCommentGame);
+router.patch('/delete-commentgame/:id',isAuthenticatedUser, deleteCommentGame);
 
 export default router;

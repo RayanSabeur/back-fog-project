@@ -9,6 +9,7 @@ const pipeline = promisify(Stream.pipeline);
 import { fileURLToPath } from 'url';
 import { dirname } from "node:path";
 import ErrorHandler from '../utils/errorHandler.js';
+import GameComment from '../model/GameComment.js';
 
 
 export const readGameProduct = async(req, res) => {
@@ -80,6 +81,8 @@ export const createGameProduct = catchAsyncError(async (req, res) => {
       author: req.body.author,
       comments: [],
     });
+    
+
     
     if (req.files) {
       let path = ''
@@ -263,7 +266,7 @@ export const addtothepodium = catchAsyncError(async (req, res) => {
           (docs) => {
             res.send(docs);
           }
-        );  
+        );
       } catch (err) {
         return res.status(400).send(err);
       }
@@ -296,92 +299,110 @@ export const removefromthepodium = catchAsyncError(async(req, res) => {
     }
   });
 
-export const commentGame = (req,res) => {
+export const commentGame = catchAsyncError(async (req,res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
   return res.status(400).send("ID unknown : " + req.params.id);
 
-  try {
-    GameModel.findByIdAndUpdate(
+    const {commenterId, commenterPseudo,text,game} = req.body
+    const comment = new GameComment({commenterId:commenterId, commenterPseudo:commenterPseudo, text:text, game: game});
+    await comment.save();
+   try {
+    await GameModel.findByIdAndUpdate(
       {_id: req.params.id},
-      {
-        $push: {
-          comments: {
-            commenterId: req.body.commenterId,
-            commenterPseudo: req.body.commenterPseudo,
-            text: req.body.text,
-            timestamp: new Date().getTime(),
-          },
-        },
-      },
-      { new: true }    
-    ).then(
-      (err, docs) => {
-        if (!err) return res.send(docs);
-        else return res.status(400).send(err);
-    }
-  )
-} catch (err) {
-  return res.status(400).send(err);
-}
-}
+       {
+         $push: {
+           comments: {
+            commentId: comment._id,
+           },
+         },
+       },
+       { new: true },
+      
+     ).then((docs) => {
+       res.send(docs);
+     });
+   } catch(err) {
+
+   }
+      
+})
+
+
 
 export const editCommentGame = catchAsyncError(async(req,res) => {
-  if (!mongoose.Types.ObjectId.isValid(req.params.id))
-  return res.status(400).send("ID unknown : " + req.params.id);
-      const { id } = req.params;
-      try {
-        return await GameModel.findById(id)
-        .then((game) => {
-        const theComment = game.comments.find((comment) =>
-          comment._id.equals(req.body.id)
-        );
 
-        if (!theComment) return res.status(404).send("Comment not found");
-        theComment.text = req.body.text;
-  
-        return game.save()
-        .then(() => {
-            res.status(201).json({
-              message: 'Post saved successfully!',
-              comment: theComment
-            });
-          }
-        ).catch(
-          (error) => {
-            res.status(400).json({
-              error: error
-            });
-          }
-        );
+      try {
+        return await GameComment.findByIdAndUpdate(
+          {_id: req.body.currentmsg},
+          {$set:
+          {
+            text: req.body.text,
+          },
+        },
+        {new: true})
+        .then((docs) => {
+          res.send(docs)
       });
       } catch (err) {
         return res.status(400).send(err);
       }   
     })
 
+    export const getAllCommentsOfGame = catchAsyncError(async(req,res) => {
+      if (!mongoose.Types.ObjectId.isValid(req.params.id))
+      return res.status(400).send("ID unknown : " + req.params.id);
+          const { id } = req.params;
 
-export const deleteCommentGame = catchAsyncError(async(req,res) => {
+          try {
+            const game = await GameModel.findById(id);
+            const gameComments = await Promise.all(
+              game.comments.map((com) => {
+                return GameComment.findById(com.commentId);
+              })
+            );
+
+          console.log(gameComments)
+            let commentList = [];
+           gameComments.map((com) => {
+
+            if(com != null) commentList.push({pseudo: com?.commenterPseudo, text: com?.text, gameId: com?.game, 
+              createdAt: com.createdAt, commenterId: com.commenterId, id: com._id});
+              
+            });
+            res.status(200).json(commentList)
+          } catch (err) {
+            return res.status(400).send(err);
+          }   
+        })
+
+        
+export const deleteCommentGame = (req,res) => {
+  
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
-  return res.status(400).send("ID unknown : " + req.params.id);  
+  return res.status(400).send("ID unknown : " + req.params.id);
+
+  const { commentid } = req.body
   try {
-    await GameModel.findOneAndUpdate(
+  const test =  GameComment.findByIdAndRemove(commentid).then(
+      (err, docs) => {
+        if (err) return res.status(500).send(err);
+        res.status(200).json(docs);
+      }
+    );
+  GameModel.findOneAndUpdate(
     { _id: req.params.id },
     {
       $pull: {
           comments: 
-            {
-              _id : new mongoose.Types.ObjectId(req.body.id)
+            {  
+             commentId : new mongoose.Types.ObjectId(commentid)
             }
         },
     },
     { new: true }
-  ).then(
-    (err, docs) => {
-      if (err) return res.status(500).send(err);
-      res.send(docs);
-    }
-  );
+  )
+  res.status(200).json({test});
 } catch(err) {
     console.log(err)
   }
-})
+}

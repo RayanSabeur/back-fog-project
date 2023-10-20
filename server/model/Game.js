@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const GameSchema = new mongoose.Schema(
   {
@@ -43,13 +43,14 @@ const GameSchema = new mongoose.Schema(
       maxlength: 1000,
   },
     comments: {
-      type: [
-        {
-          commenterId:String,
-          commenterPseudo: String,
-          text: String,
-          timestamp: Number,
-        }
+      type:[
+        new Schema(
+          {
+            commentId: mongoose.Schema.Types.ObjectId,
+          },
+          { _id: false }
+        )
+        
       ],
       required: true,
     },
