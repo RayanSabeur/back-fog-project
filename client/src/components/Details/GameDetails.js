@@ -32,7 +32,7 @@ const GameDetails = () => {
 
     const reviewTrend = Object.keys(reviews).map((i) => reviews[i])
     let sortedArrayReviews = reviewTrend.filter((review) => 
-    DateHelper(review.release[0]) != false)
+    review.gameId == gameid).slice(0, 5)
 
 
     useEffect(() => {
@@ -144,7 +144,7 @@ const GameDetails = () => {
                <div className='container-detail-game'>
         <div className='detail-game-section'>
             
-             <div>
+             <div className='left-side-img'>
               {currentgame.picture && <> <img src={currentgame.picture[0]} alt='imggame' className='img-detail-section'></img> </>}
               <div className='detail-game-add-review'>
                 <div >ADD UNE REVIEW </div>
@@ -188,7 +188,7 @@ const GameDetails = () => {
           
                 </div>
 
-        <div id='profile-quickview' className='row mx-0 my-3 detail-game-section-desc'>
+        <div id='right-side-details-game' className='row mx-0 my-3 detail-game-section-desc'>
 
              <div className='detail-game-section-elm-1' >
                 <div style={{display: 'flex'}}> 
@@ -222,7 +222,7 @@ const GameDetails = () => {
             </div>
              </div>
              <div className='detail-game-section-elm-2'>
-              <div>  <p>{currentgame.description}</p></div>
+              <div>  <p className='detail-game-section-p'>{currentgame.description}</p></div>
              </div>
         </div>
         
@@ -296,7 +296,7 @@ const GameDetails = () => {
         return (
             <>
         <div className="comment">
-    <h4>{comment.pseudo} says</h4>
+    <h4><a href={'/profil/' + comment.pseudo} style={{fontSize: '20px'}}>{comment.pseudo}</a> says</h4>
     <p className="timestamp">
       {dateParser(comment.createdAt)}
                 {comment.commenterId === currentuser._id && (
@@ -328,7 +328,7 @@ const GameDetails = () => {
            )}
               </p>
     
-    <p style={edit ==  true && comment.id == currentmsg ? {display: 'none'} : {color: 'black'}}>{comment.text}</p>
+    <p style={edit ==  true && comment.id == currentmsg ? {display: 'none', color: '#9DAED2',fontSize: '20px'} : {color: 'black', color: '#9DAED2',fontSize: '20px', wordBreak: 'break-all'}}>{comment.text}</p>
       <EditDeleteCommenter comment={comment}  edit={edit} setEdit={setEdit} currentmsg={currentmsg}/>
       </div>
        <hr/>

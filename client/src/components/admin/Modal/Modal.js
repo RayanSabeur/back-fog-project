@@ -112,7 +112,7 @@ cancelPost()
       >
         
         <div>
-        <a onClick={closeModal} >X</a>
+        <button onClick={closeModal} className='edit-add-modal-btn'>X</button>
 
         <form onSubmit={action !== 'edit' ? handleAdd : handleAddEdit} id="sign-up-form" >
        
@@ -202,8 +202,9 @@ cancelPost()
         />
       
 </div>
-<input   type="date" name="release" id='release'  />
-<div><FontAwesomeIcon icon={faCalendar} style={{color: "#764488",}} /></div>
+<div>
+  <input type="date" name="release" id='release' defaultValue={game?.release[0]} value={game?.release[0]}/>
+</div>
   </div>
          <div className='desc-modal'> 
       <br />
@@ -212,7 +213,7 @@ cancelPost()
          <textarea
            type="textarea"
            name="description"
-           className="formlogin"
+           className="formlogin text-area-modal"
            id="description"
            onChange={(e) => setDescription(e.target.value)}
            defaultValue={game?.description}

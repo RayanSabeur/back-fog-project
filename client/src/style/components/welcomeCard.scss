@@ -12,13 +12,33 @@ $bp-lg: 800px;
   --font-serif: 'Cardo', serif;
 }
 
+.page-content-profile {
+  display: flex;
+  justify-content: center;
+  margin-top: 6rem;
+  display: grid;
+  grid-gap: 1rem;
+  padding: 1rem;
+  margin: 0 auto;
+  
+  font-family: var(--font-sans);
 
+  
+  @media (min-width: $bp-md) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  @media (min-width: $bp-lg) {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
 
 .page-content {
   display: grid;
   grid-gap: 1rem;
   padding: 1rem;
   margin: 0 auto;
+  
   font-family: var(--font-sans);
 
   
@@ -302,6 +322,9 @@ $color_grey_dark: #a2a2a2;
       margin: 0;
       font-size: 1.7rem;
     }
+    p{
+      word-break: break-all;
+    }
     h2 {
       font-size: 1rem;
       font-weight: 300;
@@ -341,9 +364,11 @@ $color_grey_dark: #a2a2a2;
   }
   @media (min-width: 640px) {
     .meta {
-      flex-basis: 35%;
+      flex-basis: 45%;
       height: auto;
       margin-bottom: -10px;
+      background-image: url('https://images.igdb.com/igdb/image/upload/t_cover_big/co5s5v.jpg');
+      
     }
     .description {
       &:before {

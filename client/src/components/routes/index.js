@@ -17,7 +17,7 @@ const index = ({uid, signUp ,setSignUp}) => {
             <Routes>
                 <Route path='/'  element={<Home/>}/>
                 <Route path='/profil/:pseudo'  element={<Profil />} />
-                <Route path='/game-library'  element={<GameLibrary/>}/>
+                <Route path='/game-library/:gametitle'  element={<GameLibrary/>}/>
                 <Route path='/game-detail/:id'  element={<GameDetails/>}/>
                 <Route path='/all-review'  element={<Review/>}/>
                 <Route path='*'  element={<Home/>}/>

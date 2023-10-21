@@ -138,7 +138,7 @@ export const getUserParams = async (req, res) => {
     try {
       console.log(userId, pseudo);
       const  user = userId
-       ? await UserModel.findById(userId) : 
+       ?  await UserModel.findOne({pseudo: pseudo}) : 
         await UserModel.findOne({pseudo: pseudo})
       const {password, updatedAt, ...other} = user._doc
 

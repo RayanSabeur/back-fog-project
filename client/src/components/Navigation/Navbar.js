@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { UidContext } from '../ContextApi/uidContext';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import Logout from '../Log/Logout';
 import ModalComponent from '../admin/Modal/Modal';
 import axios from 'axios';
@@ -8,12 +8,13 @@ import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlay } from '@fortawesome/free-solid-svg-icons';
 
+
 const Navbar = ({setSignUp, signUp}) => {
   const [currentuser, setCurrentUser] = useState([])
     const user = useSelector((state) => state.userReducer)
-    console.log('usr',user)
-
-      
+    const [searchList, SetSearchList] = useState([]);
+    const [recherche, SetRecherche] = useState("")
+    let navigate = useNavigate();
       console.log(currentuser)
     const customStyles = {
       content: {
@@ -33,11 +34,17 @@ const Navbar = ({setSignUp, signUp}) => {
 
     let subtitle;
    let [modalIsOpen, setIsOpen] = useState(false);
-  
+   const usersData = useSelector((state) => state.userReducer)
+   const games = useSelector((state) => state.gamesReducer)
     function openModal() {
       setIsOpen(true);
     }
     console.log(modalIsOpen)
+    useEffect(() => {
+      axios.get(`https://api.jikan.moe/v4/anime?q=${recherche}&sfw`)
+          .then((res) => SetSearchList(res.data.data));
+       
+      }, [recherche]);
 
     return (
         <nav>
@@ -79,8 +86,8 @@ const Navbar = ({setSignUp, signUp}) => {
     </div>
               <ul space-nav-menu>
             <li class="search-box" >    
-              <input class="search-input" type="text" placeholder="Search something.."/>
-              <button class="search-btn"><i class="fas fa-search"></i></button>
+              <input class="search-input" type="text" placeholder="Search something.." onChange={((e) => SetSearchList(e.target.value))}/>
+              <button class="search-btn" onClick={()=> navigate("/game-library/" + searchList)} ><i class="fas fa-search"></i></button>
              </li>
             </ul>
             </div>
@@ -96,7 +103,7 @@ const Navbar = ({setSignUp, signUp}) => {
       
               <ul>
             <li class="search-box">    
-              <input class="search-input" type="text" placeholder="Search something.."/>
+         <input class="search-input" type="submit" placeholder="Search something.." />
               <button class="search-btn"><i class="fas fa-search"></i></button>
              </li>
             </ul>

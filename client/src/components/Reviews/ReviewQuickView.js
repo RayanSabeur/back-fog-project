@@ -9,6 +9,9 @@ const ReviewQuickView = ({reviewSorted, index}) => {
   const imgUrl = 'https://images.igdb.com/igdb/image/upload/t_cover_big/co5s5v.jpg';
   var divStyle = {
       backgroundImage: 'url(' + imgUrl + ')',
+      backgroundSize: 'cover',
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: 'center'
     };
 
 
@@ -41,8 +44,8 @@ const ReviewQuickView = ({reviewSorted, index}) => {
     return (
        <>
         <div class="blog-card">
-    <div class="meta">
-      <img src='https://images.igdb.com/igdb/image/upload/t_cover_big/co5s5v.jpg'/>
+    <div class="meta" style={divStyle}>
+      {/* <img src='https://images.igdb.com/igdb/image/upload/t_cover_big/co5s5v.jpg'/> */}
       <ul class="details">
         <li class="author"><a href="#">{reviewSorted.posterName}</a></li>
         <li class="date">{dateParser(reviewSorted.release[0])}</li>
@@ -80,8 +83,7 @@ const ReviewQuickView = ({reviewSorted, index}) => {
 				</div>
         <div class={'review-quickview-desc'} key={index}>
 <div class="description">
-  <h1>{reviewSorted.title}</h1>
-  <p>{reviewSorted.description}</p>
+  <p>{reviewSorted.description.slice(0, 50)}</p>
   
 </div>
 

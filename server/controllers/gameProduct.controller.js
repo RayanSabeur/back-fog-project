@@ -121,13 +121,15 @@ export const deleteGameProduct = catchAsyncError(async(req, res) => {
 
       try {
         
-        const deletedGame = await GameModel.findByIdAndRemove(req.params.id)
+        // const deletedGame = await GameModel.findByIdAndRemove(req.params.id)
         await UserModel.collection.updateMany({}, 
           {$pull: 
             {favoris: {gameId: req.params.id}}
+          }).then((docs) => {
+            res.status(200).json(docs);
           })
       
-        res.status(200).json({deletedGame});
+        
       } catch(err)
       {
         console.log("Delete error : " + err);

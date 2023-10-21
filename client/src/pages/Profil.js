@@ -7,6 +7,8 @@ import { useSelector } from 'react-redux';
 import Card from '../components/Menu/Card';
 import Favorites from '../components/Menu/Favorites';
 import Navbar from '../components/Navigation/Navbar';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowDown, faArrowUp, faPlus } from '@fortawesome/free-solid-svg-icons';
 
 const Profil = () => {
     const uid = useContext(UidContext);
@@ -14,9 +16,10 @@ const Profil = () => {
 
     const [reviewuser, setReviewUser] = useState({})
 
-    const [profilmenu, setProfilMenu] = useState('')
+    const [profilmenu, setProfilMenu] = useState('playing')
     const [filteredfav, setFilteredFav] = useState()
     const [reviews, setReviews] = useState()
+    const [morecontent, setMoreContent] = useState({go: false, elements: 5})
     let games = useSelector((state) => state.gamesReducer);
     let currentuser = useSelector((state) => state.userReducer)
     let setMenu = ['my top 5', 'playing', 'played', 'wishlist']
@@ -33,7 +36,7 @@ const Profil = () => {
          fetchCurrentUser();
 
         const fetchReviewUser = async () => {
-            const res = await axios.get(`${process.env.REACT_APP_API_URL}api/user/review/${uid}`)
+            const res = await axios.get(`${process.env.REACT_APP_API_URL}api/user/review/${user._id}`)
             setReviewUser(res.data)
         }
         fetchReviewUser();
@@ -50,18 +53,20 @@ const Profil = () => {
             fav = games.filter(fav => {
                 return fav.posterId == user._id
             })
-            console.log('allfav',fav)
+      
             }
-            setFilteredFav(fav)
+            setFilteredFav(fav?.slice(0, morecontent.elements))
             console.log('gamesss',filteredfav)
              return fav
            }
            callApiProfil()
-       }, [uid, pseudo,profilmenu])
+           
+       }, [user._id, pseudo,profilmenu, morecontent])
    
-
-
-    console.log('revew', reviews)
+       
+       console.log('gamesss',filteredfav)
+    console.log('currentuser',  user, pseudo)
+    console.log(morecontent)
     return (
         <>
         <Navbar setSignUp={setSignUp} signUp={signUp}/>
@@ -105,26 +110,26 @@ const Profil = () => {
         <main className='main' role='main'>
          <div className='container'>
         <hr/>
-        <div class="row mx-0 home-heading">
-			<h2>Popular this Month - <a href="/games/lib/popular/">See More</a></h2>
-		</div>
-
-        <div class="page-content">
-        {
+     
+        <div>{
+                morecontent.go === false ? (<><span onClick={() => setMoreContent({go: true, elements: filteredfav?.length + 1})}><FontAwesomeIcon icon={faArrowUp} /></span></>) : (<><span onClick={() => setMoreContent({go: false, elements: 5})}><FontAwesomeIcon icon={faArrowDown} /></span> </>)
+            }</div>
+        <div class="page-content-profile">
+            
+      {
+        filteredfav?.length > 0 ? (<>   {
             filteredfav?.map((rev) => {
                 return (
                     <>
-
-
              
                            <Favorites favorites={rev} games={games}/>  
-                  
-    
-          
+
                     </>
                 )
             })
-            }   
+            }   </>) : (<> <p>aucun jeu pour le moment</p> </>)
+      }
+
         </div>
 </div>
 <hr/>

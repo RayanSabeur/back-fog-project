@@ -87,9 +87,7 @@ const EditDeleteCommenter = ({comment, edit, setEdit, currentmsg}) => {
       {currentmsg === comment.id && edit && (
                    <>
                <form action="" onSubmit={handleEdit} className="edit-comment-form">
-                   <label htmlFor="text" onClick={() => setEdit(!edit)}>editer
-                   </label>
-                   <br />
+
                  <div className='comment-edit-section'>
                    <textarea type="text" name='text' onChange={(e) => setText(e.target.value)} style={ textareastyle} defaultValue={comment.text}/>
                    <input type="submit" value="modifier" className='submit-btn-edit-comment'/>

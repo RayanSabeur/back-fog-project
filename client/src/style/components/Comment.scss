@@ -4,9 +4,15 @@
     border-top-right-radius: 20px 20px;
     border-bottom-right-radius: 20px 20px;
     width: 4rem;
+    color: white;
     border: none;
     background-color: rgb(78, 86, 104);
   
+  }
+
+  .submit-btn-edit-comment:hover {
+    background-color: #7617C4;
+
   }
 
   .comment-edit-section {

@@ -34,14 +34,15 @@
 }
 
 .detail-game-section-elm-1 {
-  width: 150%;
-  height: 40%;
+
 }
 
 .detail-game-section-elm-2 {
-  width: 150%;
-  height: 60%;
   margin-left: 1rem;
+}
+
+.detail-game-section-p {
+  font-size: 1.6rem;
 }
 
 .detail-game-section-plateform {
@@ -85,7 +86,7 @@
   position: relative;
     }
     .img-detail-section {
-      width: 22rem;
+      // width: 22rem;
     }
 
     .detail-game-add-review {

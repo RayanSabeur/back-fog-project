@@ -18,7 +18,7 @@ const ProfileQuickView = ({user, reviewlength}) => {
 						 <div class="col-2 col-lg-1 px-0 mt-auto">
 				<a href="/u/RayanEnLegende/">
 					<div class="avatar">
-						<img src="https://www.backloggd.com/packs/media/images/no_avatar-9e38482cb198a942b3e684fbb64b7970.jpg" width="150" height="150"  />
+						<a href={"/profil/" + user.pseudo}><img src="https://www.backloggd.com/packs/media/images/no_avatar-9e38482cb198a942b3e684fbb64b7970.jpg" width="150" height="150"  /></a>
 					</div>
 				</a>
 			</div>
