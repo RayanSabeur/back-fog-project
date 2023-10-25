@@ -13,6 +13,7 @@ let currentuser = useSelector((state) => state.userReducer)
 const gametitle = useParams().gametitle
 
 const [filteredGames, setFilteredGames] = useState()
+const [searchList, setSearchList] = useState()
 
 
 // const gamesTrend = Object.keys(games).map((i) => games[i])
@@ -24,22 +25,21 @@ const [filteredGames, setFilteredGames] = useState()
     // axios.get()
 useEffect(() => {
 
-   const callapi = async() => {
-    const gamesTrend = Object.keys(games).map((i) => games[i])
+   const callapi = () => {
+    const gamesTrend =  Object.keys(games).map((i) => games[i])
     setFilteredGames(gamesTrend.filter((game) => {
-        return game?.title?.toLowerCase().includes(gametitle.toLowerCase())
+        return  searchList ? game?.title?.toLowerCase().includes(searchList?.toLowerCase()) : game
     }))
    }
 
 callapi()
 
-},[gametitle, games])
+},[searchList, games])
 
-
-
+console.log(filteredGames)
     return (
         <div>
-          <Navbar setSignUp={setSignUp} signUp={signUp}/>
+          <Navbar setSignUp={setSignUp} signUp={signUp}  setFilter={setSearchList}/>
          
         <div className='profil-stats' role='main'>
                <div className='container'>

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { UidContext } from '../ContextApi/uidContext';
 import { NavLink, useNavigate } from 'react-router-dom';
 import Logout from '../Log/Logout';
@@ -6,15 +6,17 @@ import ModalComponent from '../admin/Modal/Modal';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlay } from '@fortawesome/free-solid-svg-icons';
+import { faBook, faChevronDown, faHouse, faPlay, faUser } from '@fortawesome/free-solid-svg-icons';
+import ModalReview from '../Reviews/ModalReview';
 
 
-const Navbar = ({setSignUp, signUp}) => {
+const Navbar = ({setSignUp, signUp, setFilter}) => {
   const [currentuser, setCurrentUser] = useState([])
     const user = useSelector((state) => state.userReducer)
-    const [searchList, SetSearchList] = useState([]);
+    const [searchList, SetSearchList] = useState('');
     const [recherche, SetRecherche] = useState("")
-    let navigate = useNavigate();
+    const [reviewuser, setReviewUser] = useState({})
+
       console.log(currentuser)
     const customStyles = {
       content: {
@@ -30,22 +32,73 @@ const Navbar = ({setSignUp, signUp}) => {
         height: '50%'
       },
     };
-
+    const [filteredGames, setFilteredGames] = useState()
 
     let subtitle;
+
+
+    const [toggle, setToggle] = useState('')
    let [modalIsOpen, setIsOpen] = useState(false);
+   let [modalIsOpenReview, setIsOpenReview] = useState(false);
    const usersData = useSelector((state) => state.userReducer)
    const games = useSelector((state) => state.gamesReducer)
+   const selectMenu = useRef(null);
+
+   const[ togglemenu, setToggleMenu] = useState(false)
     function openModal() {
+      setToggle('review')
       setIsOpen(true);
     }
-    console.log(modalIsOpen)
+    function openModalReview() {
+      setIsOpen('review');
+    }
     useEffect(() => {
-      axios.get(`https://api.jikan.moe/v4/anime?q=${recherche}&sfw`)
-          .then((res) => SetSearchList(res.data.data));
+ const callapi = () => {
+        const gamesTrend = Object.keys(games).map((i) => games[i])
+        setFilteredGames(gamesTrend.filter((game) => {
+            return game?.title?.toLowerCase().includes(searchList.toLocaleLowerCase())
+        }))
+        
+       }
+    
+    callapi()
+    const fetchReviewUser = async () => {
+      const res = await axios.get(`${process.env.REACT_APP_API_URL}api/user/review/${user._id}`)
+      setReviewUser(res.data)
+    }
+    fetchReviewUser();
        
-      }, [recherche]);
+      }, [recherche, searchList, games, user._id]);
+    
+      const callapisearchoutput = () => {
 
+        return (<>
+        
+        {
+            filteredGames?.map((game) => {
+              return (
+                <> <a href={"/game-detail/" + game._id}> <li>{game.title}</li></a></>
+              )
+        })
+        }
+        </>)
+      }
+
+      console.log('ffff',filteredGames)
+
+      
+      const handlemenu = () => {
+     setToggleMenu(!togglemenu)
+       if(togglemenu === false) {
+        selectMenu.current.style.display = 'none';
+       } else if(togglemenu === true) {
+        selectMenu.current.style.display = 'unset';
+       }
+
+      
+      }
+
+      console.log(modalIsOpenReview)
     return (
         <nav>
         <div className="nav-container">
@@ -67,9 +120,37 @@ const Navbar = ({setSignUp, signUp}) => {
                    </NavLink>
     
             </li>
-            <Logout />
+            <div   class="select-menu active" onClick={handlemenu}>
+  <div class="select-btn" style={{color: 'black'}}>
+    <span class="sBtn-text">menu</span>
+    <span><FontAwesomeIcon icon={faChevronDown} /></span>
+  </div>
+
+  <ul class="options" ref={selectMenu} style={{display: 'none'}}>
+  <li class="option">
+    <a href="/">   Acceuil  <FontAwesomeIcon icon={faHouse} /></a>
+    </li>
+    <li class="option" >
+      <span class="option-text"><a href={"/profil/" + user.pseudo}>profil <FontAwesomeIcon icon={faUser} /></a></span>
+    </li>
+    <li class="option">
+  
+      <span class="option-text" ><a href="/game-library">Game-library <FontAwesomeIcon icon={faBook} style={{fontSize: '1rem', marginLeft: '10px'}} /> </a></span>
+    </li>
+    <li class="option" onClick={openModalReview}>
+      <span class="option-text">review<FontAwesomeIcon icon={faBook} style={{fontSize: '1rem', marginLeft: '10px'}} /></span>
+    </li>
+     {
+      usersData?.status == 'admin'  ? (<>  <li class="option" onClick={openModal}>
+      <span class="option-text">new game<FontAwesomeIcon icon={faPlay} style={{fontSize: '1rem', marginLeft: '10px'}} /></span>
+    </li></>) : ('')
+     }
+    <li class="option">
+    <Logout/>
+    </li>
+  </ul>
+</div>
        <div>
-      <button onClick={openModal} className='log-a-game space-nav-menu'>new game<FontAwesomeIcon icon={faPlay} style={{fontSize: '1rem', marginLeft: '10px'}} /></button>
  {
   modalIsOpen == true ? (
     <>
@@ -77,19 +158,44 @@ const Navbar = ({setSignUp, signUp}) => {
        modalIsOpen={modalIsOpen}
         style={customStyles}
         setIsOpen={setIsOpen}
+        action={'game'}
+
          />
     </>
-  ) : (
-    ""
-  )
- }
+  ) :   modalIsOpen == 'review' ? (
+    <>
+    <ModalReview 
+  modalIsOpen={modalIsOpen}
+  style={customStyles}
+  setIsOpen={setIsOpen}
+  action={'review'}
+  review={reviewuser}
+  game={games}
+  currentuser={user.pseudo}
+   />
+</>
+  ) : ('')
+  
+}
+
     </div>
-              <ul space-nav-menu>
+              <ul space-nav-menu className='space-nav-menu'>
             <li class="search-box" >    
-              <input class="search-input" type="text" placeholder="Search something.." onChange={((e) => SetSearchList(e.target.value))}/>
-              <button class="search-btn" onClick={()=> navigate("/game-library/" + searchList)} ><i class="fas fa-search"></i></button>
+             <input class="search-input" type="text" placeholder="Search a game or reviews.." onChange={setFilter ? (e) => setFilter(e.target.value) : (e) => SetSearchList(e.target.value)}/>
+              <button class="search-btn" type='submit'><i class="fas fa-search"></i></button>
+              <div style={{backgroundColor: 'white'}}>
+                <ul style={{backgroundColor: 'white'}} className='search-list-output'>
+                  {
+                  searchList ? callapisearchoutput() : ''
+                }
+                
+                </ul>
+                
+              </div>
              </li>
+             
             </ul>
+        {usersData.status == 'admin' ?     <span class="option-text" className='log-a-game space-nav-menu' onClick={openModal}>new game<FontAwesomeIcon icon={faPlay} style={{fontSize: '1rem', marginLeft: '10px'}} /></span> : ''}
             </div>
             </>
 

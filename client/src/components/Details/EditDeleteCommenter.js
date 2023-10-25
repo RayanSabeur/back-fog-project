@@ -6,7 +6,7 @@ import { useParams } from 'react-router';
 import { timestampParser } from '../Utils/DateHelper';
 import axios from 'axios';
 
-const EditDeleteCommenter = ({comment, edit, setEdit, currentmsg}) => {
+const EditDeleteCommenter = ({comment, edit, setEdit, currentmsg, action, currentelm}) => {
 
     console.log('su',currentmsg)
     const [signUp, setSignUp] = useState(true);
@@ -55,18 +55,14 @@ const EditDeleteCommenter = ({comment, edit, setEdit, currentmsg}) => {
             withCredentials: true
           })
             .then((res) => {
-                 console.log(res)
+              window.location.reload()
             })
             .catch((err) => console.log(err));
         };
         
         
-        
-        const handleDeleteComment = (e) => {
-          e.preventDefault();    
-        }
 
-        const handleEdit = async (e) => {
+        const handleEditGame = async (e) => {
           e.preventDefault()
           console.log('data edit', currentmsg, gameid, text)
           return await axios({
@@ -77,16 +73,31 @@ const EditDeleteCommenter = ({comment, edit, setEdit, currentmsg}) => {
           })
             .then((res) => {
               // dispatch({ type: EDIT_COMMENT, payload: { postId, commentId, text } });
+              window.location.reload()
             })
             .catch((err) => console.log(err));
         };
-      
+        const handleEditReviews = async (e) => {
+          e.preventDefault()
+          console.log('data edit', currentmsg, gameid, text)
+          return await axios({
+            method: "put",
+            url: `${process.env.REACT_APP_API_URL}api/user/review/edit-comment-review/${currentelm}`,
+            data: { currentmsg, text},
+            withCredentials: true
+          })
+            .then((res) => {
+              // dispatch({ type: EDIT_COMMENT, payload: { postId, commentId, text } });
+              window.location.reload()
+            })
+            .catch((err) => console.log(err));
+        };
 
     return (
       <> 
       {currentmsg === comment.id && edit && (
                    <>
-               <form action="" onSubmit={handleEdit} className="edit-comment-form">
+               <form action="" onSubmit={ action == 'editreview' ?  handleEditGame : handleEditReviews} className="edit-comment-form">
 
                  <div className='comment-edit-section'>
                    <textarea type="text" name='text' onChange={(e) => setText(e.target.value)} style={ textareastyle} defaultValue={comment.text}/>

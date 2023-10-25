@@ -7,13 +7,6 @@ import { faStar as anotherFaStar } from '@fortawesome/free-regular-svg-icons'
 
 const ReviewQuickView = ({reviewSorted, index}) => {
   const imgUrl = 'https://images.igdb.com/igdb/image/upload/t_cover_big/co5s5v.jpg';
-  var divStyle = {
-      backgroundImage: 'url(' + imgUrl + ')',
-      backgroundSize: 'cover',
-      backgroundRepeat: 'no-repeat',
-      backgroundPosition: 'center'
-    };
-
 
 
       const ratingReview = (rating) => {
@@ -40,6 +33,17 @@ const ReviewQuickView = ({reviewSorted, index}) => {
         </>
         )
       }
+      const imgUrls = reviewSorted?.pictures[0];
+
+      let divStyle = {
+        backgroundImage: 'url(' + './' + imgUrls + ')',
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center',
+        height: '299px',
+        position: 'relative',
+      };
+  console.log('revvv', reviewSorted?.pictures[0])
  
     return (
        <>
@@ -75,6 +79,7 @@ const ReviewQuickView = ({reviewSorted, index}) => {
 <a href="/u/RayanEnLegende/backlog/">
   <div class="col-auto px-2 user-stat">
     <div class="row mx-0 stat-header">
+    
       <p>complété sur : {reviewSorted.plateform}</p>
     </div>
   </div>
@@ -83,14 +88,14 @@ const ReviewQuickView = ({reviewSorted, index}) => {
 				</div>
         <div class={'review-quickview-desc'} key={index}>
 <div class="description">
-  <p>{reviewSorted.description.slice(0, 50)}</p>
+  <p>{reviewSorted.description.slice(0, 50)}...</p>
   
 </div>
 
 </div>
 <div className='more-reviews'>
 <p class="read-more">
-    <a href="#">Read More</a>
+    <a href={`/review/${reviewSorted?.posterName}/${reviewSorted?._id}`}>Read More</a>
   </p>
 </div>
 				</div>

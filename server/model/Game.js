@@ -3,9 +3,9 @@ import mongoose, { Schema } from "mongoose";
 const GameSchema = new mongoose.Schema(
   {
     posterId: {
-      type: String,
-      required: true
-    },
+      type:mongoose.Schema.Types.ObjectId,
+      ref: 'UserModel'
+     },
     title: {
       type: String,
       trim: true,
@@ -40,7 +40,7 @@ const GameSchema = new mongoose.Schema(
     description: {
       type: String,
       trim: true,
-      maxlength: 1000,
+      maxlength: 1500,
   },
     comments: {
       type:[

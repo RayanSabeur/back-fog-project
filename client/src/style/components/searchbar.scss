@@ -16,17 +16,21 @@ h1 {
 	right: 0;
 	margin: auto;
 }
+.space-nav-menu {
+  margin-left: 1rem;
+  margin-right: 10px;
+}
 
 .search-input {
   width: 100%;
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 16px;
-  // padding: 15px 45px 15px 15px;
   background-color: #eaeaeb;
   color: #6c6c6c;
   border-radius: 6px;
   border: none;
   transition: all 0.4s;
+  height: 2.5rem;
 }
 
 

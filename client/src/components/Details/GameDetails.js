@@ -1,16 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Navbar from '../Navigation/Navbar';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import axios from 'axios';
 import DateHelper, { dateParser, timestampParser } from '../Utils/DateHelper';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBook, faCircleXmark, faGamepad, faPen, faPlay, faTrash, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faBook, faBookmark, faCircleXmark, faGamepad, faPen, faTrash, faXmark,faPlayCircle } from '@fortawesome/free-solid-svg-icons';
+import {faPlayCircle as anotherfaPlayCircle, faBookmark as anotherfaBookmark} from '@fortawesome/free-regular-svg-icons'
 import { useSelector } from 'react-redux';
 import ModalComponent from '../admin/Modal/Modal';
 import ReviewQuickView from '../Reviews/ReviewQuickView';
 import EditDeleteCommenter from './EditDeleteCommenter';
+import { UidContext } from '../ContextApi/uidContext';
+import HandleFav from '../button/HandleFavorite';
+import HandleFavorite from '../button/HandleFavorite';
 
-const GameDetails = () => {
+const GameDetails = ({uid}) => {
+  const navigate = useNavigate(); 
     const [signUp, setSignUp] = useState(true);
     const game = useParams().id;
     const [currentgame, setCurrentGame] = useState([])
@@ -18,32 +23,29 @@ const GameDetails = () => {
     const [currentmsg, setCurrentMsg] = useState()
     const [reviews, setReviews] = useState({})
     const [textcomment, setTextComment] = useState('')
-    let currentuser = useSelector((state) => state.userReducer)
+    const currentuser = useSelector((state) => state.userReducer);
+    const currentuserfav = useSelector((state) => state.userReducer).favoris;
     const gameid = useParams().id;
-
 
     const [isAuthor, setIsAuthor] = useState(false);
     const [edit, setEdit] = useState(false);
-    const [text, setText] = useState("");
-
-
-
-
+    const [currentgamefav, setCurrentGameFav] = useState();
+    const [user, setUser] = useState({user: []})
 
     const reviewTrend = Object.keys(reviews).map((i) => reviews[i])
     let sortedArrayReviews = reviewTrend.filter((review) => 
     review.gameId == gameid).slice(0, 5)
 
-
     useEffect(() => {
-      
+
       const fetchAllReviews = async () => {
         const res = await axios.get(`${process.env.REACT_APP_API_URL}api/user/review/all`)
         setReviews(res.data)
     }
+
       
      fetchAllReviews() 
-      const fetchCurrentUser = () => {
+      const fetchCurrentGame = () => {
       axios.get(
             `${process.env.REACT_APP_API_URL}api/gameproduct/details/${game}`,
             ).then((res) => {
@@ -51,7 +53,7 @@ const GameDetails = () => {
             })
             .catch((err) => console.log(err))
       }
-      fetchCurrentUser()
+      fetchCurrentGame()
 
       const fetchAllComments = () => {
       axios.get(`${process.env.REACT_APP_API_URL}api/gameproduct/allcomments/${game}`).then(
@@ -61,7 +63,23 @@ const GameDetails = () => {
       .catch((err) => console.log(err))
     }
     fetchAllComments()
+    const fetchCurrentUser =  async() => {
+   try{
+    await axios.get(`${process.env.REACT_APP_API_URL}api/user/${uid}`).then((res) => {
 
+      const reviewTrend = Object.keys(res.data.favoris).map((i) => res.data.favoris[i])
+      let rr = reviewTrend.find((res) => {
+        return res.gameId == gameid
+      })
+      setCurrentGameFav(rr.status);
+    })
+   
+    console.log('iu',user)
+   } catch(err) {
+    console.log(err)
+   }
+      };
+      fetchCurrentUser();
     
     const checkAuthor = () => {
       // console.log(isAuthor, edit)
@@ -71,7 +89,11 @@ const GameDetails = () => {
       //   }
   };
   checkAuthor();
-    },[game])
+    },[game, uid, user, gameid])
+
+
+
+
     const customStyles = {
         content: {
           top: '50%',
@@ -86,8 +108,19 @@ const GameDetails = () => {
           height: '50%'
         },
       };
-    const handleEdit = (game) => {
-
+    const handleDelete = async (game) => {
+      console.log('delete', game)
+     await axios.delete(
+        `${process.env.REACT_APP_API_URL}api/gameproduct/${game}`,
+        {
+            withCredentials: true
+        }
+        ).then((res) => {
+            console.log(res)
+            navigate('/game-library')
+            window.location.reload()
+        })
+        .catch((err) => console.log(err))
     }
     let [modalIsOpen, setIsOpen] = useState(false);
     function openModal() {
@@ -110,7 +143,7 @@ const GameDetails = () => {
           withCredentials: true
         })
           .then((res) => {
-               console.log(res)
+            console.log(res)        
           })
           .catch((err) => console.log(err));
       };
@@ -129,14 +162,31 @@ const GameDetails = () => {
           data: {commentid},
           withCredentials: true
         }).then((res) => {
-              console.log(res)
+            console.log(res)
+           
           })
           .catch((err) => console.log(err))
         
       }
 
-      console.log('ouaiiiiiiiissssssssssssss',currentmsg)
 
+      const handleStatus = (status, gameid) => {
+        console.log('status', status)
+
+        axios({
+          method: "patch",
+          url:     `${process.env.REACT_APP_API_URL}api/gameproduct/addtofavorite/${currentuser._id}`,
+          data: {status, gameid},
+          withCredentials: true
+        }).then((res) => {
+          setCurrentGameFav(res.data.user.status)
+          })
+          .catch((err) => console.log(err))
+
+      }
+
+
+      console.log('current',currentgamefav)
     return (
         <>
         <Navbar setSignUp={setSignUp} signUp={signUp}/>
@@ -151,18 +201,23 @@ const GameDetails = () => {
 
               <div style={{marginTop: '1rem'}}> 
                 <ul className='detail-menu-game'>
-                <li><FontAwesomeIcon icon={faPlay} style={{color: "#7617c4", fontSize: '2rem'}} /></li> 
-                <li><FontAwesomeIcon icon={faGamepad} style={{color: "#7617c4", fontSize: '2rem'}} /></li>
-                <li> <FontAwesomeIcon icon={faBook} style={{color: "#7617c4", fontSize: '2rem'}} /> </li>
+
+   
+             
+              <HandleFavorite currentgamefav={currentgamefav} faGamepad={faGamepad}  gameid={gameid}   setCurrentGameFav={setCurrentGameFav} currentuser={currentuser} handleStatus={handleStatus}/>
+             
+            
                 {
-                    currentuser.status == 'admin' ? (<> <span onClick={() => {
+                    currentuser.status == 'admin' ? (<>
+                     <span onClick={() => {
                         if (window.confirm('voulez vous supprimer ce jeu ?'))
                         {
-                            handleEdit(currentgame._id)
+                            handleDelete(currentgame._id)
                         }
                     }}> 
+                     <FontAwesomeIcon icon={faTrash} style={{color: "#7617c4",fontSize: '2rem'}} />
                     </span>
-                 <span>   <FontAwesomeIcon icon={faTrash} style={{color: "#7617c4",fontSize: '2rem'}} /></span>
+             
                     
                   <span onClick={openModal}>   <FontAwesomeIcon icon={faPen} style={{color: "#7617c4",fontSize: '2rem'}} /></span>
                   {
@@ -188,22 +243,24 @@ const GameDetails = () => {
           
                 </div>
 
-        <div id='right-side-details-game' className='row mx-0 my-3 detail-game-section-desc'>
+        <div id='right-side-details-game'  style={{flexBasis: '70%'}}className='row mx-0 my-3 detail-game-section-desc'>
 
              <div className='detail-game-section-elm-1' >
-                <div style={{display: 'flex'}}> 
+                <h1 className='title-elm1'>{currentgame.title}</h1>
+                <div> 
                 <div className='detail-game-section-elm2'>
-            <h1>{currentgame.title}</h1>
+          
             {currentgame.release && currentgame.author  && <p>sortie  le {dateParser(currentgame.release[0])} par
              {currentgame.author.map(
                 (elm) => {return <> <a href="">{elm}</a></>
                 })
             }
             </p> }
-            <p>Genres:</p> 
+           <div>  
             {currentgame.genres && currentgame.genres.map((genre) => {
-                return ( <a>{genre + ','}</a>)
+                return ( <>  <li><a href="#" class="tag">{genre}</a></li></>)
             })}
+            </div>
             </div>
             <div className='detail-game-section-plateform'>
              <div className='detail-game-section-plateform-elm-1'>    <p>Disponible sur:</p></div>
@@ -212,7 +269,18 @@ const GameDetails = () => {
                     currentgame.plateform && currentgame.plateform.map((plateform) => {
                         return (
                         <>
-                            <a href="">{plateform} </a>
+                           <div className='tags-section'>
+            
+             <ul className="tags" >
+                <li ><a href="/D"  style={plateform === 'PlayStation' ?
+                  {backgroundColor: '#006FCD', color: 'white' } :
+                 plateform == 'Xbox' ? { backgroundColor:'#2ca243'} :
+                 plateform == 'Switch' ? { backgroundColor:'red'} : {listStyle: 'none'}} className="tag">
+                    
+                    {plateform}</a></li>
+             </ul>
+             
+           </div>
                         </>
                         )
                     })
@@ -222,6 +290,7 @@ const GameDetails = () => {
             </div>
              </div>
              <div className='detail-game-section-elm-2'>
+              <h2>Synopsis:</h2>
               <div>  <p className='detail-game-section-p'>{currentgame.description}</p></div>
              </div>
         </div>
@@ -235,7 +304,7 @@ const GameDetails = () => {
         </div>
 
  
-        <main className='main' role='main'>
+        <main className='mainDetailGame' role='main' >
          <div className='container'>
 
         <div class="row mx-0 home-heading">
@@ -296,6 +365,7 @@ const GameDetails = () => {
         return (
             <>
         <div className="comment">
+
     <h4><a href={'/profil/' + comment.pseudo} style={{fontSize: '20px'}}>{comment.pseudo}</a> says</h4>
     <p className="timestamp">
       {dateParser(comment.createdAt)}

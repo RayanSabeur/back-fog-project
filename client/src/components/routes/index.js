@@ -8,7 +8,7 @@ import Navbar from '../Navigation/Navbar';
 import { useSelector } from 'react-redux';
 import GameDetails from '../Details/GameDetails';
 
-const index = ({uid, signUp ,setSignUp}) => {
+const index = ({value}) => {
 
 
     return (
@@ -16,10 +16,10 @@ const index = ({uid, signUp ,setSignUp}) => {
         <BrowserRouter>
             <Routes>
                 <Route path='/'  element={<Home/>}/>
-                <Route path='/profil/:pseudo'  element={<Profil />} />
-                <Route path='/game-library/:gametitle'  element={<GameLibrary/>}/>
-                <Route path='/game-detail/:id'  element={<GameDetails/>}/>
-                <Route path='/all-review'  element={<Review/>}/>
+                <Route path='/profil/:pseudo'  element={<Profil uid={value}/>} />
+                <Route path='/game-library'  element={<GameLibrary/>}/>
+                <Route path='/game-detail/:id'  element={<GameDetails  uid={value}/>}/>
+                <Route path='/review/:postername/:id'  element={<Review  uid={value}/>}/>
                 <Route path='*'  element={<Home/>}/>
             </Routes>
         </BrowserRouter>

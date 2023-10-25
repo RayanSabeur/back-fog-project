@@ -40,34 +40,7 @@ export const readGameProduct = async(req, res) => {
 export const createGameProduct = catchAsyncError(async (req, res) => {
 
     let fileName; 
-  
-    // console.log(req.files);
 
-
-    // console.log(req.file)
-    // if (req.file !== null) {
-    //   try {
-    //     if (
-    //       req.file.detectedMimeType != "image/jpg" &&
-    //       req.file.detectedMimeType != "image/png" &&
-    //       req.file.detectedMimeType != "image/jpeg"
-    //     )
-    //       throw Error("invalid file");
-  
-    //     if (req.file.size > 500000) throw Error("max size");
-    //   } catch (err) {
-    //     return res.status(201).json(err);
-    //   }
-    //   fileName = req.body.posterId + Date.now() + ".jpg";
-    //   const rootDir = dirname(process.argv[1]);
-
-    //   await pipeline(
-    //     req.file.stream,
-    //     fs.createWriteStream(
-    //       `${rootDir}/../client/public/uploads/games/${fileName}`
-    //     )
-    //   );
-    // }
     console.log('test', fileName)
     const newGameProduct = new GameModel({
       posterId: req.body.posterId,
@@ -121,7 +94,7 @@ export const deleteGameProduct = catchAsyncError(async(req, res) => {
 
       try {
         
-        // const deletedGame = await GameModel.findByIdAndRemove(req.params.id)
+        const deletedGame = await GameModel.findByIdAndRemove(req.params.id)
         await UserModel.collection.updateMany({}, 
           {$pull: 
             {favoris: {gameId: req.params.id}}
@@ -179,31 +152,87 @@ export const deleteGameProduct = catchAsyncError(async(req, res) => {
     }
   })
 
+// export const addtofavorite = catchAsyncError(async (req, res) => {
+//   if (!mongoose.Types.ObjectId.isValid(req.params.id))
+//       return res.status(400).send("ID unknown : " + req.params.id);
+
+//     try {
+//       // const game = GameModel.findById({_id: req.body.id}).then((docs) => { res.docs})
+//       await UserModel.findByIdAndUpdate(
+//        {_id: req.params.id},
+//         {
+//           $push: {
+//             favoris: {
+//               gameId: req.body.gameId,
+//               status: req.body.status,
+//             },
+//           },
+//         },
+//         { new: true },
+       
+//       ).then((docs) => {
+//         res.send(docs);
+//       });
+//     } catch (err) {
+//       return res.status(400).send(err);
+//     }
+//   });
+
 export const addtofavorite = catchAsyncError(async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
-      return res.status(400).send("ID unknown : " + req.params.id);
-
+return res.status(400).send("ID unknown : " + req.params.id);
+    const { id } = req.params;
+    
     try {
-      // const game = GameModel.findById({_id: req.body.id}).then((docs) => { res.docs})
-      await UserModel.findByIdAndUpdate(
-       {_id: req.params.id},
-        {
-          $push: {
-            favoris: {
-              gameId: req.body.gameId,
-              status: req.body.status,
-            },
-          },
-        },
-        { new: true },
-       
-      ).then((docs) => {
-        res.send(docs);
-      });
+      return await UserModel.findById(id)
+      .then(
+        (user) => {
+        const thefav = user.favoris.find((fav) =>
+            fav.gameId == req.body.gameid 
+      );
+      if (!thefav) {
+        console.log(thefav, 'thefav')
+       UserModel.findByIdAndUpdate(
+          {_id: req.params.id},
+           {
+             $push: {
+               favoris: {
+                 gameId: req.body.gameid,
+                 status: req.body.status,
+               },
+             },
+           },
+           { new: true },
+          
+         ).then((docs) => {
+           res.send(docs);
+         });
+      
+      } 
+      if(thefav) {
+        console.log('siyafav', thefav)
+        thefav.status = req.body.status;
+        user.save()
+        .then(() => {
+            res.status(201).json({
+              message: 'Post saved successfully!',
+              user: thefav
+            });
+          }
+        ).catch(
+          (error) => {
+            res.status(400).json({
+              error: error
+            });
+          }
+        );
+      }
+      
+    });
     } catch (err) {
       return res.status(400).send(err);
-    }
-  });
+    }   
+  })
 
 export const unlikePost = catchAsyncError(async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
@@ -332,7 +361,8 @@ export const commentGame = catchAsyncError(async (req,res) => {
 
 
 export const editCommentGame = catchAsyncError(async(req,res) => {
-
+  if (!mongoose.Types.ObjectId.isValid(req.params.id))
+  return res.status(400).send("ID unknown : " + req.params.id);
       try {
         return await GameComment.findByIdAndUpdate(
           {_id: req.body.currentmsg},

@@ -7,8 +7,7 @@
 }
 
 .menu-profil {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+
 }
 
 .menu-profil ul {
@@ -27,10 +26,21 @@
   display: flex;
 }
 
+.submit-btn-avatar {
+  position: fixed;
+  width: 2rem;
+  height: 2rem;
+  margin-left: 7.4rem;
+  z-index: 0;
+  background: none;
+  border: none;
+}
+
 .detail-game-section-desc {
   flex-direction: column;
   display: flex;
   flex-basis: 50%;
+
 }
 
 .detail-game-section-elm-1 {
@@ -86,7 +96,7 @@
   position: relative;
     }
     .img-detail-section {
-      // width: 22rem;
+      width: 30rem;
     }
 
     .detail-game-add-review {
@@ -109,10 +119,73 @@
         justify-content: space-evenly;
       }
 
-      .container-detail-game {
-        // display: flex;
-      }
 
 
-      
+.container-currentuser-comment {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
 
+.bottom-section-profil{
+  margin-top: 3rem;
+}
+
+.currentuser-comment {
+  padding: 10px 20px;
+
+    border-radius: 10px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .arrow-comments {
+    display: flex;
+  margin-top: 5.5rem;
+    z-index: 1;
+    margin-left: -60px;
+    font-size: 2rem;
+  }
+  .user-info-comment-profil {
+    padding: 10px 20px;
+  background: #30394C;
+  border-radius: 10px;
+  height: 13.2rem;
+  width: 24rem;
+  }
+
+  .text-comment-quickview {
+    word-break: break-all;
+    margin-top: 1rem;
+  }
+
+  .container-text-comment-quickview {
+    width: 20rem;
+  height: 7rem;
+  }
+
+  .page-content-profile-no-data {
+    height: 10rem;
+    text-align: center;
+  }
+
+  .up-down-game-profil {
+    margin-top: 1rem;
+  width: 1rem;
+  display: flex;
+  font-size: 1.2rem;
+  }
+  .up-down-game-profil span {
+    margin-right: 0.5rem;
+  }
+
+  .sous-menu {
+    display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  text-align: center;
+  }
+
+  .sous-menu-user {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    text-align: center;
+  }

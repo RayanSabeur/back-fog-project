@@ -26,6 +26,9 @@
     font-size: 1.6rem;
     margin-top: 9px;
   }
+  .disabled-link {
+    pointer-events: none;
+  }
 
   .mb-1, .my-1 {
     margin-bottom: .25rem !important;
@@ -53,6 +56,13 @@
   padding-left: 15px;
 }
 
+.icon-dl-avatar {
+  position: fixed;
+  width: 1.8rem;
+  height: 2rem;
+  margin-left: 7.4rem;
+}
+
 .col {
     min-width: 0;
   }
@@ -76,4 +86,14 @@
 
   .review-quickview-img {
     width: 100%;
+  }
+
+
+
+  .file-upload-avatar {
+  position: absolute;
+  height: 10rem;
+  width: 9.6rem;
+  left: 1rem;
+  opacity: 0;
   }

@@ -26,10 +26,14 @@ const corsOptions = {
   'methods': 'GET,HEAD,PUT,PATCH,POST,DELETE',
   'preflightContinue': false
 }
+
+
+
 app.use(cors(corsOptions));
 app.use('/api/user', authRoutes);
 app.use('/api/user/review', reviewRoutes);
 app.use('/api/gameproduct', productRoutes);
+app.use('/uploads', express.static('uploads'))
   
   app.get('*', checkUser);
   app.get('/jwtid', requireAuth, (req,res) => { 

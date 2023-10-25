@@ -17,7 +17,7 @@ const WelcomeCard = () => {
     const [reviews, setReviews] = useState({})
     const usersData = useSelector((state) => state.userReducer)
     const games = useSelector((state) => state.gamesReducer)
-    console.log('games',games)
+
     useEffect(() => {
 
         const fetchReviewUser = async () => {
@@ -62,10 +62,12 @@ const WelcomeCard = () => {
         if(gamePlateforms === 'PC') {
             element = <Icon icon="bi:pc" color="#7617c4" />
         }
-        if(gamePlateforms === 'Playstation') {
+        if(gamePlateforms === 'PlayStation') {
+            
             element = <Icon icon="ri:playstation-fill" color="#7617c4" />
         }
-        if(gamePlateforms === 'Nintendo Switch') {
+        if(gamePlateforms === 'Nintendo') {
+            
             element =   <Icon icon="mdi:nintendo-switch" color="#7617c4" />
         }
         if(gamePlateforms === 'Xbox') {
@@ -81,11 +83,11 @@ const WelcomeCard = () => {
         <main className='main' role='main'>
          <div className='container'>
         <div id='profile-quickview' className='row mx-0 my-3'>
-            <ProfileQuickView user={usersData} reviewlength={reviewuser.length}/>
+            <ProfileQuickView user={usersData} reviewlength={reviewuser.length} location={"homepage"}/>
         </div>
         <hr/>
         <div class="row mx-0 home-heading">
-			<h2>Popular this Month - <a href="/games/lib/popular/">See More</a></h2>
+			<h2>Populaire ce mois ci </h2>
 		</div>
 
         <div class="page-content">
@@ -105,7 +107,7 @@ const WelcomeCard = () => {
 <div class="row mx-0 mb-3 title-recent-review">
 		<div class="px-0">
 			<div class="test2" id="news-article">
-				<h1>- Les reviews du mois d'Octobre</h1>
+				<h1>Les reviews du mois d'Octobre</h1>
 			</div>
             
 		</div>
@@ -152,7 +154,7 @@ const WelcomeCard = () => {
             </ul> 
             
             </div>
-        <p className='desc-newgamesrelease'>{game.description}</p>
+        <p className='desc-newgamesrelease'>{game.description.slice(0, 200)}...</p>
        </div>
         </div>
        <hr/>

@@ -5,7 +5,7 @@ import { UidContext } from '../../ContextApi/uidContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCalendar } from '@fortawesome/free-solid-svg-icons';
 
-const ModalComponent = ({modalIsOpen,style, setIsOpen, action, game }) => {
+const ModalComponent = ({modalIsOpen,style, setIsOpen, action, game}) => {
   const [author,setAuthor] = useState();
   const [description, setDescription] = useState('');
   const [gamePicture, setGamePicture] = useState(null); //l'image qu'on va se passer frontalement, 
@@ -16,9 +16,12 @@ const ModalComponent = ({modalIsOpen,style, setIsOpen, action, game }) => {
   const [plate, setPlate] = useState([])
 
     let subtitle;
+
+    console.log(action)
     function closeModal() {
         setIsOpen(false);
       }
+
       const uid = useContext(UidContext);
 
       const handlePicture = (e) => {
@@ -61,10 +64,12 @@ cancelPost()
  
     const handleAdd = async (e) => {
       e.preventDefault()
+
         if (description || file) {
 
 const data = new FormData(e.target)
-console.log(data)
+
+console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa ezfe',data)
 
 data.append('posterId', uid);
 console.log('defaultdav', game)
@@ -78,6 +83,7 @@ await axios.post(
   }
 ).then((res) => {
            console.log(res)
+           window.location.reload()
 })
 .catch((err) => console.log(err))
 
@@ -166,8 +172,8 @@ cancelPost()
           <label for="PC">PC</label>
         </div>
         <div>
-          <input type="checkbox" id="Nintendo Switch" name="plateform" value="Nintendo Switch" />
-          <label for="Nintendo Switch">Nintendo Switch</label>
+          <input type="checkbox" id="Nintendo" name="plateform" value="Nintendo" />
+          <label for="Nintendo">Nintendo</label>
         </div>
         </fieldset>
         <fieldset className='field-modal'>

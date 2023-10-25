@@ -115,11 +115,16 @@
       flex-basis: 30%;
     }
     
-    #right-side-details-game {
-    display: flex;
-      flex-basis: 70%;
+
+    .title-elm1 {
+      font-family: "Montserrat", sans-serif;
+  color: #fff;
+  margin-bottom: 1rem;
+  font-size: 3rem;
+  margin-bottom: 3rem;
+  margin-top: 1rem;
+  margin-left: 1rem;
     }
-    
     .container-side-details-game {
     display: flex;
     }
@@ -142,4 +147,8 @@
       padding: 5px;
       cursor: pointer;
       border-radius: 3px;
+  }
+
+  .mainDetailGame {
+    margin-top: 3rem;
   }

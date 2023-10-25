@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const ReviewSchema = new mongoose.Schema(
   {
@@ -18,11 +18,12 @@ const ReviewSchema = new mongoose.Schema(
     description: {
       type: String,
       trim: true,
-      maxlength: 1000,
+      maxlength: 10000,
   },
     pictures: {
-        type: [Array],
-        required: true,
+      type: [String],
+      default: "./uploads/reviews/random-user.png",
+      required: true,
     },
     likers: {
         type: [String],
@@ -37,13 +38,14 @@ const ReviewSchema = new mongoose.Schema(
         required: true
     },
     comments: {
-      type: [
-        {
-          commenterId:String,
-          commenterPseudo: String,
-          text: String,
-          timestamp: Number,
-        }
+      type:[
+        new Schema(
+          {
+            commentId: mongoose.Schema.Types.ObjectId,
+          },
+          { _id: false }
+        )
+        
       ],
       required: true,
     },

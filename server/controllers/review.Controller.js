@@ -2,6 +2,7 @@ import ReviewModel from '../model/review.js';
 import UserModel from '../model/User.js'
 import mongoose from 'mongoose';
 import catchAsyncError from '../middleware/catchAsyncError.js'
+import ReviewsComment from '../model/ReviewsComments.js';
 
 export const readReview = async(req, res) => {
   try {
@@ -43,14 +44,25 @@ export const createReview = async (req, res) => {
       gameId: req.body.gameId,
       title: req.body.title,
       description: req.body.description,
-      picture: req.file !== null ? "./uploads/reviews/" + req.body.posterId + Date.now() + ".jpg" : "",
+      pictures: req.files !== null ? [] : [],
       likers: [],
       release: req.body.release,
       posterName: req.body.posterName,
+      comments: [],
       rating: req.body.rating,
       plateform: req.body.plateform,
-      comments: [],
     });
+
+    if (req.files) {
+      let path = ''
+     req.files.forEach(function(files, index, arr) {
+       path = files.path
+       let truepath = path.split('public')[1].replace(/\\/g, "/");
+
+       newReview.pictures.push(truepath)
+     })
+    }
+    console.log(newReview)
   
     try {
       const Review = await newReview.save();
@@ -66,6 +78,7 @@ export const deleteReview = async(req, res) => {
     if (!mongoose.Types.ObjectId.isValid(req.params.id))
       return res.status(400).send("ID unknown : " + req.params.id);
       try {
+        console.log(req.params.id)
         const deletedReview = await ReviewModel.findByIdAndRemove(req.params.id)
         res.status(200).json({deletedReview});
       } catch(err)
@@ -79,47 +92,42 @@ export const deleteReview = async(req, res) => {
     if (!mongoose.Types.ObjectId.isValid(req.params.id))
       return res.status(400).send("ID unknown : " + req.params.id);
 
-
     try {
-      if(req.body.title != undefined) {
+     
+      let arraytruepath = []
+      let truepath;
+      console.log(req.files)
+      if (req.files) {
+        let path = ''
+       req.files.forEach(function(files, index, arr) {
+         path = files.path
+        truepath  = path.split('public')[1].replace(/\\/g, "/");
+        arraytruepath.push(truepath);
+       })
+      }
         await ReviewModel.findByIdAndUpdate(
           {_id: req.params.id},
           {$set:
           {
-              title: req.body.title,
+            posterId: req.body.posterId,
+            gameId: req.body.gameId,
+            title: req.body.title,
+            description: req.body.description,
+            pictures: req.files !== null ? arraytruepath : req.body.files,
+            likers: [],
+            release: req.body.release,
+            posterName: req.body.posterName,
+            comments: [],
+            rating: req.body.rating,
+            plateform: req.body.plateform,
           } 
         },
         {new: true}
         ).then((docs) => {
           res.send(docs);
         })
-      }
-      if(req.body.description != undefined) {
-        await ReviewModel.findByIdAndUpdate(
-          {_id: req.params.id},
-          {$set:
-          {
-              description: req.body.description,
-          } 
-        },
-        {new: true}
-        ).then((docs) => {
-          res.send(docs);
-        })
-      }
-      if(req.body.pictures != undefined) {
-        await ReviewModel.findByIdAndUpdate(
-          {_id: req.params.id},
-          {$set:
-          {
-              pictures: req.body.pictures,
-          } 
-        },
-        {new: true }
-        ).then((docs) => {
-          res.send(docs);
-        })
-      }
+      
+  
     } catch(err) {
       console.log('', err)
     }
@@ -179,95 +187,110 @@ export const unlikePost = async (req, res) => {
     }
   };
 
-export const commentReview = (req,res) => {
+  export const getAllCommentsOfReview = catchAsyncError(async(req,res) => {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id))
+    return res.status(400).send("ID unknown : " + req.params.id);
+        const { id } = req.params;
+
+        try {
+          const review = await ReviewModel.findById(id);
+          const revewComments = await Promise.all(
+            review.comments.map((com) => {
+              return ReviewsComment.findById(com.commentId);
+            })
+          );
+
+        console.log(revewComments)
+          let commentList = [];
+          revewComments.map((com) => {
+
+          if(com != null) commentList.push({pseudo: com?.commenterPseudo, text: com?.text, reviewId: com?.reviewid, 
+            createdAt: com.createdAt, commenterId: com.commenterId, id: com._id});
+            
+          });
+          res.status(200).json(commentList)
+        } catch (err) {
+          return res.status(400).send(err);
+        }   
+      })
+
+
+
+export const commentReview = async(req,res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
   return res.status(400).send("ID unknown : " + req.params.id);
 
-  try {
-    ReviewModel.findByIdAndUpdate(
-      {_id: req.params.id},
-      {
-        $push: {
-          comments: {
-            commenterId: req.body.commenterId,
-            commenterPseudo: req.body.commenterPseudo,
-            text: req.body.text,
-            timestamp: new Date().getTime(),
-          },
-        },
-      },
-      { new: true }    
-    ).then(
-      (err, docs) => {
-        if (!err) return res.send(docs);
-        else return res.status(400).send(err);
-    }
-  )
-} catch (err) {
-  return res.status(400).send(err);
-}
+  const {commenterId, commenterPseudo,text, review} = req.body
+  const comment = new ReviewsComment({commenterId:commenterId, commenterPseudo:commenterPseudo, text:text, reviewid: review});
+  await comment.save();
+ try {
+  await ReviewModel.findByIdAndUpdate(
+    {_id: req.params.id},
+     {
+       $push: {
+         comments: {
+          commentId: comment._id,
+         },
+       },
+     },
+     { new: true },
+    
+   ).then((docs) => {
+     res.send(docs);
+   });
+ } catch(err) {
+
+ }
 }
 
 export const editCommentReview = catchAsyncError(async(req,res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
   return res.status(400).send("ID unknown : " + req.params.id);
-      const { id } = req.params;
-
-      try {
-        return await ReviewModel.findById(id)
-        .then((game) => {
-        const theComment = game.comments.find((comment) =>
-          comment._id.equals(req.body.id)
-        );
-
-        if (!theComment) return res.status(404).send("Comment not found");
-          theComment.text = req.body.text;
-
-        return game.save()
-        .then(() => {
-            res.status(201).json({
-              message: 'Post saved successfully!',
-              comment: theComment
-            });
-          }
-        ).catch(
-          (error) => {
-            res.status(400).json({
-              error: error
-            });
-          }
-        );
-      });
-      } catch (err) {
-        return res.status(400).send(err);
-      }   
+  try {
+    return await ReviewsComment.findByIdAndUpdate(
+      {_id: req.body.currentmsg},
+      {$set:
+      {
+        text: req.body.text,
+      },
+    },
+    {new: true})
+    .then((docs) => {
+      res.send(docs)
+  });
+  } catch (err) {
+    return res.status(400).send(err);
+  }    
     })
 
 export const deleteCommentReview = catchAsyncError(async(req,res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
-  return res.status(400).send("ID unknown : " + req.params.id);  
+  return res.status(400).send("ID unknown : " + req.params.id);
+
+  const { commentid } = req.body
   try {
-    await ReviewModel.findOneAndUpdate(
+  const test =  ReviewsComment.findByIdAndRemove(commentid).then(
+      (err, docs) => {
+        if (err) return res.status(500).send(err);
+        res.status(200).json(docs);
+      }
+    );
+  ReviewModel.findOneAndUpdate(
     { _id: req.params.id },
     {
       $pull: {
           comments: 
-            {
-              _id : new mongoose.Types.ObjectId(req.body.id)
+            {  
+             commentId : new mongoose.Types.ObjectId(commentid)
             }
         },
     },
     { new: true }
-  ).then(
-    (err, docs) => {
-      if (err) return res.status(500).send(err);
-      res.send(docs);
-    }
-  );
+  )
+  res.status(200).json({test});
 } catch(err) {
     console.log(err)
   }
-
 });
 
 export const getUserReview = async (req, res) => {
@@ -276,6 +299,18 @@ export const getUserReview = async (req, res) => {
    const user =  await UserModel.findOne({_id: req.params.id });
    console.log(req.params.id)
    const review = await  ReviewModel.find({  posterId: user._id })
+   res.status(200).json(review)
+  } catch (err) {
+ 
+   res.status(500).json(res)
+  }
+ }
+
+ 
+export const getCurrentReview = async (req, res) => {
+
+  try {
+   const review = await  ReviewModel.findOne({_id: req.params.id })
    res.status(200).json(review)
   } catch (err) {
  

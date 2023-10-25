@@ -1,6 +1,8 @@
 import React from 'react';
 import cookie from "js-cookie";
 import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 
 const Logout = () => {
 
@@ -8,6 +10,7 @@ const Logout = () => {
         if (window !== "undefined") {
             cookie.remove(key, {expires: 1 } )
         }
+        
     };
 
     const delog = async () => {
@@ -18,15 +21,21 @@ const Logout = () => {
             url: `${process.env.REACT_APP_API_URL}api/user/logout`,
             withCredentials: true,
         })
-        .then(() => deleteCookie('jwt'))
+        .then((res) => console.log(res))
         .catch((err) => console.log(err));
 
         window.location = "/";
     }
     return (
-     <li onClick={delog} className="welcome space-nav-menu" >
-        <img src="../img/icons/Logout.svg" alt="logout"  />
-     </li>
+        <a href="/logout">
+
+<span onClick={delog}className="option-text">
+        deconnexion <FontAwesomeIcon icon={faRightFromBracket} />
+     </span>
+        </a>
+    
+
+
     );
 };
 
