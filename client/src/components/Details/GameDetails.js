@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router';
 import axios from 'axios';
 import DateHelper, { dateParser, timestampParser } from '../Utils/DateHelper';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBook, faBookmark, faCircleXmark, faGamepad, faPen, faTrash, faXmark,faPlayCircle } from '@fortawesome/free-solid-svg-icons';
+import { faBook, faBookmark, faCircleXmark, faGamepad, faPen, faTrash, faXmark,faPlayCircle, faComment, faCommentAlt, faCommentSms, faComments, faShare } from '@fortawesome/free-solid-svg-icons';
 import {faPlayCircle as anotherfaPlayCircle, faBookmark as anotherfaBookmark} from '@fortawesome/free-regular-svg-icons'
 import { useSelector } from 'react-redux';
 import ModalComponent from '../admin/Modal/Modal';
@@ -13,10 +13,13 @@ import EditDeleteCommenter from './EditDeleteCommenter';
 import { UidContext } from '../ContextApi/uidContext';
 import HandleFav from '../button/HandleFavorite';
 import HandleFavorite from '../button/HandleFavorite';
+import GameCommentPost from './GameCommentPost';
+import GameComment from './GameComment';
 
 const GameDetails = ({uid}) => {
   const navigate = useNavigate(); 
     const [signUp, setSignUp] = useState(true);
+    const [showComments, setShowComments] = useState(false);
     const game = useParams().id;
     const [currentgame, setCurrentGame] = useState([])
     const [currentgamecomments, setCurrentGameComments] = useState([])
@@ -92,7 +95,7 @@ const GameDetails = ({uid}) => {
     },[game, uid, user, gameid])
 
 
-
+console.log('currentgamefav',currentgamecomments)
 
     const customStyles = {
         content: {
@@ -108,6 +111,9 @@ const GameDetails = ({uid}) => {
           height: '50%'
         },
       };
+
+
+      
     const handleDelete = async (game) => {
       console.log('delete', game)
      await axios.delete(
@@ -126,6 +132,8 @@ const GameDetails = ({uid}) => {
     function openModal() {
         setIsOpen(true);
       }
+
+
 
       const handleComment = async (e) => {
         e.preventDefault();
@@ -147,6 +155,9 @@ const GameDetails = ({uid}) => {
           })
           .catch((err) => console.log(err));
       };
+
+
+
       
       const handleEditComment = (commenterId) => {
         setEdit(!edit)
@@ -154,8 +165,6 @@ const GameDetails = ({uid}) => {
 
       }
       const handleDeleteComment = (commentid) => {
-
-      
          axios({
           method: "patch",
           url:     `${process.env.REACT_APP_API_URL}api/gameproduct/delete-commentgame/${gameid}`,
@@ -165,8 +174,7 @@ const GameDetails = ({uid}) => {
             console.log(res)
            
           })
-          .catch((err) => console.log(err))
-        
+          .catch((err) => console.log(err))     
       }
 
 
@@ -184,6 +192,7 @@ const GameDetails = ({uid}) => {
           .catch((err) => console.log(err))
 
       }
+
 
 
       console.log('current',currentgamefav)
@@ -320,7 +329,7 @@ const GameDetails = ({uid}) => {
 <div class="row mx-0 mb-3 title-recent-review">
 		<div class="px-0">
 			<div class="test2" id="news-article">
-				<h1>- Les reviews du mois d'Octobre</h1>
+				<h1>- Test associer à {currentgame.title}</h1>
 			</div>
             
 		</div>
@@ -363,46 +372,7 @@ const GameDetails = ({uid}) => {
     currentgamecomments?.map((comment) => {
 
         return (
-            <>
-        <div className="comment">
-
-    <h4><a href={'/profil/' + comment.pseudo} style={{fontSize: '20px'}}>{comment.pseudo}</a> says</h4>
-    <p className="timestamp">
-      {dateParser(comment.createdAt)}
-                {comment.commenterId === currentuser._id && (
-   <>   
-      <span onClick={() => {setCurrentMsg(comment.id); setEdit(!edit)} }>
-        {
-          edit == true && comment.id == currentmsg ? (
-            <>
-          <FontAwesomeIcon icon={faCircleXmark} style={{color: "#7617c4",fontSize: '1.5rem', marginLeft: '10px'}}/>
-            </>
-            ) : (
-            <>
-              <FontAwesomeIcon icon={faPen} style={{color: "#7617c4",fontSize: '1.5rem', marginLeft: '10px'}} />
-              
-            </>
-              )
-        }
-    
-      </span>
-
-      <span onClick={() => {
-                           if (window.confirm('voulez vous supprimer ce commentaire ?'))
-                           {
-                              setCurrentMsg(comment.id)
-                              handleDeleteComment(comment.id);
-                           }
-                       }}><FontAwesomeIcon icon={faTrash} style={{color: "#7617c4",fontSize: '1.5rem', marginLeft: '10px'}} /> </span> 
-     </>
-           )}
-              </p>
-    
-    <p style={edit ==  true && comment.id == currentmsg ? {display: 'none', color: '#9DAED2',fontSize: '20px'} : {color: 'black', color: '#9DAED2',fontSize: '20px', wordBreak: 'break-all'}}>{comment.text}</p>
-      <EditDeleteCommenter comment={comment}  edit={edit} setEdit={setEdit} currentmsg={currentmsg}/>
-      </div>
-       <hr/>
-            </>
+             <GameComment comment={comment}/>
         )
     }).slice(0,5)
 }

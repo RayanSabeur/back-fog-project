@@ -42,18 +42,7 @@ const GameSchema = new mongoose.Schema(
       trim: true,
       maxlength: 1500,
   },
-    comments: {
-      type:[
-        new Schema(
-          {
-            commentId: mongoose.Schema.Types.ObjectId,
-          },
-          { _id: false }
-        )
-        
-      ],
-      required: true,
-    },
+
   },
   {
     timestamps: true,

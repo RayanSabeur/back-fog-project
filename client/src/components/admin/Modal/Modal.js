@@ -32,27 +32,25 @@ const ModalComponent = ({modalIsOpen,style, setIsOpen, action, game}) => {
 
     }
 
-    console.log('currentgame title',game?.title)
     const handleAddEdit = async (e) => {
       e.preventDefault()
       if (description || file) {
-const data = new FormData(e.target)
-console.log('t',data)
+            
+      const data = new FormData(e.target)
 
-data.append('posterId', uid);
-
-
-console.log(data) //form data + uid
-await axios.put(
-`${process.env.REACT_APP_API_URL}api/gameproduct/${game?._id}`,
-data,
-{
-  withCredentials: true,
-}
-).then((res) => {
-         console.log(res)
-})
-.catch((err) => console.log(err))
+      data.append('posterId', uid);
+      await axios.put(
+      `${process.env.REACT_APP_API_URL}api/gameproduct/${game?._id}`,
+      data,
+      {
+      withCredentials: true,
+      }
+      ).then(
+        (res) => {
+          console.log(res)
+          window.location.reload()
+      })
+      .catch((err) => console.log(err))
 
 cancelPost()
 
@@ -61,39 +59,34 @@ cancelPost()
       }
     
     }
+
+
  
     const handleAdd = async (e) => {
       e.preventDefault()
 
-        if (description || file) {
+        if (description || file || title) {
 
 const data = new FormData(e.target)
-
-console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa ezfe',data)
-
 data.append('posterId', uid);
-console.log('defaultdav', game)
-
-console.log(data) //form data + uid
-await axios.post(
-`${process.env.REACT_APP_API_URL}api/gameproduct`,
-  data,
-  {
-    withCredentials: true,
-  }
-).then((res) => {
-           console.log(res)
-           window.location.reload()
-})
-.catch((err) => console.log(err))
+    await axios.post(
+    `${process.env.REACT_APP_API_URL}api/gameproduct`,
+    data,
+    {
+      withCredentials: true,
+    }
+    ).then((res) => {
+      console.log(res)
+      window.location.reload()
+    })
+    .catch(
+  (err) => console.log(err))
 
 cancelPost()
 
         } else {
-            window.alert('veuillez entrer qqchose')
+            window.alert('veuillez entrer renseigner quelque chose')
         }
-      
-
     }
 
    
@@ -125,19 +118,18 @@ cancelPost()
        <div className='section1-modal'>
 
 <div className='title-modal'>
-<label htmlFor="title">titre</label>
+        <label htmlFor="title">titre</label>
          <br />
          <input
-           type="text"
-           name="title"
-           defaultValue={game?.title}
-           id="title"
-           className="input-modal"
-           onChange={(e) => setTitle(e.target.value)}
+            type="text"
+            name="title"
+            defaultValue={game?.title}
+            id="title"
+            className="input-modal"
+            onChange={(e) => setTitle(e.target.value)}
          />
 
 </div>
-   
     <div className='author-modal'>
     <label htmlFor="author">Author</label>
               <br />
@@ -150,7 +142,7 @@ cancelPost()
                 defaultValue={game?.author[0]}
                 value={author}
               />
-              <div className="pseudo error"></div>
+            <div className="pseudo error"></div>
     </div>
 
          </div>
@@ -209,7 +201,7 @@ cancelPost()
       
 </div>
 <div>
-  <input type="date" name="release" id='release' defaultValue={game?.release[0]} value={game?.release[0]}/>
+  <input type="date" name="release" id='release' defaultValue={game?.release[0]} />
 </div>
   </div>
          <div className='desc-modal'> 

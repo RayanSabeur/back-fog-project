@@ -23,6 +23,7 @@ const ModalReview = ({modalIsOpen,style, setIsOpen, action,review, game, current
     const currentgame = []
     const allplateform = ['PlayStation', 'Nintendo', 'Xbox', 'PC']
   
+    console.log(modalIsOpen,style, setIsOpen, action,review, game, currentuser)
       let subtitle;
   
       console.log(action)
@@ -43,6 +44,8 @@ const ModalReview = ({modalIsOpen,style, setIsOpen, action,review, game, current
                callapi()
                   
                  }, [recherche, searchList, game]);
+
+                 console.log('tttttdff', action)
                
   
     //     const handlePicture = (e) => {
@@ -63,6 +66,7 @@ const ModalReview = ({modalIsOpen,style, setIsOpen, action,review, game, current
           formData.append( 'posterId', uid)
           formData.append( 'posterName', currentuser)
           formData.set('gameId', review.gameId)
+          formData.append('plateform', plateform)
           console.log('formdata', formData)
   
   
@@ -95,6 +99,7 @@ const ModalReview = ({modalIsOpen,style, setIsOpen, action,review, game, current
           formData.append( 'posterId', uid)
           formData.append( 'posterName', currentuser)
           formData.append( 'plateform',plateform)
+    
 await axios.post(
   `${process.env.REACT_APP_API_URL}api/user/review`,
   formData,
@@ -137,7 +142,7 @@ await axios.post(
           <div>
           <button onClick={closeModal} className='edit-add-modal-btn'>X</button>
   
-          <form onSubmit={action !== 'edit' ? handleAdd : handleAddEdit} id="sign-up" >
+          <form onSubmit={action === 'edit' ? handleAddEdit : handleAdd  } id="sign-up" >
          
          <div className='section1-modal'>
   
@@ -181,7 +186,7 @@ await axios.post(
       <div className='author-modal'>
                 <div class="f-group">
             <label>Plateforme</label>
-            <select onChange={(e) => setPlateform(e.target.value)} defaultValue={review?.plateform} >
+            <select onChange={(e) => setPlateform(e.target.value)}>
             <option name="plateform"  disabled selected>selectionne un plateform</option>
             {
             allplateform?.map((plateforme, index) => {

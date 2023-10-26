@@ -3,12 +3,13 @@ import mongoose, { Schema } from "mongoose";
 const ReviewSchema = new mongoose.Schema(
   {
     posterId: {
-        type: String,
-        required: true
+      type:mongoose.Schema.Types.ObjectId,
+      ref: 'UserModel'
     },
     gameId: {
-      type: String,
-      required: true
+      type:mongoose.Schema.Types.ObjectId,
+      ref: 'GameModel', 
+      required: true,
   },
     title: {
         type: String,
@@ -37,18 +38,7 @@ const ReviewSchema = new mongoose.Schema(
         type: String,
         required: true
     },
-    comments: {
-      type:[
-        new Schema(
-          {
-            commentId: mongoose.Schema.Types.ObjectId,
-          },
-          { _id: false }
-        )
-        
-      ],
-      required: true,
-    },
+  
     rating: {
       type: Number,
       required:  true

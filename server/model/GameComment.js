@@ -13,6 +13,10 @@ const GameCommentSchema = new mongoose.Schema(
         type:String,
         required: "this field is required"
     },
+    likers: {
+      type: [String],
+      required: true,
+    },
     text:{
         type:String,
         required:"this filed is required"
@@ -20,6 +24,17 @@ const GameCommentSchema = new mongoose.Schema(
     game:{
         type:mongoose.Schema.Types.ObjectId,
         ref: 'GameModel'
+    },
+    comments: {
+      type: [
+        {
+          commenterId:String,
+          commenterPseudo: String,
+          text: String,
+          timestamp: Number,
+        }
+      ],
+      required: true,
     },
   },
   {

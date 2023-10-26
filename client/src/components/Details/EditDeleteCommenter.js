@@ -8,7 +8,7 @@ import axios from 'axios';
 
 const EditDeleteCommenter = ({comment, edit, setEdit, currentmsg, action, currentelm}) => {
 
-    console.log('su',currentmsg)
+    console.log('su', action)
     const [signUp, setSignUp] = useState(true);
     const game = useParams().id;
     const [textcomment, setTextComment] = useState('')
@@ -23,6 +23,8 @@ const EditDeleteCommenter = ({comment, edit, setEdit, currentmsg, action, curren
   border:' none',
   height: '5rem',
     }
+
+    console.log('GROS CACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA', action)
       useEffect(() => {
 
         const checkAuthor = () => {
@@ -38,33 +40,15 @@ const EditDeleteCommenter = ({comment, edit, setEdit, currentmsg, action, curren
       function openModal() {
           setIsOpen(true);
         }
-  
-        const handleComment = async (e) => {
-          e.preventDefault();
-          const comment = {
-            commenterId: currentuser._id,
-            commenterPseudo: currentuser.pseudo,
-            text: textcomment,
-            game: gameid,
-          }
-          console.log(comment, gameid)
-          return await axios({
-            method: "patch",
-            url:   `${process.env.REACT_APP_API_URL}api/gameproduct/commentgame/${gameid}`,
-            data: comment,
-            withCredentials: true
-          })
-            .then((res) => {
-              window.location.reload()
-            })
-            .catch((err) => console.log(err));
-        };
-        
-        
 
-        const handleEditGame = async (e) => {
+
+        
+        
+        console.log(currentmsg , comment._id)
+
+        const handleEditGameComment = async (e) => {
           e.preventDefault()
-          console.log('data edit', currentmsg, gameid, text)
+          
           return await axios({
             method: "put",
             url: `${process.env.REACT_APP_API_URL}api/gameproduct/edit-comment-game/${gameid}`,
@@ -72,22 +56,22 @@ const EditDeleteCommenter = ({comment, edit, setEdit, currentmsg, action, curren
             withCredentials: true
           })
             .then((res) => {
-              // dispatch({ type: EDIT_COMMENT, payload: { postId, commentId, text } });
+        
               window.location.reload()
             })
             .catch((err) => console.log(err));
         };
         const handleEditReviews = async (e) => {
           e.preventDefault()
-          console.log('data edit', currentmsg, gameid, text)
+
           return await axios({
             method: "put",
-            url: `${process.env.REACT_APP_API_URL}api/user/review/edit-comment-review/${currentelm}`,
+            url: `${process.env.REACT_APP_API_URL}api/user/review/edit-comment-review/${currentmsg}`,
             data: { currentmsg, text},
             withCredentials: true
           })
             .then((res) => {
-              // dispatch({ type: EDIT_COMMENT, payload: { postId, commentId, text } });
+           
               window.location.reload()
             })
             .catch((err) => console.log(err));
@@ -95,9 +79,9 @@ const EditDeleteCommenter = ({comment, edit, setEdit, currentmsg, action, curren
 
     return (
       <> 
-      {currentmsg === comment.id && edit && (
+      {currentmsg == currentelm && edit && (
                    <>
-               <form action="" onSubmit={ action == 'editreview' ?  handleEditGame : handleEditReviews} className="edit-comment-form">
+               <form action="" onSubmit={ action == 'editcommentgame' ? handleEditGameComment : action == 'editcommentreview' ? handleEditReviews : action == 'editcommentgamepost' ? 'futurfonceditpostocmment': 'editcommentpost' ? '' : 'futurfuncquieditpostreview' } className="edit-comment-form">
 
                  <div className='comment-edit-section'>
                    <textarea type="text" name='text' onChange={(e) => setText(e.target.value)} style={ textareastyle} defaultValue={comment.text}/>

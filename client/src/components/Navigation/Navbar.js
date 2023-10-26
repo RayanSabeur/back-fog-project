@@ -24,12 +24,10 @@ const Navbar = ({setSignUp, signUp, setFilter}) => {
         left: '50%',
         right: 'auto',
         bottom: 'auto',
-        width:'40%',
         marginRight: '-50%',
         transform: 'translate(-50%, -50%)',
         boxShadow: '1px 2px #888888',
         zIndex: 1,
-        height: '50%'
       },
     };
     const [filteredGames, setFilteredGames] = useState()

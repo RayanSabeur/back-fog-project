@@ -33,10 +33,10 @@ const ReviewQuickView = ({reviewSorted, index}) => {
         </>
         )
       }
-      const imgUrls = reviewSorted?.pictures[0];
-
+      // const imgUrls = reviewSorted?.pictures[0];
+      console.log('soprted',reviewSorted?.pictures[0])
       let divStyle = {
-        backgroundImage: 'url(' + './' + imgUrls + ')',
+        backgroundImage: 'url('  + reviewSorted?.pictures[0] + ')',
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center',

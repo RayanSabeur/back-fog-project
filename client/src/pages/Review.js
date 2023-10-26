@@ -9,10 +9,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBook, faBookmark, faCircleXmark, faGamepad, faPen, faTrash, faXmark,faPlayCircle } from '@fortawesome/free-solid-svg-icons';
 import {faPlayCircle as anotherfaPlayCircle, faBookmark as anotherfaBookmark} from '@fortawesome/free-regular-svg-icons'
 import { useSelector } from 'react-redux';
-import ModalComponent from '../components/admin/Modal/Modal';
 import {  faStar } from '@fortawesome/free-solid-svg-icons'
 import { faStar as anotherFaStar } from '@fortawesome/free-regular-svg-icons'
 import ModalReview from '../components/Reviews/ModalReview';
+import ReviewComment from '../components/Reviews/ReviewComment';
 
 
 const Review = ({uid}) => {
@@ -219,7 +219,8 @@ const Review = ({uid}) => {
 
      
 
-      console.log('current',currentgamefav)
+      console.log('currentCOMMENTREVIEWS',currentreviewcomments)
+      console.log('aaaaaaaaaaaaaaaaaa', currentmsg)
 
 
     return (
@@ -318,44 +319,7 @@ const Review = ({uid}) => {
 
         return (
             <>
-        <div className="comment">
-
-    <h4><a href={'/profil/' + comment.pseudo} style={{fontSize: '20px'}}>{comment.pseudo}</a> says</h4>
-    <p className="timestamp">
-      {dateParser(comment.createdAt)}
-                {comment.commenterId === currentuser._id && (
-   <>   
-      <span onClick={() => {setCurrentMsg(comment.id); setEdit(!edit)} }>
-        {
-          edit == true && comment.id == currentmsg ? (
-            <>
-          <FontAwesomeIcon icon={faCircleXmark} style={{color: "#7617c4",fontSize: '1.5rem', marginLeft: '10px'}}/>
-            </>
-            ) : (
-            <>
-              <FontAwesomeIcon icon={faPen} style={{color: "#7617c4",fontSize: '1.5rem', marginLeft: '10px'}} />
-              
-            </>
-              )
-        }
-    
-      </span>
-
-      <span onClick={() => {
-                           if (window.confirm('voulez vous supprimer ce commentaire ?'))
-                           {
-                              setCurrentMsg(comment.id)
-                              handleDeleteComment(comment.id);
-                           }
-                       }}><FontAwesomeIcon icon={faTrash} style={{color: "#7617c4",fontSize: '1.5rem', marginLeft: '10px'}} /> </span> 
-     </>
-           )}
-              </p>
-    
-    <p style={edit ==  true && comment.id == currentmsg ? {display: 'none', color: '#9DAED2',fontSize: '20px'} : {color: 'black', color: '#9DAED2',fontSize: '20px', wordBreak: 'break-all'}}>{comment.text}</p>
-      <EditDeleteCommenter comment={comment}  edit={edit} setEdit={setEdit} currentmsg={currentmsg} aciton={'editreview'} currentelm={reviews._id}/>
-      </div>
-       <hr/>
+              <ReviewComment  comment={comment}/>
             </>
         )
     })

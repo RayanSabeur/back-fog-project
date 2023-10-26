@@ -1,6 +1,6 @@
 import express from "express";
 // import { signIn } from "../controllers/auth.js";
-import { addtofavorite, addtothepodium, commentGame, createGameProduct, deleteCommentGame, deleteGameProduct, editCommentGame, gameInfo, getAllCommentsOfGame, readGameProduct, removefromthepodium, unlikePost, updateGame } from "../controllers/gameProduct.controller.js";
+import { addtofavorite, addtothepodium, commentGame, commentPost, createGameProduct, deleteCommentGame, deleteCommentPost, deleteGameProduct, editCommentGame, editCommentPost, gameInfo, getAllCommentsOfGame, readGameProduct, removefromthepodium, unlikePost, updateGame } from "../controllers/gameProduct.controller.js";
 import { isAuthenticatedUser, setRoles } from "../middleware/auth.middleware.js";
 import multer from "multer";
 import { fileURLToPath } from "url";
@@ -42,5 +42,18 @@ router.patch('/removefromthepodium/:id',isAuthenticatedUser, removefromthepodium
 
 router.put('/edit-comment-game/:id',isAuthenticatedUser, editCommentGame);
 router.patch('/delete-commentgame/:id',isAuthenticatedUser, deleteCommentGame);
+
+
+
+// router.patch('/like-post/:id', postController.likePost); //.patch sert a intervenir dans un array qui est a l'interrieur de notre element (le tableau des likes de notre user ici)
+// router.patch('/unlike-post/:id', postController.unlikePost);
+
+
+
+// comments
+
+router.patch('/comment-post/:id', commentPost);
+router.patch('/edit-comment-post/:id', editCommentPost);
+router.patch('/delete-comment-post/:id', deleteCommentPost);
 
 export default router;

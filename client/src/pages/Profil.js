@@ -104,6 +104,8 @@ const Profil = ({uid}) => {
            callCommentOfGamesFav()
        },[user._id])
 
+       console.log('AAAAAAAAAAAAAALLLLLLLLLLLLLLLL', currentgamecomments)
+
     return (
         <>
         <Navbar setSignUp={setSignUp} signUp={signUp}/>

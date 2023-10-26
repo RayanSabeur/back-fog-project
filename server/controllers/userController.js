@@ -40,7 +40,7 @@ export const userInfo = catchAsyncError(async (req, res) => {
     try {
 
       const currentusercomments = await GameComment.find({commenterId: req.params.id});
-
+      console.log(currentusercomments)
       const ids = currentusercomments.map(({ game }) => game);
       const filtered = currentusercomments.filter(({ game }, index) => !ids.includes(game, index + 1));
 
@@ -57,8 +57,7 @@ export const userInfo = catchAsyncError(async (req, res) => {
     for (let i in games) {
  
       // Extract the title
-      objTitle = games[i]['_id'];
-
+ objTitle = games[i]['_id']
       // Use the title as the index
       uniqueObject[objTitle] = games[i];
   }
@@ -96,7 +95,7 @@ export const userInfo = catchAsyncError(async (req, res) => {
     }
     const comment =  allgamesusercomments.map(({ gameId }) => gameId);
     const filter =  allgamesusercomments.filter(({ gameId }, index) => !comment.includes(gameId, index + 1));
-
+    console.log('AAAAAAAAAAAAAAAAAAAAAAA',filter)
        res.status(200).json({
         message: 'Comment get succefully!',
         commentsuser: filter

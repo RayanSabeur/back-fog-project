@@ -13,6 +13,10 @@ const ReviewsCommentSchema = new mongoose.Schema(
         type:String,
         required: "this field is required"
     },
+    likers: {
+      type: [String],
+      required: true,
+    },
     text:{
         type:String,
         required:"this filed is required"
@@ -20,6 +24,17 @@ const ReviewsCommentSchema = new mongoose.Schema(
     reviewid:{
         type:mongoose.Schema.Types.ObjectId,
         ref: 'Review'
+    },
+    comments: {
+      type: [
+        {
+          commenterId:String,
+          commenterPseudo: String,
+          text: String,
+          timestamp: Number,
+        }
+      ],
+      required: true,
     },
   },
   {

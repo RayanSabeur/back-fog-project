@@ -1,5 +1,5 @@
 import express from "express";
-import { addtofavorite, commentReview, createReview, deleteCommentReview, deleteReview, editCommentReview, getAllCommentsOfReview, getCurrentReview, getUserReview, readReview, unlikePost, updateReview } from "../controllers/review.Controller.js";
+import { addtofavorite, commentPostReview, commentReview, createReview, deleteCommentPostReview, deleteCommentReview, deleteReview, editCommentPostReview, editCommentReview, getAllCommentsOfReview, getCurrentReview, getUserReview, readReview, unlikePost, updateReview } from "../controllers/review.Controller.js";
 import { isAuthenticatedUser } from "../middleware/auth.middleware.js";
 const router = express.Router();
 import * as url from 'url';
@@ -20,7 +20,7 @@ const storage = multer.diskStorage({
 
   const upload = multer({ storage: storage })
 
-router.post('/', isAuthenticatedUser, upload.array('files'), createReview);
+router.post('/',  upload.array('files'), createReview);
 router.get('/all',  readReview);
 router.get('/:id', getUserReview)
 router.get('/currentreview/:id', getCurrentReview)
@@ -34,5 +34,10 @@ router.patch('/unlikereview/:id',isAuthenticatedUser, unlikePost);
 router.patch('/comment-review/:id',isAuthenticatedUser, commentReview);
 router.put('/edit-comment-review/:id',isAuthenticatedUser, editCommentReview);
 router.patch('/delete-comment-review/:id',isAuthenticatedUser, deleteCommentReview);
+
+
+router.patch('/comment-post-review/:id', commentPostReview);
+router.patch('/edit-comment-post-review/:id', editCommentPostReview);
+router.patch('/delete-comment-post-review/:id', deleteCommentPostReview);
 
 export default router;

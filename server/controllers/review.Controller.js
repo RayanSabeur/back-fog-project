@@ -48,7 +48,6 @@ export const createReview = async (req, res) => {
       likers: [],
       release: req.body.release,
       posterName: req.body.posterName,
-      comments: [],
       rating: req.body.rating,
       plateform: req.body.plateform,
     });
@@ -62,7 +61,7 @@ export const createReview = async (req, res) => {
        newReview.pictures.push(truepath)
      })
     }
-    console.log(newReview)
+    console.log("aaaaaaaaaaaaaaaaaaaaa",newReview)
   
     try {
       const Review = await newReview.save();
@@ -117,7 +116,6 @@ export const deleteReview = async(req, res) => {
             likers: [],
             release: req.body.release,
             posterName: req.body.posterName,
-            comments: [],
             rating: req.body.rating,
             plateform: req.body.plateform,
           } 
@@ -193,21 +191,15 @@ export const unlikePost = async (req, res) => {
         const { id } = req.params;
 
         try {
-          const review = await ReviewModel.findById(id);
-          const revewComments = await Promise.all(
-            review.comments.map((com) => {
-              return ReviewsComment.findById(com.commentId);
-            })
-          );
-
-        console.log(revewComments)
+          const revewComments = await ReviewsComment.find({reviewid: id});
           let commentList = [];
           revewComments.map((com) => {
 
           if(com != null) commentList.push({pseudo: com?.commenterPseudo, text: com?.text, reviewId: com?.reviewid, 
-            createdAt: com.createdAt, commenterId: com.commenterId, id: com._id});
+            createdAt: com.createdAt, commenterId: com.commenterId, id: com._id, comments: com.comments});
             
           });
+          console.log(commentList)
           res.status(200).json(commentList)
         } catch (err) {
           return res.status(400).send(err);
@@ -220,24 +212,11 @@ export const commentReview = async(req,res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
   return res.status(400).send("ID unknown : " + req.params.id);
 
-  const {commenterId, commenterPseudo,text, review} = req.body
-  const comment = new ReviewsComment({commenterId:commenterId, commenterPseudo:commenterPseudo, text:text, reviewid: review});
-  await comment.save();
  try {
-  await ReviewModel.findByIdAndUpdate(
-    {_id: req.params.id},
-     {
-       $push: {
-         comments: {
-          commentId: comment._id,
-         },
-       },
-     },
-     { new: true },
-    
-   ).then((docs) => {
-     res.send(docs);
-   });
+  const {commenterId, commenterPseudo,text, reviewid} = req.body
+  const comment = new ReviewsComment({commenterId:commenterId, commenterPseudo:commenterPseudo, text:text, reviewid: reviewid});
+  await comment.save();
+  
  } catch(err) {
 
  }
@@ -275,18 +254,7 @@ export const deleteCommentReview = catchAsyncError(async(req,res) => {
         res.status(200).json(docs);
       }
     );
-  ReviewModel.findOneAndUpdate(
-    { _id: req.params.id },
-    {
-      $pull: {
-          comments: 
-            {  
-             commentId : new mongoose.Types.ObjectId(commentid)
-            }
-        },
-    },
-    { new: true }
-  )
+  
   res.status(200).json({test});
 } catch(err) {
     console.log(err)
@@ -317,3 +285,81 @@ export const getCurrentReview = async (req, res) => {
    res.status(500).json(res)
   }
  }
+
+
+ export const commentPostReview = (req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id))
+  return res.status(400).send("ID unknown : " + req.params.id);
+
+  try {
+    return ReviewsComment.findByIdAndUpdate(
+      req.params.id,
+      {
+        $push: {
+          comments: {
+            commenterId: req.body.commenterId,
+            commenterPseudo: req.body.commenterPseudo,
+            text: req.body.text,
+            timestamp: new Date().getTime(),
+          },
+        },
+      },
+      { new: true }
+    ).then((err, docs) => {
+        if (!err) return res.send(docs);
+        else return res.status(400).send(err);
+      })
+  } catch (err) {
+    return res.status(400).send(err);
+  }
+};
+
+export const editCommentPostReview = async(req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id))
+  return res.status(400).send("ID unknown : " + req.params.id);
+  const { id } = req.params;
+    
+      
+  try {
+    return  await  ReviewsComment.findById(id).then((com) => {
+      const theComment = com.comments.find((comment) =>
+        comment._id == req.body.commentId
+      );
+      console.log(theComment)
+      if (!theComment) return res.status(404).send("Comment not found");
+      theComment.text = req.body.text;
+
+      return com.save().then((err) => {
+        if (!err) return res.status(200).send(docs);
+        return res.status(500).send(err);
+      });
+    });
+  } catch (err) {
+    return res.status(400).send(err);
+  }
+};
+
+export const deleteCommentPostReview = async(req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id))
+  return res.status(400).send("ID unknown : " + req.params.id);
+
+  try {
+      await  ReviewsComment.findOneAndUpdate(
+      {_id: req.params.id},
+      {
+        $pull: {
+          comments: {
+            _id: new mongoose.Types.ObjectId(req.body.commentId),
+          },
+        },
+      },
+      { new: true }
+      ).then(
+        (docs) => {
+          res.send(docs);
+        }
+      );
+    } catch(err) {
+        console.log(err)
+  }
+};
