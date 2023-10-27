@@ -6,7 +6,7 @@ import Card from './Card';
 import DateHelper, { dateParser } from '../Utils/DateHelper';
 import ReviewQuickView from '../Reviews/ReviewQuickView';
 import { Icon } from '@iconify/react';
-import { useDispatch, useSelector } from 'react-redux';
+import {useSelector } from 'react-redux';
 
 
 const WelcomeCard = () => {
@@ -46,14 +46,13 @@ const WelcomeCard = () => {
        }).slice(0,5)
 
        let sortedArrayGames =  gamesTrend.filter((game) => 
-       DateHelper(game.release[0]) != false
+       DateHelper(game.release[0]) !== false
        ).slice(0,9)
-       console.log('games',sortedArrayGames)
 
        const reviewTrend = Object.keys(reviews).map((i) => reviews[i])
 
        let sortedArrayReviews = reviewTrend.filter((review) => 
-            DateHelper(review.release[0]) != false
+            DateHelper(review.release[0]) !== false
        )
 
 
@@ -87,7 +86,7 @@ const WelcomeCard = () => {
         </div>
         <hr/>
         <div class="row mx-0 home-heading">
-			<h2>Populaire ce mois ci </h2>
+			<h1>Populaire ce mois ci </h1>
 		</div>
 
         <div class="page-content">
@@ -107,7 +106,7 @@ const WelcomeCard = () => {
 <div class="row mx-0 mb-3 title-recent-review">
 		<div class="px-0">
 			<div class="test2" id="news-article">
-				<h1>Les reviews du mois d'Octobre</h1>
+				<h2>Les reviews du mois d'Octobre</h2>
 			</div>
             
 		</div>
@@ -115,9 +114,7 @@ const WelcomeCard = () => {
 	</div>
  
 <div className='reviewcontent'>
-
 <div class="blog">
-
 {
  sortedArrayReviews.map((card,index) => {
     return (
@@ -125,11 +122,9 @@ const WelcomeCard = () => {
     )
   })
 }
-  
 </div>
-
     <div class="test">
-    <div> <h1>Les nouveautés du mois</h1></div>
+    <div className='title-news'> <h1>Les nouveautés du mois</h1></div>
 {
     sortedArrayGames.map((game) => {
 
@@ -137,7 +132,7 @@ const WelcomeCard = () => {
             <>
         <div class="description">
  
-        <div> <img src={'..' + game.picture[0]} className='quickviewNewRelease'/></div>
+        <div> <img src={'..' + game.picture[0]} alt='game' className='quickviewNewRelease'/></div>
          
 
        <div> 

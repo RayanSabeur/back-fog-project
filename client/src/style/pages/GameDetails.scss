@@ -151,3 +151,38 @@
   .mainDetailGame {
     margin-top: 3rem;
   }
+
+
+  @media screen and (max-width: 700) {
+  .detail-game-section {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .left-side-img {
+  display: flex;
+    flex-direction: column;
+    flex-basis: 30%;
+  
+  }
+  
+  .img-detail-section {
+    width: 30rem;
+    margin-left: 25%;
+  }
+  
+  .detail-game-add-review {
+    background: none;
+    height: 2rem;
+    color: white;
+    padding: 8px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  .detail-game-section-elm-1 {
+  margin-top: 10rem;
+  }
+
+}

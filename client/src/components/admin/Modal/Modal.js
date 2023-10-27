@@ -17,7 +17,6 @@ const ModalComponent = ({modalIsOpen,style, setIsOpen, action, game}) => {
 
     let subtitle;
 
-    console.log(action)
     function closeModal() {
         setIsOpen(false);
       }
@@ -26,7 +25,6 @@ const ModalComponent = ({modalIsOpen,style, setIsOpen, action, game}) => {
 
       const handlePicture = (e) => {
         e.preventDefault()
-        console.log(e.target.files)
         setGamePicture(URL.createObjectURL(e.target.files[0])) //creer un objet js et nous affiche l'image en front
         setFile(e.target.files[0]);
 
@@ -117,7 +115,7 @@ cancelPost()
        
        <div className='section1-modal'>
 
-<div className='title-modal'>
+      <div className='title-modal'>
         <label htmlFor="title">titre</label>
          <br />
          <input

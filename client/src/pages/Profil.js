@@ -81,7 +81,7 @@ const Profil = ({uid}) => {
                 } 
             }
             else {  
-            fav = games.filter(fav => {
+            fav = games?.filter(fav => {
                 return fav.posterId == user._id
             })
             setFilteredFavLength(fav.length)
@@ -104,7 +104,7 @@ const Profil = ({uid}) => {
            callCommentOfGamesFav()
        },[user._id])
 
-       console.log('AAAAAAAAAAAAAALLLLLLLLLLLLLLLL', currentgamecomments)
+
 
     return (
         <>
@@ -199,7 +199,7 @@ const Profil = ({uid}) => {
            </p>
            </div>
                 <div>
-                    <img src={'..' + currentusergamecomment.gamepicture} alt="" style={{width: '10rem'}}/>
+                    <img src={'..' + currentusergamecomment.gamepicture} alt="cuurentgamecomment" style={{width: '10rem'}}/>
                 </div>
             </div>
             

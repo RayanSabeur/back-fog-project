@@ -1,3 +1,9 @@
+$bp-md: 600px;
+$bp-lg: 800px;
+
+$bp-lm: 1200px;
+
+
 .review-quickview-desc {
     display: flex;
     margin-bottom: 1.6%;
@@ -35,6 +41,7 @@ color: #7617c4;
 
 }
 
+
 .more-reviews {
     color: black;
   margin-bottom: 50px;
@@ -45,3 +52,4 @@ color: #7617c4;
   word-wrap: anywhere;
   height: 0;
 }
+

@@ -96,3 +96,35 @@
   .tags li {
     margin-left: 1rem;
   }
+
+  @media screen and (max-width: 800px) {
+    .detail-review-section-left {
+      display: flex;
+  justify-content: left;
+  flex-direction: column;
+    }
+    .img-resp-review {
+      display: flex;
+      justify-content: center;
+    }
+
+    .tags-section {
+      display: flex;
+      justify-content: center;
+    }
+    .detail-review-main h1 {
+     text-align: center;
+    }
+
+    .detail-review-section-right {
+      display: flex;
+      justify-content: center;
+    }
+
+    .desc-review {
+      text-align: center;
+      word-break: break-word;
+      padding: 0;
+    }
+
+  }

@@ -24,7 +24,6 @@ const EditDeleteCommenter = ({comment, edit, setEdit, currentmsg, action, curren
   height: '5rem',
     }
 
-    console.log('GROS CACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA', action)
       useEffect(() => {
 
         const checkAuthor = () => {

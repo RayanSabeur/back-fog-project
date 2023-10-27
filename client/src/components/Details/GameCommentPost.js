@@ -47,7 +47,6 @@ const GameCommentPost = ({ post, edit, setEdit }) => {
       commenterPseudo: userData?.pseudo,
       text: text,
     }
-    console.log(comment, gameid)
     if(text) {
      return  axios({
         method: "patch",

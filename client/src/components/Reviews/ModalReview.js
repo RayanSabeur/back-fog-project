@@ -26,7 +26,6 @@ const ModalReview = ({modalIsOpen,style, setIsOpen, action,review, game, current
     console.log(modalIsOpen,style, setIsOpen, action,review, game, currentuser)
       let subtitle;
   
-      console.log(action)
       function closeModal() {
           setIsOpen(false);
         }
@@ -45,7 +44,7 @@ const ModalReview = ({modalIsOpen,style, setIsOpen, action,review, game, current
                   
                  }, [recherche, searchList, game]);
 
-                 console.log('tttttdff', action)
+           
                
   
     //     const handlePicture = (e) => {
@@ -62,15 +61,11 @@ const ModalReview = ({modalIsOpen,style, setIsOpen, action,review, game, current
         e.preventDefault()
         if (description || files) {
           const formData = new FormData(e.target);
-          console.log(uid,currentgameselect, currentuser)
           formData.append( 'posterId', uid)
           formData.append( 'posterName', currentuser)
           formData.set('gameId', review.gameId)
           formData.append('plateform', plateform)
-          console.log('formdata', formData)
   
-  
-  console.log('zeffffffffffffffff',formData) //form data + uid
   await axios.put(
   `${process.env.REACT_APP_API_URL}api/user/review/${review?._id}`,
   formData,

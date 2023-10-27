@@ -192,7 +192,6 @@ return res.status(400).send("ID unknown : " + req.params.id);
       
       } 
       if(thefav) {
-        console.log('siyafav', thefav)
         thefav.status = req.body.status;
         user.save()
         .then(() => {
@@ -366,7 +365,6 @@ export const editCommentGame = catchAsyncError(async(req,res) => {
             //   })
             // );
 
-          console.log(gameComments)
             let commentList = [];
            gameComments.map((com) => {
 
@@ -441,7 +439,6 @@ export const editCommentPost = async(req, res) => {
       const theComment = com.comments.find((comment) =>
         comment._id == req.body.commentId
       );
-      console.log(theComment)
       if (!theComment) return res.status(404).send("Comment not found");
       theComment.text = req.body.text;
 

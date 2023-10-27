@@ -5,12 +5,20 @@ $imageIds: '1517021897933-0e0319cfbc28', '1533903345306-15d1c30952de', '15452434
 $bp-md: 600px;
 $bp-lg: 800px;
 
+$bp-lm: 1200px;
+
 :root {
   --d: 700ms;
   --e: cubic-bezier(0.19, 1, 0.22, 1);
   --font-sans: 'Rubik', sans-serif;
   --font-serif: 'Cardo', serif;
 }
+.reviewcontent {
+  display: flex;
+  margin-top: 1rem;
+
+}
+
 
 .page-content-profile {
   display: flex;
@@ -30,8 +38,55 @@ $bp-lg: 800px;
   
   @media (min-width: $bp-lg) {
     grid-template-columns: repeat(5, 1fr);
+    
   }
 }
+
+// @media (min-width: $bp-md) {
+//   grid-template-columns: repeat(2, 1fr);
+// }
+@media screen and (max-width: 700px) {
+  
+.space-nav-menu {
+  display: none;
+}
+}
+@media screen and (max-width: $bp-lm) {
+  
+  .reviewcontent {
+
+    grid-template-columns: repeat(1, 1fr);
+    display: grid;
+    .blog {
+      width: 100%;
+    }
+    .test {
+      max-width: unset;
+    }
+ 
+  }
+  .space-nav-menu {
+    display: none;
+  }
+  .title-news {
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+  }
+
+  nav .nav-container .log-a-game {
+    display: none;
+  }
+  
+
+  #profile-quickview {
+    display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  margin-bottom: 2rem;
+
+  }
+}
+
+
 
 .page-content {
   display: grid;
@@ -361,13 +416,15 @@ $color_grey_dark: #a2a2a2;
       left: 0%;
     }
   }
-  @media (min-width: 640px) {
+  @media (min-width: 140px) {
     .meta {
       flex-basis: 40%;
       height: auto;
       margin-bottom: -10px;
       // background-image: url('https://images.igdb.com/igdb/image/upload/t_cover_big/co5s5v.jpg');
-      
+      display: flex;
+  justify-content: left;
+  flex-direction: column;
     }
     .description {
       &:before {
@@ -397,10 +454,6 @@ $color_grey_dark: #a2a2a2;
   }
 }
 
-.reviewcontent {
-  display: flex;
-  margin-top: 1rem;
-}
 
 .test  {
   max-width: 436px;

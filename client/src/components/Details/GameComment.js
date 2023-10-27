@@ -62,7 +62,6 @@ const GameComment = ({comment}) => {
             text: textcomment,
             game: gameid,
           }
-          console.log(comment, gameid)
           return await axios({
             method: "patch",
             url:   `${process.env.REACT_APP_API_URL}api/gameproduct/commentgame/${gameid}`,

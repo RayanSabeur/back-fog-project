@@ -13,9 +13,6 @@ import { useSelector } from 'react-redux';
 
 const HandleFavorite = ({currentgamefav, gameid, currentuser,   setCurrentGameFav}) => {
     const handleStatus = (status, gameid) => {
-        console.log('status', status)
-      
-        console.log('CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC',currentgamefav, gameid, currentuser,   setCurrentGameFav);
         axios({
           method: "patch",
           url:     `${process.env.REACT_APP_API_URL}api/gameproduct/addtofavorite/${currentuser._id}`,

@@ -30,8 +30,6 @@ const ProfileQuickView = ({user, reviewlength, userId, location}) => {
 	const handleChangeAvatar = async (e) => {
 		e.preventDefault()
 		const data = new FormData(e.target)
-        data.append('userId', userId);
-		console.log('sdf',userId)
 			if(file) {
 					
 		await axios({
@@ -53,9 +51,10 @@ const ProfileQuickView = ({user, reviewlength, userId, location}) => {
 	}
 
     return (
+
         <>
    
-			<div class="col-2 col-lg-1 px-0 mt-auto">
+			<div class="col-2 col-lg-1 px-0 mt-auto respons-profile-quickview">
 			
 				{
 					location == "profil" && uid == userId ? (
@@ -65,7 +64,7 @@ const ProfileQuickView = ({user, reviewlength, userId, location}) => {
 							<input type="file" name="file" id="file"  className='file-upload-avatar' accept=".jpg, .jpeg, .png" onChange={(e) => setFile(e.target.files[0])} />  
 							<button type="submit"  className='submit-btn-avatar' > <FontAwesomeIcon icon={faPenToSquare}  style={{color: file ? "#7617c4" : "white"}}  size="2x"
 							aria-hidden="true"className='transform motion-safe:group-focus:scale-110 p-1.5 z-10' type="submit"/>  </button>
-							<img src={user.picture} width="150" height="150"  /> 
+							<img src={user.picture} width="150" height="150"  alt='userpicture' /> 
 						</form>
 					</div>
 
@@ -75,7 +74,7 @@ const ProfileQuickView = ({user, reviewlength, userId, location}) => {
 					
 					<div class="avatar">
 						<div> 
-							<img src={user.picture} width="150" height="150"  /> 
+							<img src={user.picture} width="150" height="150"  alt='userpicture'/> 
 						</div>
 					</div>
 					
@@ -87,14 +86,14 @@ const ProfileQuickView = ({user, reviewlength, userId, location}) => {
 			</div>
 			<div class="col">
 				<div class="row mx-0">
-					<h2 class="mb-1 mb-sm-2" id="username"><a href={'/profil/' + user.pseudo}>{user.pseudo}</a></h2>
+					<h2 class="mb-1 mb-sm-2" id="username1"><a href={'/profil/' + user.pseudo}>{user.pseudo}</a></h2>
 				</div>
 				<div class="row mx-0" id="user-stats">
 					<a href="/u/RayanEnLegende/games/">
 						<div class="col-auto pl-0 pr-2 user-stat">
 							<div class="row stat-header">
 
-								<div class="col">
+								<div className="col stats-profil-user" >
 									<p>Played</p>
 								</div>
 							</div>

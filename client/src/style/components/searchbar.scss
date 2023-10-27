@@ -5,8 +5,21 @@ h1 {
   color: #fff;
 }
 
+
 /* You just need to get this field - start */
 
+  .select-menu .search-input {
+    width: 50%;
+    font-family: "Montserrat", sans-serif;
+    font-size: 16px;
+    background-color: #eaeaeb;
+    color: #6c6c6c;
+    border-radius: 6px;
+    border: none;
+    transition: all 0.4s;
+    height: 2.5rem;
+  }
+   
 .search-box {
   width: 350px;
   position: relative;
@@ -48,5 +61,4 @@ h1 {
 
 
 /* You just need to get this field - end */
-  
-  
+

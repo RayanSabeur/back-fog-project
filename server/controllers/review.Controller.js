@@ -6,7 +6,6 @@ import ReviewsComment from '../model/ReviewsComments.js';
 
 export const readReview = async(req, res) => {
   try {
-    console.log("read review")
         const review = await ReviewModel.find();
         res.status(200).json(review);
       } catch (err) {
@@ -61,7 +60,6 @@ export const createReview = async (req, res) => {
        newReview.pictures.push(truepath)
      })
     }
-    console.log("aaaaaaaaaaaaaaaaaaaaa",newReview)
   
     try {
       const Review = await newReview.save();

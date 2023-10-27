@@ -1,3 +1,8 @@
+$bp-md: 600px;
+$bp-lg: 800px;
+
+$bp-lm: 1200px;
+
 .row {
     display: flex;
     flex-wrap: wrap;
@@ -8,6 +13,14 @@
     margin-right: 0 !important;
   }
 
+  .img-resp-review {
+    @media screen and (max-width: $bp-lm) {
+      display: flex;
+      .stats-profil-user {
+        margin-bottom: 1rem;
+      }
+      }
+  }
 
   .col-2 {
     flex: 0 0 16.66666667%;
@@ -38,6 +51,8 @@
     color: #cbd4dc;
     color: var(--back-link);
   }
+
+
 
   #profile-quickview #user-stats a {
     color: hsla(0,0%,100%,.6);
@@ -96,4 +111,12 @@
   width: 9.6rem;
   left: 1rem;
   opacity: 0;
+  }
+
+  @media screen and (max-width: $bp-lm) {
+    .respons-profile-quickview {
+      margin-top: 1rem;
+    margin-bottom: 1rem;
+    }
+ 
   }

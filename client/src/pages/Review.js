@@ -103,8 +103,6 @@ const Review = ({uid}) => {
   checkAuthor();
     },[game, uid, user, reviewid, reviews.gameId])
     
-
-    console.log('LE RRRRRRRRRRRRRRRRRRRRRRRRR',reviews)
     const ratingReview = (rating) => {
         let ratingvar = [];
         let r = rating;
@@ -217,10 +215,6 @@ const Review = ({uid}) => {
         
       }
 
-     
-
-      console.log('currentCOMMENTREVIEWS',currentreviewcomments)
-      console.log('aaaaaaaaaaaaaaaaaa', currentmsg)
 
 
     return (
@@ -274,7 +268,7 @@ const Review = ({uid}) => {
         <div className='detail-review-section-left'>
      
              <div className='left-side-img-review'>
-              {reviews?.pictures && <> <img src={reviews?.pictures[0]} alt='imggame' className='img-review-section'></img> </>}
+              {reviews?.pictures && <><div className='img-resp-review'> <img src={reviews?.pictures[0]} alt='imggame' className='img-review-section'></img> </div> </>}
               <div className='tags-section'>
              
                 <ul class="tags">

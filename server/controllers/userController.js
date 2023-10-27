@@ -95,7 +95,6 @@ export const userInfo = catchAsyncError(async (req, res) => {
     }
     const comment =  allgamesusercomments.map(({ gameId }) => gameId);
     const filter =  allgamesusercomments.filter(({ gameId }, index) => !comment.includes(gameId, index + 1));
-    console.log('AAAAAAAAAAAAAAAAAAAAAAA',filter)
        res.status(200).json({
         message: 'Comment get succefully!',
         commentsuser: filter

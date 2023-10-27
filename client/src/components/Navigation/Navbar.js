@@ -6,7 +6,7 @@ import ModalComponent from '../admin/Modal/Modal';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBook, faChevronDown, faHouse, faPlay, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faBook, faChevronDown, faHouse, faPlay, faSearch, faUser } from '@fortawesome/free-solid-svg-icons';
 import ModalReview from '../Reviews/ModalReview';
 
 
@@ -16,6 +16,7 @@ const Navbar = ({setSignUp, signUp, setFilter}) => {
     const [searchList, SetSearchList] = useState('');
     const [recherche, SetRecherche] = useState("")
     const [reviewuser, setReviewUser] = useState({})
+    const [valuemenu, setValueMenu] = useState()
 
       console.log(currentuser)
     const customStyles = {
@@ -75,7 +76,7 @@ const Navbar = ({setSignUp, signUp, setFilter}) => {
         {
             filteredGames?.map((game) => {
               return (
-                <> <a href={"/game-detail/" + game._id}> <li>{game.title}</li></a></>
+                <> <span class="option-text"><a href={"/game-detail/" + game._id}> <li className='option'>{game.title}</li></a> </span> </>
               )
         })
         }
@@ -87,16 +88,17 @@ const Navbar = ({setSignUp, signUp, setFilter}) => {
       
       const handlemenu = () => {
      setToggleMenu(!togglemenu)
-       if(togglemenu === false) {
-        selectMenu.current.style.display = 'none';
-       } else if(togglemenu === true) {
+
+
+
+   if(togglemenu === true) {
         selectMenu.current.style.display = 'unset';
-       }
+       } 
 
       
       }
 
-      console.log(modalIsOpenReview)
+      console.log('valuemenu', valuemenu)
     return (
         <nav>
         <div className="nav-container">
@@ -114,13 +116,13 @@ const Navbar = ({setSignUp, signUp, setFilter}) => {
             <li className="welcome space-nav-menu">
     
                    <NavLink to={'/profil/' + user.pseudo}>
-                <h5>Bienvenue {user.pseudo}</h5>
+                   Bienvenue {user.pseudo}
                    </NavLink>
     
             </li>
             <div   class="select-menu active" onClick={handlemenu}>
   <div class="select-btn" style={{color: 'black'}}>
-    <span class="sBtn-text">menu</span>
+    <span class="sBtn-text">Menu</span>
     <span><FontAwesomeIcon icon={faChevronDown} /></span>
   </div>
 
@@ -131,7 +133,7 @@ const Navbar = ({setSignUp, signUp, setFilter}) => {
     <li class="option" >
       <span class="option-text"><a href={"/profil/" + user.pseudo}>profil <FontAwesomeIcon icon={faUser} /></a></span>
     </li>
-    <li class="option">
+    <li class="option" >
   
       <span class="option-text" ><a href="/game-library">Game-library <FontAwesomeIcon icon={faBook} style={{fontSize: '1rem', marginLeft: '10px'}} /> </a></span>
     </li>
@@ -146,6 +148,19 @@ const Navbar = ({setSignUp, signUp, setFilter}) => {
     <li class="option">
     <Logout/>
     </li>
+    <li class="search-box search-box-resp option" >    
+             <input class="search-input" type="text" placeholder="Search a game or reviews.." onChange={setFilter ? (e) => setFilter(e.target.value) : (e) => SetSearchList(e.target.value)}/>
+              <button class="search-btn" type='submit'><i class="fas fa-search"></i></button>
+              <div style={{backgroundColor: 'white'}}>
+                <ul style={{backgroundColor: 'white'}} className='search-list-output'>
+                  {
+                  searchList ? callapisearchoutput() : ''
+                }
+                
+                </ul>
+                
+              </div>
+             </li>
   </ul>
 </div>
        <div>
@@ -193,23 +208,19 @@ const Navbar = ({setSignUp, signUp, setFilter}) => {
              </li>
              
             </ul>
-        {usersData.status == 'admin' ?     <span class="option-text" className='log-a-game space-nav-menu' onClick={openModal}>new game<FontAwesomeIcon icon={faPlay} style={{fontSize: '1rem', marginLeft: '10px'}} /></span> : ''}
+        {usersData.status == 'admin' ?     <span className='log-a-game space-nav-menu option-text' onClick={openModal}>new game<FontAwesomeIcon icon={faPlay} style={{fontSize: '1rem', marginLeft: '10px'}} /></span> : ''}
             </div>
             </>
 
  
           ) : (
             <>
+            <ul>
             <li className="welcome">
             <li onClick={() => setSignUp(true) } className={ signUp ? "active-btn nav-content" : "nav-content"}>S'inscrire</li>
             </li>
             <li  onClick={() => setSignUp(false) } className={signUp ? "nav-content" : "active-btn nav-content " }>se connecter</li>
       
-              <ul>
-            <li class="search-box">    
-         <input class="search-input" type="submit" placeholder="Search something.." />
-              <button class="search-btn"><i class="fas fa-search"></i></button>
-             </li>
             </ul>
             </>
 

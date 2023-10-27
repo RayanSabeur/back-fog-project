@@ -97,25 +97,21 @@ const GameDetails = ({uid}) => {
 
 console.log('currentgamefav',currentgamecomments)
 
-    const customStyles = {
-        content: {
-          top: '50%',
-          left: '50%',
-          right: 'auto',
-          bottom: 'auto',
-          width:'40%',
-          marginRight: '-50%',
-          transform: 'translate(-50%, -50%)',
-          boxShadow: '1px 2px #888888',
-          zIndex: 1,
-          height: '50%'
-        },
-      };
+const customStyles = {
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+    boxShadow: '1px 2px #888888',
+    zIndex: 1,
+  },
+}
 
 
-      
     const handleDelete = async (game) => {
-      console.log('delete', game)
      await axios.delete(
         `${process.env.REACT_APP_API_URL}api/gameproduct/${game}`,
         {
@@ -143,7 +139,6 @@ console.log('currentgamefav',currentgamecomments)
           text: textcomment,
           game: gameid,
         }
-        console.log(comment, gameid)
         return await axios({
           method: "patch",
           url:   `${process.env.REACT_APP_API_URL}api/gameproduct/commentgame/${gameid}`,
@@ -217,7 +212,8 @@ console.log('currentgamefav',currentgamecomments)
              
             
                 {
-                    currentuser.status == 'admin' ? (<>
+                    currentuser.status == 'admin' ? (
+                    <>
                      <span onClick={() => {
                         if (window.confirm('voulez vous supprimer ce jeu ?'))
                         {
