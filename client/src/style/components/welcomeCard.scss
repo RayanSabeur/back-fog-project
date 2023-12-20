@@ -84,7 +84,7 @@ $bp-lm: 1200px;
   .blog {
     width: 100%;
   }
-  .test {
+  .new-game {
     max-width: unset;
   }
 
@@ -497,7 +497,7 @@ $color_grey_dark: #a2a2a2;
 }
 
 
-.test  {
+.new-game {
   max-width: 436px;
   }
   .title-recent-review {
@@ -511,5 +511,6 @@ $color_grey_dark: #a2a2a2;
     }
   }
   .blog {
-    width: 60%;
+    width: 100%;
+    margin-right: 3rem;
   }

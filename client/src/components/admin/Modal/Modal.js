@@ -72,7 +72,7 @@ const ModalComponent = ({ modalIsOpen, style, setIsOpen, action, game }) => {
 
       cancelPost();
     } else {
-      window.alert("veuillez entrer renseigner quelque chose");
+      window.alert("veuillez renseigner quelque chose");
     }
   };
 
@@ -117,7 +117,7 @@ const ModalComponent = ({ modalIsOpen, style, setIsOpen, action, game }) => {
               />
             </div>
             <div className="author-modal">
-              <label htmlFor="author">Author</label>
+              <label htmlFor="author">Auteur</label>
               <br />
               <input
                 type="text"
@@ -237,7 +237,7 @@ const ModalComponent = ({ modalIsOpen, style, setIsOpen, action, game }) => {
           </div>
           <input
             type="submit"
-            value="add a game"
+            value="Ajouter un jeu"
             multiple
             id="btn-modal-submit"
             className="submit-btn"

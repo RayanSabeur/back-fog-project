@@ -110,15 +110,15 @@ const Navbar = ({ setSignUp, signUp, setFilter }) => {
       selectMenu.current.style.display = "unset";
     }
   };
-  console.log("valuemenu", valuemenu);
+  
   return (
     <nav>
       <div className="nav-container">
         <div className="logo">
           <NavLink to="/">
             <div className="logo">
-              {/* <img src="../img/owl.png" alt="icon" /> */}
-              <h3>THOT</h3>
+              {/* <img src="./owl.png" alt="icon" /> */}
+              <h1>THOT</h1>
             </div>
           </NavLink>
         </div>

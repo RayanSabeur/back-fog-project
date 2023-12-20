@@ -79,7 +79,6 @@ const ProfileQuickView = ({user, reviewlength, userId, location}) => {
 							<img src={user.picture} width="150" height="150" alt='user profil pic'/> 
 						</div>
 					</div>
-					
 					</>
 					
 					)
@@ -93,15 +92,10 @@ const ProfileQuickView = ({user, reviewlength, userId, location}) => {
 					<a href={`/profil/${user.pseudo}`}>
 						<div class="col-auto pl-0 pr-2 user-stat">
 							<div class="row stat-header">
-
-								<div class="col">
-									<p>Played</p>
-								</div>
+								<p>Played</p>
 							</div>
-							<div class="row">
-								<div class="col">                              
+							<div class="row">                              
                                 <p class="mx-auto mb-0">{played?.length}</p>
-								</div>
 							</div>
 						</div>
 					</a>

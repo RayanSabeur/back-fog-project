@@ -5,24 +5,23 @@ import Profil from '../../pages/Profil';
 import GameLibrary from '../../pages/GameLibrary';
 import Review from '../../pages/Review';
 import Navbar from '../Navigation/Navbar';
-import { useSelector } from 'react-redux';
 import GameDetails from '../Games/GameDetails';
 
 const index = ({value}) => {
 
-
     return (
       <>
         <BrowserRouter>
-        
             <Routes>
+      
                 <Route path='/'  element={<Home/>}/>
                 <Route path='/profil/:pseudo'  element={<Profil uid={value}/>} />
                 <Route path='/game-library'  element={<GameLibrary/>}/>
                 <Route path='/game-detail/:id'  element={<GameDetails  uid={value}/>}/>
                 <Route path='/review/:postername/:id'  element={<Review  uid={value}/>}/>
                 <Route path='*'  element={<Home/>}/>
-            </Routes>
+     
+            </Routes> 
         </BrowserRouter>
       </>
     );
