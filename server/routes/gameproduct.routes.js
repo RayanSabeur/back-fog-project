@@ -6,6 +6,8 @@ import multer from "multer";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 import * as url from 'url';
+
+
 const __dirname = url.fileURLToPath(new URL('../../', import.meta.url));
 // const __filename = fileURLToPath(import.meta.url);
 // const __dirname = dirname(__filename);
@@ -26,13 +28,13 @@ const storage = multer.diskStorage({
 
 // const upload = multer()
 
-router.post('/', isAuthenticatedUser, upload.array('files'), createGameProduct);
+router.post('/', isAuthenticatedUser, upload.array('files'), createGameProduct); //<---
 
 router.get('/',  readGameProduct);
 router.patch('/commentgame/:id', isAuthenticatedUser, commentGame);
 router.get('/allcomments/:id', getAllCommentsOfGame)
-router.delete('/:id',isAuthenticatedUser, setRoles("admin"), deleteGameProduct);
-router.put('/:id',isAuthenticatedUser, setRoles("admin"),upload.array('files'), updateGame);
+router.delete('/:id',isAuthenticatedUser, setRoles("admin"), deleteGameProduct); //<---
+router.put('/:id',isAuthenticatedUser, setRoles("admin"), upload.array('files'), updateGame);//<---
 router.patch('/addtofavorite/:id', addtofavorite);
 router.get('/details/:id', gameInfo);
 router.patch('/unlikegame/:id', unlikePost);
@@ -45,7 +47,7 @@ router.patch('/delete-commentgame/:id',isAuthenticatedUser, deleteCommentGame);
 
 
 
-// router.patch('/like-post/:id', postController.likePost); //.patch sert a intervenir dans un array qui est a l'interrieur de notre element (le tableau des likes de notre user ici)
+// router.patch('/like-post/:id', postController.likePost);
 // router.patch('/unlike-post/:id', postController.unlikePost);
 
 

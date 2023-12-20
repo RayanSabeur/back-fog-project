@@ -101,6 +101,7 @@ export const deleteGameProduct = catchAsyncError(async(req, res) => {
      
       let arraytruepath = []
       let truepath;
+      
       if (req.files) {
         let path = ''
        req.files.forEach(function(files, index, arr) {
