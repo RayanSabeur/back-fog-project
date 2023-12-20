@@ -4,8 +4,7 @@ import Home from '../../pages/Home';
 import Profil from '../../pages/Profil';
 import GameLibrary from '../../pages/GameLibrary';
 import Review from '../../pages/Review';
-import Navbar from '../Navigation/Navbar';
-import GameDetails from '../Games/GameDetails';
+import GameDetails from '../../pages/GameDetails';
 
 const index = ({value}) => {
 

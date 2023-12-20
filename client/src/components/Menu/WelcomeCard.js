@@ -72,7 +72,7 @@ const WelcomeCard = () => {
   };
 
   return (
-    <main className="main" role="main">
+    <div className="main" >
       <div className="container">
         <div id="profile-quickview" className="row mx-0 my-3">
           <ProfileQuickView
@@ -145,7 +145,7 @@ const WelcomeCard = () => {
           })}
         </div>
       </div>
-    </main>
+    </div>
   );
 };
 
