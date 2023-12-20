@@ -98,14 +98,12 @@
     flex-direction: column;
   }
   
-  .comments-form ul li {
-  
+  .comments-form ul li {  
     display: flex;
     justify-content: end;
   }
   
   .container-comment-form {
-  
     width: 60%;
   }
   .left-side-img {
@@ -117,15 +115,15 @@
 
     .title-elm1 {
       font-family: "Montserrat", sans-serif;
-  color: #fff;
-  margin-bottom: 1rem;
-  font-size: 3rem;
-  margin-bottom: 3rem;
-  margin-top: 1rem;
-  margin-left: 1rem;
+      color: #fff;
+      margin-bottom: 1rem;
+      font-size: 3rem;
+      margin-bottom: 3rem;
+      margin-top: 1rem;
+      margin-left: 1rem;
     }
     .container-side-details-game {
-    display: flex;
+      display: flex;
     }
 
     input[type="date"]{
@@ -154,18 +152,15 @@
 
 
   @media screen and (max-width: 700) {
-  .detail-game-section {
-    display: flex;
-    flex-direction: column;
-  }
   
   .left-side-img {
-  display: flex;
+    display: flex;
     flex-direction: column;
+    /* text-align: center; */
+    margin: auto;
     flex-basis: 30%;
   
   }
-  
   .img-detail-section {
     width: 30rem;
     margin-left: 25%;

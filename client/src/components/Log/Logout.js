@@ -14,8 +14,6 @@ const Logout = () => {
     };
 
     const delog = async () => {
-    
-
         await axios({
             method: "get",
             url: `${process.env.REACT_APP_API_URL}api/user/logout`,
@@ -28,14 +26,10 @@ const Logout = () => {
     }
     return (
         <a href="/logout">
-
-<span onClick={delog}className="option-text">
-        deconnexion <FontAwesomeIcon icon={faRightFromBracket} />
-     </span>
+            <span onClick={delog}className="option-text">
+                deconnexion <FontAwesomeIcon icon={faRightFromBracket} />
+            </span>
         </a>
-    
-
-
     );
 };
 

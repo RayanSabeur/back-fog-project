@@ -1,11 +1,8 @@
 import React from 'react';
-import  { useContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBook, faBookmark, faCircleXmark, faGamepad, faPen, faTrash, faXmark,faPlayCircle } from '@fortawesome/free-solid-svg-icons';
 import {faPlayCircle as anotherfaPlayCircle, faBookmark as anotherfaBookmark} from '@fortawesome/free-regular-svg-icons'
-import { useSelector } from 'react-redux';
 
 
 

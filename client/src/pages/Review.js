@@ -1,5 +1,5 @@
 import React from 'react';
-import EditDeleteCommenter from '../components/Details/EditDeleteCommenter';
+import EditDeleteCommenter from '../components/Games/EditDeleteCommenter';
 import  { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import axios from 'axios';
@@ -11,7 +11,7 @@ import {faPlayCircle as anotherfaPlayCircle, faBookmark as anotherfaBookmark} fr
 import { useSelector } from 'react-redux';
 import {  faStar } from '@fortawesome/free-solid-svg-icons'
 import { faStar as anotherFaStar } from '@fortawesome/free-regular-svg-icons'
-import ModalReview from '../components/Reviews/ModalReview';
+import ModalReview from '../components/admin/Modal/ModalReview';
 import ReviewComment from '../components/Reviews/ReviewComment';
 
 
@@ -93,21 +93,21 @@ const Review = ({uid}) => {
 //       };
 //       fetchCurrentUser();
     
-    const checkAuthor = () => {
-      // console.log(isAuthor, edit)
-      // if (currentuser._id === comment.commenterId) {
-      //     console.log( 'crr', currentuser._id,comment.commenterId )
-      //     setIsAuthor(true);
-      //   }
-  };
-  checkAuthor();
+  //   const checkAuthor = () => {
+  //     // console.log(isAuthor, edit)
+  //     // if (currentuser._id === comment.commenterId) {
+  //     //     console.log( 'crr', currentuser._id,comment.commenterId )
+  //     //     setIsAuthor(true);
+  //     //   }
+  // };
+  // checkAuthor();
     },[game, uid, user, reviewid, reviews.gameId])
     
     const ratingReview = (rating) => {
         let ratingvar = [];
         let r = rating;
         if( r === 1) ratingvar = [true, false,false, false, false]
-        if( r === 2)  ratingvar = [true, true,false, false, false]
+        if( r === 2) ratingvar = [true, true,false, false, false]
         if( r === 3) ratingvar = [true, true,true, false, false]
         if( r === 4) ratingvar = [true, true,true, true, false]
         if( r === 5) ratingvar = [true, true,true, true, true] 
@@ -152,7 +152,7 @@ const Review = ({uid}) => {
           transform: 'translate(-50%, -50%)',
           boxShadow: '1px 2px #888888',
           zIndex: 1,
-          height: '50%'
+          height: '70%'
         },
       };
     const handleDelete = async (review) => {
@@ -214,20 +214,11 @@ const Review = ({uid}) => {
           .catch((err) => console.log(err))
         
       }
-
-
-
     return (
         <>
         <Navbar setSignUp={setSignUp} signUp={signUp}/>
         <div className='detail-review-main' role='main'>
            <h1> Test de : <a href="">{currentgame?.title}</a> <span style={{marginTop: '1rem'}}> 
-     
-
-   
-          
-             
-            
                 {
                     currentuser?._id == reviews?.posterId || currentuser?.status == 'admin' ? (<>
                      <span onClick={() => {
@@ -262,13 +253,14 @@ const Review = ({uid}) => {
                     </>) : ('')
                 }
             
-            </span></h1>
+            </span>
+          </h1>
         <br/>
                <div className='container-detail-game'>
         <div className='detail-review-section-left'>
      
              <div className='left-side-img-review'>
-              {reviews?.pictures && <><div className='img-resp-review'> <img src={reviews?.pictures[0]} alt='imggame' className='img-review-section'></img> </div> </>}
+              {reviews?.pictures && <><div className='img-resp-review'> <img src={reviews?.pictures[0]} alt='game cover' className='img-review-section'></img> </div> </>}
               <div className='tags-section'>
              
                 <ul class="tags">
@@ -277,7 +269,7 @@ const Review = ({uid}) => {
                     currentgame?.genres?.map((tag) => {
                         return (
                         <>           
-                            <li><a href="#" class="tag">{tag}</a></li>
+                            <li><p class="tag">{tag}</p></li>
                         </>
                         )
                     })
@@ -289,7 +281,7 @@ const Review = ({uid}) => {
 
         <div id='right-side-details-review' className='row mx-0 my-3 detail-game-section-desc'>
         <div className='container-comment-form-review'>
-<div className="comments-form">
+                <div className="comments-form">
         <form onSubmit={handleComment} >
           <ul>
             <li>
@@ -307,7 +299,6 @@ const Review = ({uid}) => {
         </form>
       </div>
 <div className="comments-list">
-  
 {
     currentreviewcomments?.slice(0,5).map((comment) => {
 
@@ -333,28 +324,14 @@ const Review = ({uid}) => {
 
  
         <main className='mainDetailGame' role='main' >
-         <div className='container'>
-
-        <div class="row mx-0 home-heading">
-		
-		</div>
-
-        <div class="page-content">
-     
-        </div>
-</div>
-
 <hr/>
 
- 
 <div className='reviewcontent'>
 <div className="title-review-desc">
-
-<div class="px-0">
     <div class="test2" id="news-article">
-        <h1> {reviews?.title}</h1>
-    </div >
+        <h2> {reviews?.title}</h2>
     <div className='tags-section'>
+      
              <span className='plateformtag'>testé sur 
              <ul className="tags" >
                 <li ><a href="/D"  style={reviews.plateform === 'PlayStation' ?
@@ -378,28 +355,23 @@ const Review = ({uid}) => {
 <div className='detail-review-section-right'>
 
 <div className='left-side-img-review'>
-              {reviews?.pictures && <>
-               <img src={reviews?.pictures[1] ? reviews?.pictures[1] : reviews?.pictures[0]} alt='imggame' className='img-review-section'></img>
-           
-                </>}
-              <div className='detail-game-add-review'>
-                  {
-                       getRecommandation(reviews?.rating)
-                 }
-               </div>
-               <div className="col-rating-view">
+  {reviews?.pictures && <>
+    <img src={reviews?.pictures[1] ? reviews?.pictures[1] : reviews?.pictures[0]} alt='game review pic' className='img-review-section'></img>  
+      </>}
+        <div className='detail-game-add-review'>
+          {
+            getRecommandation(reviews?.rating)
+          }
+          </div>
+          <div className="col-rating-view">
         <p>{ratingReview(reviews?.rating)}</p>
-      </div>
+    </div>
+    </div>
+  </div>
+</div>
+</main>
 </div>
 </div>
-</div>
-        </main>
- 
-      
-     
-        </div>
-       
-        </div>
     
         </>
     );

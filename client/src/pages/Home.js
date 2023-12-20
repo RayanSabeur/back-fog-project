@@ -13,21 +13,13 @@ const Home = () => {
         <>
          <Navbar setSignUp={setSignUp} signUp={signUp}/>
    
-        <div className="home">
-      <div className="main">
-        
-        <div className="home-header">
+      <div className="home main">
+      <div className="main"> 
        {uid ? <WelcomeCard /> :
-        <Log signUp={signUp}/> }
-        </div>
+         <div className="home-header"> <Log signUp={signUp}/> </div>
+       }
       </div>
-      <div className="right-side">
-        <div className="right-side-container">
-          <div className="wrapper">
 
-          </div>
-        </div>
-      </div>
     </div>
     </>
     );

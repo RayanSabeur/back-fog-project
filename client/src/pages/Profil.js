@@ -90,7 +90,7 @@ const Profil = ({uid}) => {
              return fav
            }
            callApiProfil()
-       },[profilmenu,user?.favoris, morecontent.go ])
+       },[profilmenu,user?.favoris, morecontent.go])
 
 
 
@@ -111,116 +111,94 @@ const Profil = ({uid}) => {
         <Navbar setSignUp={setSignUp} signUp={signUp}/>
        
         <div className='profil-stats' role='main'>
-               <div className='container'>
-        <div id='profile-quickview' className='row mx-0 my-3'>
-            <ProfileQuickView user={user} reviewlength={reviewuser?.length} userId={user?._id} location={"profil"}/>
-        </div>
-        <hr/>
-        <div className='menu-profil'>
-          <div className={currentuser?.status === 'admin' ? 'sous-menu' : 'sous-menu-user' }>
-            {
-                currentuser.status == 'admin' ? (<> 
-                          {
-                 setMenuAdmin.map((elm) => {
-                    return (
-                        <>
-                        <div style={{height: '3rem'}}   className={elm} onClick={() => setProfilMenu(elm)} > <p>{elm}</p></div>
-                        </>
-                    )
-                 })
-            }
-                </>) : (<>
+            <div className='container'>
+
+                <div id='profile-quickview' className='row mx-0 my-3'>
+                    <ProfileQuickView user={user} reviewlength={reviewuser?.length} userId={user?._id} location={"profil"}/>
+                    </div>
+                        <hr/>
+
+                    <div className={currentuser?.status === 'admin' ? 'sous-menu' : 'sous-menu-user' }>
                     {
-                setMenu.map((elm) => {
+                        currentuser.status == 'admin' ? (<> 
+                                    {
+                            setMenuAdmin.map((elm) => {
+                            return (
+                                <>
+                                    <div style={{height: '3rem'}}   className={elm} onClick={() => setProfilMenu(elm)} > <p>{elm}</p></div>
+                                </>
+                            )
+                            })
+                    }
+                        </>) : (<>
+                            {
+                                setMenu.map((elm) => {
+                                    return (
+                                        <>
+                                            <div  style={{height: '3rem'}}  className={elm} onClick={() => setProfilMenu(elm)}> <p>{elm}</p></div>
+                                        </>
+                                    )
+                                })
+                            }
+                    </>)
+                    }
+                    </div>
+
+
+                    <hr/>
+                    <div className='container'>
+                    <hr/>
+                    {
+                        <><div className='up-down-game-profil'><span onClick={() => setMoreContent({go: true, elements: filteredfavlength})}><FontAwesomeIcon icon={faArrowDown} /></span><span onClick={() => setMoreContent({go: false, elements: 5})}><FontAwesomeIcon icon={faArrowUp} /></span></div> </>
+                    }
+                    <div class="page-content-profile" ref={contentprofil}>
+                    {
+                    filteredfav?.length > 0 ? (<>   {
+                    filteredfav?.map((rev) => {
+                        return (
+                            <>         
+                                <Favorites favorites={rev} games={games}/>  
+                            </>
+                        )
+                    })
+                    }   </>) : (<> <p>aucun jeu pour le moment.</p> </>)
+                    }
+
+                            </div>
+                        </div>
+                    <hr/>
+                    <div className='bottom-section-profil'>
+
+                    <div class="container-currentuser-comment">
+                    {
+                    currentgamecomments?.map((currentusergamecomment) => {
                     return (
-                        <>
-                            <div  style={{height: '3rem'}}  className={elm} onClick={() => setProfilMenu(elm)}> <p>{elm}</p></div>
-                        </>
-                    )
-                 })
-            }
-           
-            </>)
-            }
-          </div>
-        </div>
+                    <>
+                    <div className="currentuser-comment">
 
-        <hr/>
-        <main className='main' role='main'>
-         <div className='container'>
-        <hr/>
-     
-        <div>
-            {
-                <><div className='up-down-game-profil'><span onClick={() => setMoreContent({go: true, elements: filteredfavlength})}><FontAwesomeIcon icon={faArrowDown} /></span><span onClick={() => setMoreContent({go: false, elements: 5})}><FontAwesomeIcon icon={faArrowUp} /></span></div> </>
-            }
-        </div>
-        <div class="page-content-profile" ref={contentprofil}>
-            
-      {
-        filteredfav?.length > 0 ? (<>   {
-            filteredfav?.map((rev) => {
-                return (
-                    <>         
-                        <Favorites favorites={rev} games={games}/>  
-                    </>
-                )
-            })
-            }   </>) : (<> <p>aucun jeu pour le moment.</p> </>)
-      }
-
-        </div>
-</div>
-<hr/>
-
- 
-<div className='bottom-section-profil'>
-
-<div class="container-currentuser-comment">
-{
-        currentgamecomments?.map((currentusergamecomment) => {
-            return (
-            <>
-            <div className="currentuser-comment">
-
-                <div className='user-info-comment-profil'>
-                <h4><a href={'/profil/'} style={{fontSize: '20px'}}>{currentuser?.pseudo}</a> a commenter {currentusergamecomment.titlegame} </h4>
-                    <p className="">
-             
-                  {dateParser(currentusergamecomment.createdAt)}
-                 <div className='container-text-comment-quickview'>
-                <p className='text-comment-quickview'>{currentusergamecomment.text.slice(0, 30)}...</p>
-                 </div>
+                          <div className='user-info-comment-profil'>
+                            <h4>
+                              <a href={'/profil/'} style={{fontSize: '20px'}}>{currentuser?.pseudo}</a> a commenté {currentusergamecomment.titlegame} </h4>
+                                    <p className="">  {dateParser(currentusergamecomment.createdAt)}
+                                    <p className='text-comment-quickview'>{currentusergamecomment.text.slice(0, 30)}...</p>
+                                    </p>
+                              </div>  
+                        <div className='arrow-comments'>
+                    <p>
+                        <a href={'/game-detail/' + currentusergamecomment.gameId}><FontAwesomeIcon icon={faChevronRight} /></a>
                     </p>
+                        </div>              
+                            <img src={'..' + currentusergamecomment.gamepicture} alt="comment of user" style={{width: '10rem'}}/>
+                        </div>
+                        
+                    </>)
+
+                        })
+                    }
                 </div>
-                <div className='arrow-comments'>
-           <p>
-              <a href={'/game-detail/' + currentusergamecomment.gameId}><FontAwesomeIcon icon={faChevronRight} /></a>
-           </p>
-           </div>
-                <div>
-                    <img src={'..' + currentusergamecomment.gamepicture} alt="cuurentgamecomment" style={{width: '10rem'}}/>
-                </div>
+            </div> 
             </div>
-            
-            </>)
-
-        })
-}
-
 </div>
-
-    <div class="test">
-
-  </div>
-</div>
-        </main>
- 
-      
-     
-        </div>
-       
-        </div>
     
         </>
     );

@@ -6,7 +6,7 @@ import GameLibrary from '../../pages/GameLibrary';
 import Review from '../../pages/Review';
 import Navbar from '../Navigation/Navbar';
 import { useSelector } from 'react-redux';
-import GameDetails from '../Details/GameDetails';
+import GameDetails from '../Games/GameDetails';
 
 const index = ({value}) => {
 
@@ -14,6 +14,7 @@ const index = ({value}) => {
     return (
       <>
         <BrowserRouter>
+        
             <Routes>
                 <Route path='/'  element={<Home/>}/>
                 <Route path='/profil/:pseudo'  element={<Profil uid={value}/>} />

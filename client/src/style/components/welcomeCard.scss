@@ -45,26 +45,68 @@ $bp-lm: 1200px;
 // @media (min-width: $bp-md) {
 //   grid-template-columns: repeat(2, 1fr);
 // }
+.title-elm-resp {
+  display: none;
+}
 @media screen and (max-width: 700px) {
-  
+
+  #right-side-details-game {
+     margin-bottom: 15rem;
+  }
+  .detail-game-section {
+    margin-bottom: 0;
+    display: flex;
+  }
 .space-nav-menu {
   display: none;
 }
 }
 @media screen and (max-width: $bp-lm) {
-  
-  .reviewcontent {
-
-    grid-template-columns: repeat(1, 1fr);
-    display: grid;
-    .blog {
-      width: 100%;
-    }
-    .test {
-      max-width: unset;
-    }
- 
+  // .title-elm1 {
+  //   display: none;
+  // }
+  .container-comment-form {
+     width: 100%;
+}
+#news-article h1 {
+  margin-bottom: 5rem;
+  text-align: center;
+}
+.title-elm-resp {
+  display:unset;
+}
+.reviewcontent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 80%;
+  margin: auto;
+  .blog {
+    width: 100%;
   }
+  .test {
+    max-width: unset;
+  }
+
+}
+.left-side-img {
+  margin: auto;
+  margin-bottom: 100px;
+}
+.detail-game-section {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+}
+.comments-form {
+  margin-left: 0;
+}
+.comments-list {
+  margin-left: 0;
+}
+
+.review-games-details {
+  width: unset;
+}
   .space-nav-menu {
     display: none;
   }
@@ -458,19 +500,16 @@ $color_grey_dark: #a2a2a2;
 .test  {
   max-width: 436px;
   }
-
-
-    .title-recent-review {
-     height: 100px;
+  .title-recent-review {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+  }
+  #news-article {
+    h1 {
+      margin-top: 20px;
     }
-
-
-    #news-article {
-      h1 {
-        margin-top: 20px;
-      }
-    }
-
-    .blog {
-      width: 60%;
-    }
+  }
+  .blog {
+    width: 60%;
+  }

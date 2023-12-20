@@ -30,6 +30,8 @@ const ProfileQuickView = ({user, reviewlength, userId, location}) => {
 	const handleChangeAvatar = async (e) => {
 		e.preventDefault()
 		const data = new FormData(e.target)
+        data.append('userId', userId);
+		console.log('sdf',userId)
 			if(file) {
 					
 		await axios({
@@ -63,18 +65,18 @@ const ProfileQuickView = ({user, reviewlength, userId, location}) => {
 						<form onSubmit={handleChangeAvatar}> 
 							<input type="file" name="file" id="file"  className='file-upload-avatar' accept=".jpg, .jpeg, .png" onChange={(e) => setFile(e.target.files[0])} />  
 							<button type="submit"  className='submit-btn-avatar' > <FontAwesomeIcon icon={faPenToSquare}  style={{color: file ? "#7617c4" : "white"}}  size="2x"
-							aria-hidden="true"className='transform motion-safe:group-focus:scale-110 p-1.5 z-10' type="submit"/>  </button>
-							<img src={user.picture} width="150" height="150"  alt='userpicture' /> 
+							aria-hidden="true"className='transform motion-safe:group-focus:scale-110 p-1.5 z-10' type="submit"/>
+							</button>
+							<img src={user.picture} width="150" height="150"  alt='user profil pic'/> 
 						</form>
 					</div>
 
 					
 					</>) : (
-					<>  
-					
+					<>  		
 					<div class="avatar">
 						<div> 
-							<img src={user.picture} width="150" height="150"  alt='userpicture'/> 
+							<img src={user.picture} width="150" height="150" alt='user profil pic'/> 
 						</div>
 					</div>
 					
@@ -82,18 +84,17 @@ const ProfileQuickView = ({user, reviewlength, userId, location}) => {
 					
 					)
 				}
-
 			</div>
 			<div class="col">
 				<div class="row mx-0">
-					<h2 class="mb-1 mb-sm-2" id="username1"><a href={'/profil/' + user.pseudo}>{user.pseudo}</a></h2>
+					<h2 class="mb-1 mb-sm-2" id="username"><a href={'/profil/' + user.pseudo}>{user.pseudo}</a></h2>
 				</div>
 				<div class="row mx-0" id="user-stats">
-					<a href="/u/RayanEnLegende/games/">
+					<a href={`/profil/${user.pseudo}`}>
 						<div class="col-auto pl-0 pr-2 user-stat">
 							<div class="row stat-header">
 
-								<div className="col stats-profil-user" >
+								<div class="col">
 									<p>Played</p>
 								</div>
 							</div>
@@ -104,7 +105,7 @@ const ProfileQuickView = ({user, reviewlength, userId, location}) => {
 							</div>
 						</div>
 					</a>
-					<a href="/u/RayanEnLegende/backlog/">
+					<a href={`/profil/${user.pseudo}`}>
 						<div class="col-auto px-2 user-stat">
 							<div class="row mx-0 stat-header">
 								<p>Review</p>
@@ -114,7 +115,7 @@ const ProfileQuickView = ({user, reviewlength, userId, location}) => {
 							</div>
 						</div>
 					</a>
-					<a href="/u/RayanEnLegende/playing/">
+					<a href={`/profil/${user.pseudo}`}>
 						<div class="col-auto px-2 user-stat">
 							<div class="row mx-0 stat-header">
 								<p>Playing</p>
@@ -124,7 +125,7 @@ const ProfileQuickView = ({user, reviewlength, userId, location}) => {
 							 </div>
 						</div>
 					</a>
-					<a href="/u/RayanEnLegende/wishlist/" >
+					<a href={`/profil/${user.pseudo}`}>
 						<div class="col-auto px-2 user-stat">
 							<div class="row mx-0 stat-header">
 								<p>Wishlist</p>
@@ -136,14 +137,9 @@ const ProfileQuickView = ({user, reviewlength, userId, location}) => {
 							</div>
 						</div>
 					</a>
-                    </div>
-                    
-                   
-				</div>
-                <div class="col-2 col-lg-1 px-0 mt-auto title-profilequickview" >
-					{/* <h1 class="mx-auto w-100 mb-0" id="main-title">Thot</h1>
-				<h4 class="mx-auto mb-0" id="backloggd-subtitle">Bienvenu</h4> */}
+                    </div>                           
 			</div>
+             
 	</>
 
     

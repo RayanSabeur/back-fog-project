@@ -23,6 +23,7 @@
 }
 
 .detail-game-section {
+  margin-bottom: 15rem;
   display: flex;
 }
 
@@ -195,6 +196,15 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
   }
+  .detail-game-add-review {
+    background: #7617C4;
+    height: 2rem;
+    color: white;
+    padding: 8px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    text-align: center;
+}
   .container-currentuser-comment {
     display: grid;
     grid-template-columns: none;

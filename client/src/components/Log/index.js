@@ -5,8 +5,7 @@ import SignIn from './SignIn';
 const Log = ({signUp}) => {
   
   
-    return (
-      
+    return (    
       
         <div className="connection-form">
             <div className="form-container">
