@@ -256,23 +256,23 @@ export const addtothepodium = catchAsyncError(async (req, res) => {
       try {
         // const game = GameModel.findById({_id: req.body.id}).then((docs) => { res.docs})
         let theGame = await GameModel.findById(req.body.id)
-        let test = {}
+        let game = {}
         
-        test.id = theGame._id
-        test.picture = theGame.picture
-        test.title= theGame.title
-        test.description = theGame.description
-        test.plateform = theGame.plateform
-        test.author = theGame.author
-        test.num = req.body.num
-        test.genres = theGame.genres
+        game.id = theGame._id
+        game.picture = theGame.picture
+        game.title= theGame.title
+        game.description = theGame.description
+        game.plateform = theGame.plateform
+        game.author = theGame.author
+        game.num = req.body.num
+        game.genres = theGame.genres
 
         if (!theGame) return res.status(404).send("Comment not found");
         await UserModel.findByIdAndUpdate
         (
           {_id: req.params.id},
             {
-              $addToSet: {games: test},
+              $addToSet: {games: game},
             },
           { new: true },
         ).then(
