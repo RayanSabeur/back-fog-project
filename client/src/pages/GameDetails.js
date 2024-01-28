@@ -18,6 +18,8 @@ import {
   faCommentSms,
   faComments,
   faShare,
+  faX,
+  faHome,
 } from "@fortawesome/free-solid-svg-icons";
 import {
   faPlayCircle as anotherfaPlayCircle,
@@ -189,9 +191,9 @@ const GameDetails = ({ uid }) => {
 
   return (
     <>
-      <Navbar setSignUp={setSignUp} signUp={signUp} />
+      <header><Navbar setSignUp={setSignUp} signUp={signUp}/></header>
      <main>
-     <div className="detail-game-main" role="main">
+     <div className="detail-game-main">
         <div className="container-detail-game">
           <div className="detail-game-section">
             <div className="left-side-img">
@@ -269,7 +271,7 @@ const GameDetails = ({ uid }) => {
               className="row mx-0 my-3 detail-game-section-desc"
             >
               <div className="detail-game-section-elm-1">
-                <h2 className="title-elm1">{currentgame.title}</h2>
+                <h1 className="title-elm1">{currentgame.title}</h1>
                 <hr />
                 <div className="detail-game-section-elm2">
                   {currentgame.release && currentgame.author && (
@@ -301,7 +303,6 @@ const GameDetails = ({ uid }) => {
                     })}
 
                   <hr />
-
                   <p>Disponible sur:</p>
                 </div>
                 <div className="detail-game-section-plateform-elm-1">
@@ -352,9 +353,6 @@ const GameDetails = ({ uid }) => {
             <div class="review-games-details">
               {sortedArrayReviews.length > 0 ? (
                 <>
-                  <h2 style={{ marginTop: "1rem", marginBottom: "2rem" }}>
-                    Test de {currentgame.title}
-                  </h2>
                   {sortedArrayReviews.map((card, index) => {
                     return (
                       <ReviewQuickView reviewSorted={card} index={index} />
@@ -406,6 +404,28 @@ const GameDetails = ({ uid }) => {
         </div>
       </div>
      </main>
+     <footer class="footer"> 
+        <div>
+        <FontAwesomeIcon
+          icon={faX}
+          style={{
+            color: "#7617c4",
+            fontSize: "1.5rem",
+            marginLeft: "20rem",
+            marginTop: "2rem"
+          }}
+        />
+         <FontAwesomeIcon
+          icon={faHome}
+          style={{
+            color: "#7617c4",
+            fontSize: "1.5rem",
+            marginLeft: "10px",
+            marginTop: "2rem"
+          }}
+        />
+        </div>
+    </footer>
     </>
   );
 };

@@ -19,7 +19,6 @@ const index = ({value}) => {
                 <Route path='/game-detail/:id'  element={<GameDetails  uid={value}/>}/>
                 <Route path='/review/:postername/:id'  element={<Review  uid={value}/>}/>
                 <Route path='*'  element={<Home/>}/>
-     
             </Routes> 
         </BrowserRouter>
       </>

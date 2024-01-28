@@ -11,7 +11,9 @@ import {
   faArrowDown,
   faArrowUp,
   faChevronRight,
+  faHome,
   faPlus,
+  faX,
 } from "@fortawesome/free-solid-svg-icons";
 import { dateParser } from "../components/Utils/DateHelper";
 
@@ -114,20 +116,20 @@ const Profil = ({ uid }) => {
 
   return (
     <>
-        <Navbar setSignUp={setSignUp} signUp={signUp} />
+        <header><Navbar setSignUp={setSignUp} signUp={signUp} /></header>
     <main>
 
-<div className="profil-stats" role="main">
-  <div className="container">
-    <div id="profile-quickview" className="row mx-0 my-3">
-      <ProfileQuickView
-        user={user}
-        reviewlength={reviewuser?.length}
-        userId={user?._id}
-        location={"profil"}
-      />
-    </div>
-    <hr />
+    <div className="profil-stats">
+    <div className="container">
+      <div id="profile-quickview" className="row mx-0 my-3">
+        <ProfileQuickView
+          user={user}
+          reviewlength={reviewuser?.length}
+          userId={user?._id}
+          location={"profil"}
+        />
+      </div>
+      <hr />
 
     <div
       className={
@@ -259,6 +261,28 @@ const Profil = ({ uid }) => {
   </div>
 </div>
     </main>
+    <footer class="footer"> 
+        <div>
+        <FontAwesomeIcon
+          icon={faX}
+          style={{
+            color: "#7617c4",
+            fontSize: "1.5rem",
+            marginLeft: "20rem",
+            marginTop: "2rem"
+          }}
+        />
+         <FontAwesomeIcon
+          icon={faHome}
+          style={{
+            color: "#7617c4",
+            fontSize: "1.5rem",
+            marginLeft: "10px",
+            marginTop: "2rem"
+          }}
+        />
+        </div>
+    </footer>
     </>
   );
 };

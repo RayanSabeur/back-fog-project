@@ -86,7 +86,7 @@ const ProfileQuickView = ({user, reviewlength, userId, location}) => {
 			</div>
 			<div class="col">
 				<div class="row mx-0">
-					<h2 class="mb-1 mb-sm-2" id="username"><a href={'/profil/' + user.pseudo}>{user.pseudo}</a></h2>
+					<span class="mb-1 mb-sm-2" id="username"><a href={'/profil/' + user.pseudo}>{user.pseudo}</a></span>
 				</div>
 				<div class="row mx-0" id="user-stats">
 					<a href={`/profil/${user.pseudo}`}>

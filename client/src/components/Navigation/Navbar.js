@@ -98,8 +98,6 @@ const Navbar = ({ setSignUp, signUp, setFilter }) => {
     );
   };
 
-  console.log("ffff", filteredGames);
-
   const handlemenu = () => {
     setToggleMenu(!togglemenu);
     setToggleMenu(!togglemenu);
@@ -118,7 +116,7 @@ const Navbar = ({ setSignUp, signUp, setFilter }) => {
           <NavLink to="/">
             <div className="logo">
               {/* <img src="./owl.png" alt="icon" /> */}
-              <h1>THOT</h1>
+              <span>THOOT</span>
             </div>
           </NavLink>
         </div>
@@ -147,21 +145,21 @@ const Navbar = ({ setSignUp, signUp, setFilter }) => {
                   ref={selectMenu}
                   style={{ display: "none" }}
                 >
-                  <li class="option">
+                  <li className="option">
                     <a href="/">
                       {" "}
                       Acceuil <FontAwesomeIcon icon={faHouse} />
                     </a>
                   </li>
-                  <li class="option">
-                    <span class="option-text">
+                  <li className="option">
+                    <span className="option-text">
                       <a href={"/profil/" + user.pseudo}>
                         profil <FontAwesomeIcon icon={faUser} />
                       </a>
                     </span>
                   </li>
-                  <li class="option">
-                    <span class="option-text">
+                  <li className="option">
+                    <span className="option-text">
                       <a href="/game-library">
                         Game-library{" "}
                         <FontAwesomeIcon
@@ -171,8 +169,8 @@ const Navbar = ({ setSignUp, signUp, setFilter }) => {
                       </a>
                     </span>
                   </li>
-                  <li class="option" onClick={openModalReview}>
-                    <span class="option-text">
+                  <li className="option" onClick={openModalReview}>
+                    <span className="option-text">
                       review
                       <FontAwesomeIcon
                         icon={faBook}
@@ -183,8 +181,8 @@ const Navbar = ({ setSignUp, signUp, setFilter }) => {
                   {usersData?.status == "admin" ? (
                     <>
                       {" "}
-                      <li class="option" onClick={openModal}>
-                        <span class="option-text">
+                      <li className="option" onClick={openModal}>
+                        <span className="option-text">
                           new game
                           <FontAwesomeIcon
                             icon={faPlay}
@@ -196,7 +194,7 @@ const Navbar = ({ setSignUp, signUp, setFilter }) => {
                   ) : (
                     ""
                   )}
-                  <li class="option">
+                  <li className="option">
                     <Logout />
                   </li>
                   {/* <li class="search-box search-box-resp option" >    

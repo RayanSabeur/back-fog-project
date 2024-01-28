@@ -168,7 +168,7 @@ const ReviewCommentPost = ({ post, edit, setEdit }) => {
             placeholder="Laisser un commentaire"
           />
           <br />
-          <input type="submit" value="Envoyer" />
+          <input type="submit" value="Envoyer"/>
         </form>
       )}
     </div>

@@ -32,7 +32,7 @@ function App() {
   return (
     <>
       <UidContext.Provider value={uid}>
-      <Routes value={uid} />
+        <Routes value={uid} />
       </UidContext.Provider>
     </>
   );

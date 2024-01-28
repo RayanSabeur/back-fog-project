@@ -15,6 +15,8 @@ import {
   faTrash,
   faXmark,
   faPlayCircle,
+  faHome,
+  faX,
 } from "@fortawesome/free-solid-svg-icons";
 import {
   faPlayCircle as anotherfaPlayCircle,
@@ -225,18 +227,15 @@ const Review = ({ uid }) => {
   };
   return (
     <>
-      <Navbar setSignUp={setSignUp} signUp={signUp} />
+      <header>
+          <Navbar setSignUp={setSignUp} signUp={signUp} />
+      </header>
      <main>
-     <div className="detail-review-main" role="main">
+     <div className="detail-review-main">
         <h1>
           {" "}
           Test de : <a href="">{currentgame?.title}</a>{" "}
-        </h1>
-          <span style={{ marginTop: "1rem" }}>
-            {currentuser?._id == reviews?.posterId ||
-            currentuser?.status == "admin" ? (
-              <>
-                <span
+          <span
                   onClick={() => {
                     if (window.confirm("voulez vous supprimer ce jeu ?")) {
                       handleDelete(reviews._id);
@@ -255,6 +254,11 @@ const Review = ({ uid }) => {
                     style={{ color: "#7617c4", fontSize: "2rem" }}
                   />
                 </span>
+        </h1>
+          <span style={{ marginTop: "1rem" }}>
+            {currentuser?._id == reviews?.posterId ||
+            currentuser?.status == "admin" ? (
+              <>
                 {modalIsOpen == true ? (
                   <>
                     <ModalReview
@@ -345,13 +349,13 @@ const Review = ({ uid }) => {
             <ul></ul>
           </div>
 
-          <main className="mainDetailGame" role="main">
+          <div className="mainDetailGame">
             <hr />
 
             <div className="reviewcontent">
               <div className="title-review-desc">
                 <div className="" id="news-article">
-                  <h2> {reviews?.title}</h2>
+               
                   <div className="tags-section">
                     <span className="plateformtag">
                       testé sur
@@ -392,6 +396,7 @@ const Review = ({ uid }) => {
                             ? reviews?.pictures[1]
                             : reviews?.pictures[0]
                         }
+                        style={{marginTop: '2rem'}}
                         alt="game review pic"
                         className="img-review-section"
                       ></img>
@@ -406,10 +411,32 @@ const Review = ({ uid }) => {
                 </div>
               </div>
             </div>
-          </main>
+          </div>
         </div>
       </div>
      </main>
+     <footer class="footer"> 
+        <div>
+        <FontAwesomeIcon
+          icon={faX}
+          style={{
+            color: "#7617c4",
+            fontSize: "1.5rem",
+            marginLeft: "20rem",
+            marginTop: "2rem"
+          }}
+        />
+         <FontAwesomeIcon
+          icon={faHome}
+          style={{
+            color: "#7617c4",
+            fontSize: "1.5rem",
+            marginLeft: "10px",
+            marginTop: "2rem"
+          }}
+        />
+        </div>
+    </footer>
     </>
   );
 };

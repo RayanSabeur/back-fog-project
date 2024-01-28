@@ -61,10 +61,14 @@
     }
   }
   footer {
-    float: right;
-    color: #777;
-    font-size: 0.8em;
-    margin-top: 15px;
+    background-color: #141313;
+    box-sizing: border-box;
+    /* bottom: 10rem; */
+    /* top: 1px; */
+    /* display: block; */
+    height: 5rem;
+    /* bottom: 0; */
+    width: 100%;
   }
 
   .comments {

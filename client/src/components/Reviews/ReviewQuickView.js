@@ -45,7 +45,6 @@ const ReviewQuickView = ({ reviewSorted, index }) => {
     <>
       <div class="blog-card">
         <div class="meta" style={divStyle}>
-          {/* <img src='https://images.igdb.com/igdb/image/upload/t_cover_big/co5s5v.jpg'/> */}
           <ul class="details">
             <li class="author">
               <a href={"/profil/" + reviewSorted.posterName}>
@@ -88,7 +87,7 @@ const ReviewQuickView = ({ reviewSorted, index }) => {
                   <a
                     href={`/review/${reviewSorted?.posterName}/${reviewSorted?._id}`}
                   >
-                    Read More
+                    Lire plus
                   </a>
                 </p>
               </div>

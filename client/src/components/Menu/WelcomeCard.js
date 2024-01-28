@@ -72,7 +72,7 @@ const WelcomeCard = () => {
   };
 
   return (
-    <div className="main" >
+    <div>
       <div className="container">
         <div id="profile-quickview" className="row mx-0 my-3">
           <ProfileQuickView
@@ -96,6 +96,7 @@ const WelcomeCard = () => {
           })}
         </div>
       </div>
+      
       <hr />
       <div class="row mx-0 mb-3 title-recent-review">
         <h2>Les reviews du mois</h2>
@@ -139,7 +140,7 @@ const WelcomeCard = () => {
                     </p>
                   </div>
                 </div>
-                <hr />
+                <hr/>
               </>
             );
           })}

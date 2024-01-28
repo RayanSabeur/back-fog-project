@@ -4,6 +4,8 @@ import { UidContext } from "../components/ContextApi/uidContext";
 import { useParams } from "react-router";
 import { useSelector } from "react-redux";
 import Card from "../components/Menu/Card";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHome, faX } from "@fortawesome/free-solid-svg-icons";
 
 const GameLibrary = () => {
   const uid = useContext(UidContext);
@@ -28,9 +30,11 @@ const GameLibrary = () => {
 
   return (
     <>
-       <Navbar setSignUp={setSignUp} signUp={signUp} setFilter={setSearchList} />
-    <main>
-<div className="profil-stats" role="main">
+      <header>
+        <Navbar setSignUp={setSignUp} signUp={signUp} setFilter={setSearchList} />
+      </header>
+    <main style={{marginBottom : "25rem" }}>
+<div className="profil-stats">
   <hr />
   <div className="page-content">
     {filteredGames?.map((card, index) => {
@@ -44,6 +48,28 @@ const GameLibrary = () => {
   <hr />
 </div>
     </main>
+    <footer class="footer"> 
+        <div>
+        <FontAwesomeIcon
+          icon={faX}
+          style={{
+            color: "#7617c4",
+            fontSize: "1.5rem",
+            marginLeft: "20rem",
+            marginTop: "2rem"
+          }}
+        />
+         <FontAwesomeIcon
+          icon={faHome}
+          style={{
+            color: "#7617c4",
+            fontSize: "1.5rem",
+            marginLeft: "10px",
+            marginTop: "2rem"
+          }}
+        />
+        </div>
+    </footer>
     </>
   );
 };
